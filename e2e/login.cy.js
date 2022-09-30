@@ -13,7 +13,7 @@ describe("Login Functionality", () => {
     cy.url().should("include", Cypress.env("login_url"));
   });
 
-  it.only("B001 go home page when email and password are valid", () => {
+  it("B001 go home page when email and password are valid", () => {
     loginPage
       .loginWithUser(user.valid.email, user.valid.password)
       .clickLoginButton()

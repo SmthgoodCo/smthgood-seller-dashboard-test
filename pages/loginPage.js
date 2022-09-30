@@ -52,7 +52,7 @@ export class LoginPage {
       "GET",
       "/api/services/seller/products/get-template-csv-link"
     ).as("getTemplateLink");
-    cy.wait("@getTemplateLink");
+    cy.wait("@getTemplateLink").wait(2000);
     cy.get("p").contains(this.homePageText).should("be.visible");
     return this;
   }
