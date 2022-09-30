@@ -22,10 +22,6 @@ jobs:
         with:
           runTests: false
 
-      - name: Delete existing Reports
-        if: always()
-        run: npm run cleanup
-
       - name: Run Tests
         uses: cypress-io/github-action@v2
         with:
