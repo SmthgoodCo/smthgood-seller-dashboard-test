@@ -1,0 +1,13 @@
+{
+  "name": "Smthgood Co Cypress Test",
+  "version": "1.0.0",
+  "scripts": {
+    "e2e:run": "npx cypress run",
+    "e2e:open": "npx cypress open"
+  },
+  "devDependencies": {
+    "cypress": "^10.8.0",
+    "cypress-xpath": "^1.6.2",
+    "eslint": "^8.12.0"
+  }
+}
