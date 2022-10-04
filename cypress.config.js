@@ -2,6 +2,15 @@ const { defineConfig } = require("cypress");
 const { rmdir } = require("fs");
 module.exports = defineConfig({
   reporter: "cypress-mochawesome-reporter",
+  reporterOptions: {
+    quite: true,
+    overwrite: false,
+    html: false,
+    json: true,
+    embeddedScreenshots: true,
+    inlineAssets: true,
+    reportPageTitle: "Cypress Tests",
+  },
 
   e2e: {
     baseUrl: "https://seller-smthgood.vinova.sg/",

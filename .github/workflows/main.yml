@@ -52,7 +52,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          npx cypress-slack-reporter --report-dir cypress/reports/html --ci-provider none --custom-text "Test Report: "
+          npx cypress-slack-reporter --report-dir cypress/reports/html --ci-provider none --custom-text "Test Report: https://smthgoodco.github.io/cypress-test/"
 
       - name: "Upload screenshots and videos to Slack"
         uses: trymbill/cypress-slack-video-upload-action@v1.3.0
