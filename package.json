@@ -2,12 +2,16 @@
   "name": "Smthgood Co Cypress Test",
   "version": "1.0.0",
   "scripts": {
-    "e2e:run": "npx cypress run",
-    "e2e:open": "npx cypress open"
+    "pretest": "npm run delete:reports",
+    "test": "npx cypress run",
+    "test:open": "npx cypress open",
+    "delete:reports": "rm -rf cypress/reports/* &&  rm -rf cypress/screenshots/*|| true",
+    "combine-reports": "mkdir -p cypress/reports/mochawesome-combine && mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/mochawesome-combine/index.json",
+    "generate-report": "marge cypress/reports/mochawesome-combine/index.json -f index -o cypress/reports/mochawesome-combine",
+    "report": "npm run combine-reports && npm run generate-report"
   },
   "devDependencies": {
     "cypress": "^10.8.0",
-    "cypress-mochawesome-reporter": "^3.2.2",
     "cypress-multi-reporters": "^1.6.1",
     "cypress-slack-reporter": "^1.5.0",
     "cypress-xpath": "^1.6.2",

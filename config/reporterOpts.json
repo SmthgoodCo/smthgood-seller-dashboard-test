@@ -1,10 +1,13 @@
 {
   "reporterEnabled": "mochawesome",
   "mochawesomeReporterOptions": {
-    "reportDir": "cypress/reports/html/.jsons/",
-    "quiet": true,
+    "reportDir": "cypress/reports/mocha",
+    "quite": true,
     "overwrite": false,
     "html": false,
-    "json": true
+    "json": true,
+    "embeddedScreenshots": true,
+    "inlineAssets": true,
+    "reportPageTitle": "Cypress Tests"
   }
 }

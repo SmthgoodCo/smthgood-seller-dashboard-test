@@ -26,7 +26,11 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           install: false
-          command: npm run e2e:run 
+          command: npm run test 
+
+      - name: Generate Report
+        if: always()
+        run: npm run report
 
       - uses: actions/upload-artifact@v2
         if: always()
@@ -40,7 +44,7 @@ jobs:
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: cypress/reports/html
+          PUBLISH_DIR: cypress/reports/mochawesome-combine
 
       - name: Sleep for 30 seconds
         uses: jakejarvis/wait-action@master
@@ -52,7 +56,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          npx cypress-slack-reporter --report-dir cypress/reports/html --ci-provider none --custom-text "Test Report: https://smthgoodco.github.io/cypress-test/"
+          npx cypress-slack-reporter --report-dir cypress/reports/mochawesome-combine --ci-provider none --custom-text "Test Report: https://smthgoodco.github.io/cypress-test/"
 
       - name: "Upload screenshots and videos to Slack"
         uses: trymbill/cypress-slack-video-upload-action@v1.3.0
