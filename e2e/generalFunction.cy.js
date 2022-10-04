@@ -1,35 +1,35 @@
 import { match } from "assert";
 
 export function makeid() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    for (var i =0; i < 10; i++)
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
+  return text;
 }
 
 export function getRandomEmail() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0');
-    var yyyy = today.getFullYear();
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, "0");
+  var mm = String(today.getMonth() + 1).padStart(2, "0");
+  var yyyy = today.getFullYear();
 
-    today = mm + dd + yyyy;
-    return makeid()+today+'@gmail.com';
+  today = mm + dd + yyyy;
+  return makeid() + today + "@gmail.com";
 }
 
 export function getRandomText() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    for(var i = 0; i < 10; i++)
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
+  return text;
 }
 
 export function getRandomNumber(count = 1) {
-    var text = "";
-    var possible = "0123456789";
-    for(var i = 0; i < 10; i++)
+  var text = "";
+  var possible = "0123456789";
+  for (var i = 0; i < 10; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
+  return text;
 }

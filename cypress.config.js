@@ -1,15 +1,9 @@
 const { defineConfig } = require("cypress");
 const { rmdir } = require("fs");
 module.exports = defineConfig({
-  reporter: "cypress-mochawesome-reporter",
+  reporter: "cypress-multi-reporters",
   reporterOptions: {
-    quite: true,
-    overwrite: false,
-    html: false,
-    json: true,
-    embeddedScreenshots: true,
-    inlineAssets: true,
-    reportPageTitle: "Cypress Tests",
+    configFile: "config/reporterOpts.json",
   },
 
   e2e: {
