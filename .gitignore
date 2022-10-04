@@ -20,3 +20,4 @@ cypress/screenshots
 cucumber-report/
 output/
 .DS_Store
+cypress/reports

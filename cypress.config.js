@@ -1,6 +1,8 @@
 const { defineConfig } = require("cypress");
 const { rmdir } = require("fs");
 module.exports = defineConfig({
+  reporter: "cypress-mochawesome-reporter",
+
   e2e: {
     baseUrl: "https://seller-smthgood.vinova.sg/",
     chromeWebSecurity: false,
@@ -21,6 +23,8 @@ module.exports = defineConfig({
     },
     defaultCommandTimeout: 60000,
     setupNodeEvents(on, config) {
+      require("cypress-mochawesome-reporter/plugin")(on);
+
       on("task", {
         deleteFolder(folderName) {
           console.log("deleting folder %s", folderName);
