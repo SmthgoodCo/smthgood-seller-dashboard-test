@@ -8,7 +8,9 @@ export class LoginPage {
     this.blankEmailErrMsg = "Password cannot be empty";
     this.showPassword = ".MuiIconButton-label";
     this.homePageText = "AT A GLANCE";
-  }
+    this.forgotPasswordLink = "Forgot password?";
+    this.loginPageMsg = "Welcome back!";
+  } 
 
   goToLoginPage() {
     cy.clearCookies();
@@ -50,6 +52,25 @@ export class LoginPage {
   verifyInHomePage() {
     cy.wait(5000);
     cy.get("p").contains(this.homePageText).should("be.visible");
+    return this;
+  }
+
+  clickForgotPasswordLink() {
+    cy.contains(this.forgotPasswordLink).click();
+    return this;
+  }
+
+  clickLoginButtonIn5Attempts(email= "", password= "") {
+    for(var i = 0; i < 5; i++) {
+      this.loginWithUser(email, password);
+      this.clickLoginButton();
+    }
+    return this;
+  }
+
+  verifyInLoginPage() {
+    cy.url().should('include', '/login');
+    cy.contains(this.loginPageMsg).should('be.visible');
     return this;
   }
 }
