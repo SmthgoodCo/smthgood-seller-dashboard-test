@@ -28,6 +28,7 @@ export class LoginPage {
 
   clickLoginButton() {
     cy.get("button").contains(this.signInBtn).click();
+    cy.wait(2000);
     return this;
   }
 

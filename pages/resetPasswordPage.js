@@ -17,12 +17,14 @@ export class ResetPasswordPage {
 
     inputEmailAddress(email = "") {
         cy.get(this.emailAddressInput).clear();
-        if (email != "") cy.get(this.emailAddressInput).type(email);
+        if (email != "")
+            cy.get(this.emailAddressInput).type(email);
         return this;
     }
 
     clickResetPasswordButton() {
         cy.get("button").contains(this.resetPasswordBtn).click();
+        cy.wait(2000);
         return this;
     }
 
