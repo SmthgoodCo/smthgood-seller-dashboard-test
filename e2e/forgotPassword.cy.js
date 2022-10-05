@@ -11,7 +11,7 @@ import {
 const loginPage = new LoginPage();
 const resetPasswordPage = new ResetPasswordPage();
 
-describe("Forgot Password Functionality", () => {
+describe.skip("Forgot Password Functionality", () => {
   beforeEach(() => {
     loginPage.goToLoginPage();
   });

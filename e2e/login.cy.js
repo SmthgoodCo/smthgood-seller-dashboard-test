@@ -8,7 +8,7 @@ describe("Login Functionality", () => {
     loginPage.goToLoginPage();
   });
 
-  it("Redirects to login if not logged in", () => {
+  it.only("Redirects to login if not logged in", () => {
     cy.contains("Sign in to access your store account now.");
     cy.url().should("include", Cypress.env("login_url"));
   });
