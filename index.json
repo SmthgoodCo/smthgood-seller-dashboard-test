@@ -5,9 +5,9 @@
     "passes": 1,
     "pending": 0,
     "failures": 0,
-    "start": "2022-10-05T15:20:10.984Z",
-    "end": "2022-10-05T15:20:17.107Z",
-    "duration": 6086,
+    "start": "2022-10-05T15:20:11.249Z",
+    "end": "2022-10-05T15:20:17.169Z",
+    "duration": 5851,
     "testsRegistered": 1,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "11de246b-fa48-46d2-bc2c-13472059803c",
+      "uuid": "0eaaacdc-0eca-4106-b6d4-6cb5665a4902",
       "title": "",
       "fullFile": "e2e/login.cy.js",
       "file": "e2e/login.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "172faf57-f042-45ab-91fc-fc414b56529f",
+          "uuid": "231f9f4a-9a8e-446f-ab7b-2ada04ad7a6f",
           "title": "Login Functionality",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "Redirects to login if not logged in",
               "fullTitle": "Login Functionality Redirects to login if not logged in",
               "timedOut": null,
-              "duration": 6086,
+              "duration": 5851,
               "state": "passed",
               "speed": "medium",
               "pass": true,
@@ -47,20 +47,20 @@
               "context": null,
               "code": "cy.contains(\"Sign in to access your store account now.\");\ncy.url().should(\"include\", Cypress.env(\"login_url\"));",
               "err": {},
-              "uuid": "90bea098-5861-48ec-a84a-5b71bb471c74",
-              "parentUUID": "172faf57-f042-45ab-91fc-fc414b56529f",
+              "uuid": "3c4144a2-db36-4bc2-bcc9-6591effc1894",
+              "parentUUID": "231f9f4a-9a8e-446f-ab7b-2ada04ad7a6f",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "90bea098-5861-48ec-a84a-5b71bb471c74"
+            "3c4144a2-db36-4bc2-bcc9-6591effc1894"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 6086,
+          "duration": 5851,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
