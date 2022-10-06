@@ -8,11 +8,11 @@
 ## Dashboard execution
 
 1. Go to project root,
-2. `npx cypress open` or `npm run e2e:open`
+2. `npx cypress open` or `npm run test:open`
 3. click specific feature or run all features
 
 ## cmmd line Execution
 
-1. `npm run e2e:run`  
+1. `npm run test:run`  
 
 and refer to more other npm scripts added in package.json
