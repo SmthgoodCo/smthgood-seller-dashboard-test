@@ -104,7 +104,7 @@ describe("Login Functionality", () => {
       .verifyShowErrorMsg("Incorrect username or password");
   });
 
-  it("B013 Shows validation messagesWhen seller enter wrong password", () => {
+  it("B013 Shows validation messages When seller enter wrong password", () => {
     loginPage
       .loginWithUser(user.valid.email, user.valid.password + "1")
       .clickLoginButton()
