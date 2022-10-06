@@ -18,11 +18,9 @@ module.exports = defineConfig({
     numTestsKeepInMemory: 1,
     supportFile: "support/e2e.js",
     specPattern: "e2e/**/*.cy.{js,jsx,ts,tsx}",
-    video: false,
+    video: true,
     env: {
       login_url: "/login",
-      EMAIL: "baoquoc@smthgoodco.com",
-      PASSWORD: "iRDb0vno",
     },
     defaultCommandTimeout: 60000,
     setupNodeEvents(on, config) {},

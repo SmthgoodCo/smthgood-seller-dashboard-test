@@ -64,5 +64,5 @@ jobs:
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           channels: "app-auto-testing"
-          message-text: "Failed Test Screenshots"
-          workdir: output/e2e/screenshots
+          message-text: "Failed Test Videos"
+          workdir: output/e2e/videos
