@@ -49,7 +49,7 @@ describe("Forgot Password Functionality", () => {
       .verifyShowErrorMsg("Email cannot be empty");
   });
 
-  it("C006 Shows validation messages when seller enter space email field", () => {
+  it("C006 Shows validation messages when seller enter space email filed", () => {
     loginPage.clickForgotPasswordLink();
     resetPasswordPage
       .verifyInResetPasswordPage()
@@ -114,6 +114,82 @@ describe("Forgot Password Functionality", () => {
       .clickResetPasswordButton()
       .verifyPasswordResetSuccessPage()
       .clickOKButton();
+    loginPage.verifyInLoginPage();
+  });
+
+  it("A026 Not show forgot password page When seller after 5 attempts invalid email", () => {
+    loginPage
+      .loginWithUser("linda", "Linda@123")
+      .clickLoginButton()
+      .loginWithUser("12345", "Linda@123")
+      .clickLoginButton()
+      .loginWithUser("   ", "Linda@123")
+      .clickLoginButton()
+      .loginWithUser("#%$", "Linda@123")
+      .clickLoginButton()
+      .loginWithUser("linda12# ", "Linda@123")
+      .clickLoginButton()
+      .verifyShowErrorMsg("Email invalid");
+    resetPasswordPage.verifyNotShowResetPasswordPage();
+  });
+
+  it("A027 Not show forgot password page When seller after 5 attempts invalid email", () => {
+    loginPage
+      .loginWithUser("linda+5@vinova.com.sg", "1234")
+      .clickLoginButton()
+      .loginWithUser("linda+5@vinova.com.sg", "2341")
+      .clickLoginButton()
+      .loginWithUser("linda+5@vinova.com.sg", "3412")
+      .clickLoginButton()
+      .loginWithUser("linda+5@vinova.com.sg", "4123")
+      .clickLoginButton()
+      .loginWithUser("linda+5@vinova.com.sg", "12345")
+      .clickLoginButton()
+      .verifyShowErrorMsg("Password must be at least 8 characters");
+    resetPasswordPage.verifyNotShowResetPasswordPage();
+  });
+
+  it("A028 Not show forgot password page When seller after 5 attempts invalid email and password", () => {
+    loginPage
+      .loginWithUser("linda", "1234")
+      .clickLoginButton()
+      .loginWithUser("12345", "2341")
+      .clickLoginButton()
+      .loginWithUser("    ", "3412")
+      .clickLoginButton()
+      .loginWithUser("!@#$%", "4123")
+      .clickLoginButton()
+      .loginWithUser("linda12#$ ", "12345")
+      .clickLoginButton()
+      .verifyShowErrorMsg("Email invalid")
+      .verifyShowErrorMsg("Password must be at least 8 characters");
+    resetPasswordPage.verifyNotShowResetPasswordPage();
+  });
+
+  it("A029 Shows validation messages When seller leave email filed", () => {
+    loginPage.clickForgotPasswordLink();
+    resetPasswordPage
+      .verifyInResetPasswordPage()
+      .clickResetPasswordButton()
+      .verifyShowErrorMsg("Email cannot be empty");
+  });
+
+  it("A035 Back to login page When seller click “Back to login” tab", () => {
+    loginPage.clickForgotPasswordLink();
+    resetPasswordPage
+      .verifyInResetPasswordPage()
+      .clickBackToLoginLink();
+    loginPage.verifyInLoginPage();
+  });
+
+  it("A038 Back to login page When seller click “Back to login” tab in “Password reset success” page", () => {
+    loginPage.clickForgotPasswordLink();
+    resetPasswordPage
+      .verifyInResetPasswordPage()
+      .inputEmailAddress(user.valid.email)
+      .clickResetPasswordButton()
+      .verifyPasswordResetSuccessPage()
+      .clickBackToLoginLink();
     loginPage.verifyInLoginPage();
   });
 });

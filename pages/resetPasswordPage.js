@@ -7,6 +7,7 @@ export class ResetPasswordPage {
         this.checkYourInboxMsg = "Check your inbox";
         this.resetPasswordSuccessMsg = "Instructions to reset your password have been sent to your email.";
         this.okBtn = "OK";
+        this.backToLoginLink = "Back to login";
     }
 
     verifyInResetPasswordPage() {
@@ -41,6 +42,16 @@ export class ResetPasswordPage {
 
     clickOKButton() {
         cy.get('button').contains(this.okBtn).click();
+        return this;
+    }
+
+    clickBackToLoginLink(){
+        cy.get('a').contains(this.backToLoginLink).click();
+    }
+
+    verifyNotShowResetPasswordPage() {
+        cy.url().should('not.include', "/reset-password");
+        cy.contains(this.resetPasswordPageText).should('not.exist');
         return this;
     }
 }
