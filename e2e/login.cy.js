@@ -55,7 +55,7 @@ describe("Login Functionality", () => {
       .verifyShowErrorMsg("Email invalid");
   });
 
-  it("B007 Shows validation messages When seller leave password field blank", () => {
+  it.only("B007 Shows validation messages When seller leave password field blank", () => {
     loginPage
       .loginWithUser(user.valid.email, "")
       .clickLoginButton()

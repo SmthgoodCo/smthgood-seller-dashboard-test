@@ -44,13 +44,6 @@ jobs:
           name: cypress-videos
           path: cypress/reports/videos
 
-      - name: Copy test execution videos
-        run: |
-          mkdir public
-          cp -r cypress/reports/videos public/videos
-          cp -r cypress/reports/screenshots public/screenshots
-
-
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
@@ -69,7 +62,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          npx cypress-slack-reporter --report-dir cypress/reports/mochawesome-combine --assetsDir public/assets --ci-provider none --custom-text "Test Report: https://smthgoodco.github.io/cypress-test/"
+          npx cypress-slack-reporter --report-dir cypress/reports/mochawesome-combine --ci-provider none --custom-text "Test Report: https://smthgoodco.github.io/cypress-test/"
 
       - name: "Upload screenshots and videos to Slack"
         uses: trymbill/cypress-slack-video-upload-action@v1.3.0
