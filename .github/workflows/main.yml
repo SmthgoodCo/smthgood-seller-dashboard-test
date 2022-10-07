@@ -32,6 +32,11 @@ jobs:
         if: always()
         run: npm run report
 
+      - name: Copy test execution videos
+        run: |
+            cp -r reports/screenshots cypress/reports/mochawesome-combine/screenshots
+            cp -r reports/videos cypress/reports/mochawesome-combine/videos
+
       - uses: actions/upload-artifact@v3
         if: always()
         with:
@@ -43,7 +48,7 @@ jobs:
         with:
           name: cypress-videos
           path: reports/videos
-
+            
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v2
