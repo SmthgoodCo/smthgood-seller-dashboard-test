@@ -25,8 +25,8 @@ Cypress.on("test:after:run", (test, runnable) => {
     const filename = `${titleToFileName(
       runnable.parent.title
     )} -- ${titleToFileName(test.title)} (failed).png`;
-    addContext({ test }, `../screenshots/${Cypress.spec.name}/${filename}`);
-    addContext({ test }, `../videos/${Cypress.spec.name}.mp4`);
+    addContext({ test }, `screenshots/${Cypress.spec.name}/${filename}`);
+    addContext({ test }, `videos/${Cypress.spec.name}.mp4`);
   }
 });
 // Alternatively you can use CommonJS syntax:
