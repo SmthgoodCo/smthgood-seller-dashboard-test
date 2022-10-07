@@ -36,7 +36,7 @@ jobs:
         if: always()
         with:
           name: cypress-screenshots
-          path: output/e2e/screenshots
+          path: cypress/reports/screenshots
 
       - name: Deploy report to Github Pages
         if: always()
@@ -64,5 +64,5 @@ jobs:
         with:
           token: ${{ secrets.SLACK_TOKEN }}
           channels: "app-auto-testing"
-          message-text: "Failed Test Videos"
-          workdir: output/e2e/videos
+          message-text: "Failed Test ScreenShots"
+          workdir: cypress/reports/screenshots
