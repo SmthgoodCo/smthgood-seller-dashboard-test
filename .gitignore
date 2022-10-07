@@ -21,3 +21,4 @@ cucumber-report/
 output/
 .DS_Store
 cypress/reports
+reports/

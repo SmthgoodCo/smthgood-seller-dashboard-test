@@ -1,5 +1,7 @@
 const { defineConfig } = require("cypress");
 const { rmdir } = require("fs");
+const del = require("del");
+
 module.exports = defineConfig({
   reporter: "cypress-multi-reporters",
   reporterOptions: {
@@ -23,6 +25,14 @@ module.exports = defineConfig({
       login_url: "/login",
     },
     defaultCommandTimeout: 60000,
-    setupNodeEvents(on, config) {},
+    setupNodeEvents(on, config) {
+      on("after:spec", (spec, results) => {
+        if (results && results.stats.failures === 0 && results.video) {
+          // `del()` returns a promise, so it's important to return it to ensure
+          // deleting the video is finished before moving on
+          return del(results.video);
+        }
+      });
+    },
   },
 });
