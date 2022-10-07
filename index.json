@@ -5,9 +5,9 @@
     "passes": 0,
     "pending": 0,
     "failures": 1,
-    "start": "2022-10-07T03:40:49.977Z",
-    "end": "2022-10-07T03:42:01.198Z",
-    "duration": 71006,
+    "start": "2022-10-07T03:47:37.396Z",
+    "end": "2022-10-07T03:48:48.175Z",
+    "duration": 70612,
     "testsRegistered": 1,
     "passPercent": 0,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "19913492-3941-45c4-be71-b904a4d43604",
+      "uuid": "c3560e2a-762f-4f96-b674-f23bec201305",
       "title": "",
       "fullFile": "e2e/login.cy.js",
       "file": "e2e/login.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "3dab7ca4-418d-4046-92f1-75d248cbb7aa",
+          "uuid": "50f8573a-d28b-4180-9489-db25bdba27b5",
           "title": "Login Functionality",
           "fullFile": "",
           "file": "",
@@ -38,7 +38,7 @@
               "title": "B007 Shows validation messages When seller leave password field blank",
               "fullTitle": "Login Functionality B007 Shows validation messages When seller leave password field blank",
               "timedOut": null,
-              "duration": 71006,
+              "duration": 70612,
               "state": "failed",
               "speed": null,
               "pass": false,
@@ -51,8 +51,8 @@
                 "estack": "AssertionError: Timed out retrying after 60000ms: Expected to find content: 'Password must be at least 8 characters' within the element: <p.jss23.warning.error> but never did.\n    at LoginPage.verifyShowErrorMsg (webpack:///./pages/loginPage.js:36:40)\n    at Context.eval (webpack:///./e2e/login.cy.js:62:7)",
                 "diff": null
               },
-              "uuid": "73284ee4-e449-4d0a-852a-58136c3d9068",
-              "parentUUID": "3dab7ca4-418d-4046-92f1-75d248cbb7aa",
+              "uuid": "db1f70dc-ce58-4cec-943a-2029c9425888",
+              "parentUUID": "50f8573a-d28b-4180-9489-db25bdba27b5",
               "isHook": false,
               "skipped": false
             }
@@ -60,11 +60,11 @@
           "suites": [],
           "passes": [],
           "failures": [
-            "73284ee4-e449-4d0a-852a-58136c3d9068"
+            "db1f70dc-ce58-4cec-943a-2029c9425888"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 71006,
+          "duration": 70612,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
