@@ -5,9 +5,9 @@
     "passes": 0,
     "pending": 0,
     "failures": 1,
-    "start": "2022-10-07T03:57:33.354Z",
-    "end": "2022-10-07T03:58:44.206Z",
-    "duration": 70656,
+    "start": "2022-10-07T04:16:35.272Z",
+    "end": "2022-10-07T04:17:45.158Z",
+    "duration": 69768,
     "testsRegistered": 1,
     "passPercent": 0,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "56cac4a1-ab5d-415c-950d-83e4e78ad498",
+      "uuid": "c811c556-f012-40d8-acf0-cd99db923516",
       "title": "",
       "fullFile": "e2e/login.cy.js",
       "file": "e2e/login.cy.js",
@@ -27,7 +27,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "231d8349-4392-4cdb-b75d-54a05a4c6fb0",
+          "uuid": "e410c15e-48a4-4138-ab8c-cb5a734705d4",
           "title": "Login Functionality",
           "fullFile": "",
           "file": "",
@@ -38,21 +38,21 @@
               "title": "B007 Shows validation messages When seller leave password field blank",
               "fullTitle": "Login Functionality B007 Shows validation messages When seller leave password field blank",
               "timedOut": null,
-              "duration": 70656,
+              "duration": 69768,
               "state": "failed",
               "speed": null,
               "pass": false,
               "fail": true,
               "pending": false,
-              "context": "[\n  \"../screenshots/login.cy.js/Login Functionality -- B007 Shows validation messages When seller leave password field blank (failed).png\",\n  \"../videos/login.cy.js.mp4\"\n]",
+              "context": "[\n  \"../assets/login.cy.js/Login Functionality -- B007 Shows validation messages When seller leave password field blank (failed).png\",\n  \"../assets/login.cy.js.mp4\"\n]",
               "code": "loginPage.loginWithUser(_userData.default.valid.email, \"\").clickLoginButton().verifyShowErrorMsg(\"Password must be at least 8 characters\");",
               "err": {
                 "message": "AssertionError: Timed out retrying after 60000ms: Expected to find content: 'Password must be at least 8 characters' within the element: <p.jss23.warning.error> but never did.",
                 "estack": "AssertionError: Timed out retrying after 60000ms: Expected to find content: 'Password must be at least 8 characters' within the element: <p.jss23.warning.error> but never did.\n    at LoginPage.verifyShowErrorMsg (webpack:///./pages/loginPage.js:36:40)\n    at Context.eval (webpack:///./e2e/login.cy.js:62:7)",
                 "diff": null
               },
-              "uuid": "0a73dfe2-68b1-4673-b111-9d5a9b8401c0",
-              "parentUUID": "231d8349-4392-4cdb-b75d-54a05a4c6fb0",
+              "uuid": "a575e5ae-79b2-4a13-8a81-31f91479b7c6",
+              "parentUUID": "e410c15e-48a4-4138-ab8c-cb5a734705d4",
               "isHook": false,
               "skipped": false
             }
@@ -60,11 +60,11 @@
           "suites": [],
           "passes": [],
           "failures": [
-            "0a73dfe2-68b1-4673-b111-9d5a9b8401c0"
+            "a575e5ae-79b2-4a13-8a81-31f91479b7c6"
           ],
           "pending": [],
           "skipped": [],
-          "duration": 70656,
+          "duration": 69768,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
