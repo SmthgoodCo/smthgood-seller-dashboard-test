@@ -33,6 +33,7 @@ jobs:
         run: npm run report
 
       - name: Copy test execution videos
+        if: failure()
         run: |
             cp -r reports/screenshots cypress/reports/mochawesome-combine/screenshots
             cp -r reports/videos cypress/reports/mochawesome-combine/videos
