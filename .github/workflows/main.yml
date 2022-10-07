@@ -36,13 +36,13 @@ jobs:
         if: always()
         with:
           name: cypress-screenshots
-          path: cypress/reports/screenshots
+          path: reports/screenshots
 
       - uses: actions/upload-artifact@v3
         if: always()
         with:
           name: cypress-videos
-          path: cypress/reports/videos
+          path: reports/videos
 
       - name: Deploy report to Github Pages
         if: always()
@@ -71,4 +71,4 @@ jobs:
           token: ${{ secrets.SLACK_TOKEN }}
           channels: "app-auto-testing"
           message-text: "Failed Test ScreenShots"
-          workdir: cypress/reports/screenshots
+          workdir: reports/screenshots
