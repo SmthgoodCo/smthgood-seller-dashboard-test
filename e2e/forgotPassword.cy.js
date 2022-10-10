@@ -1,6 +1,6 @@
 /// <reference types="Cypress" />
 const { LoginPage } = require("../pages/loginPage");
-const { ResetPasswordPage } = require("../pages/resetPasswordPage");
+const { ForgotPasswordPage } = require("../pages/forgotPasswordPage");
 import user from "../fixtures/userData.json";
 import {
   getRandomEmail,
@@ -9,7 +9,7 @@ import {
 } from "../support/functionCommon";
 
 const loginPage = new LoginPage();
-const resetPasswordPage = new ResetPasswordPage();
+const forgotPasswordPage = new ForgotPasswordPage();
 
 describe("Forgot Password Functionality", () => {
   beforeEach(() => {
@@ -18,32 +18,32 @@ describe("Forgot Password Functionality", () => {
 
   it("C001 Display forgot password page when seller click “Forgot password”", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage.verifyInResetPasswordPage();
+    forgotPasswordPage.verifyInForgotPasswordPage();
   });
 
   it("C002 Display forgot password page when seller after 5 attempts wrong email", () => {
     let randomEmail = getRandomEmail();
     loginPage.clickLoginButtonIn5Attempts(randomEmail, user.valid.password);
-    resetPasswordPage.verifyInResetPasswordPage();
+    forgotPasswordPage.verifyInForgotPasswordPage();
   });
 
   it("C003 Display forgot password page when seller after 5 attempts wrong password", () => {
     let randomPassword = getRandomText();
     loginPage.clickLoginButtonIn5Attempts(user.valid.email, randomPassword);
-    resetPasswordPage.verifyInResetPasswordPage();
+    forgotPasswordPage.verifyInForgotPasswordPage();
   });
 
   it("C004 Display forgot password page when seller after 5 attempts wrong email and password", () => {
     let randomEmail = getRandomEmail();
     let randomPassword = getRandomText();
     loginPage.clickLoginButtonIn5Attempts(randomEmail, randomPassword);
-    resetPasswordPage.verifyInResetPasswordPage();
+    forgotPasswordPage.verifyInForgotPasswordPage();
   });
 
   it("C005 Shows validation messages when seller leave email field", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress()
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email cannot be empty");
@@ -51,8 +51,8 @@ describe("Forgot Password Functionality", () => {
 
   it("C006 Shows validation messages when seller enter space email filed", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress("  ")
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email invalid");
@@ -61,8 +61,8 @@ describe("Forgot Password Functionality", () => {
   it("C007 Shows validation messages when seller enter text email filed", () => {
     let randomText = getRandomText();
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(randomText)
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email invalid");
@@ -71,8 +71,8 @@ describe("Forgot Password Functionality", () => {
   it("C008 Shows validation messages when seller enter number email filed", () => {
     let randomNumber = getRandomNumber();
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(randomNumber)
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email invalid");
@@ -80,8 +80,8 @@ describe("Forgot Password Functionality", () => {
 
   it("C009 Shows validation messages when seller enter special character email filed", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress("%^%#$%")
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email invalid");
@@ -90,8 +90,8 @@ describe("Forgot Password Functionality", () => {
   it("C010 Shows validation messages when seller enter email that does not exist", () => {
     let randomEmail = getRandomEmail();
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(randomEmail)
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email address not found");
@@ -99,8 +99,8 @@ describe("Forgot Password Functionality", () => {
 
   it("C011 Display “Password reset success” page when seller enter valid email filed", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(user.valid.email)
       .clickResetPasswordButton()
       .verifyPasswordResetSuccessPage();
@@ -108,8 +108,8 @@ describe("Forgot Password Functionality", () => {
 
   it("C012 Show login page when seller click “OK!” button", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(user.valid.email)
       .clickResetPasswordButton()
       .verifyPasswordResetSuccessPage()
@@ -130,7 +130,7 @@ describe("Forgot Password Functionality", () => {
       .loginWithUser("linda12# ", "Linda@123")
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid");
-    resetPasswordPage.verifyNotShowResetPasswordPage();
+    forgotPasswordPage.verifyNotShowForgotPasswordPage();
   });
 
   it("A027 Not show forgot password page When seller after 5 attempts invalid email", () => {
@@ -146,7 +146,7 @@ describe("Forgot Password Functionality", () => {
       .loginWithUser("linda+5@vinova.com.sg", "12345")
       .clickLoginButton()
       .verifyShowErrorMsg("Password must be at least 8 characters");
-    resetPasswordPage.verifyNotShowResetPasswordPage();
+    forgotPasswordPage.verifyNotShowForgotPasswordPage();
   });
 
   it("A028 Not show forgot password page When seller after 5 attempts invalid email and password", () => {
@@ -163,27 +163,29 @@ describe("Forgot Password Functionality", () => {
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid")
       .verifyShowErrorMsg("Password must be at least 8 characters");
-    resetPasswordPage.verifyNotShowResetPasswordPage();
+    forgotPasswordPage.verifyNotShowForgotPasswordPage();
   });
 
   it("A029 Shows validation messages When seller leave email filed", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .clickResetPasswordButton()
       .verifyShowErrorMsg("Email cannot be empty");
   });
 
   it("A035 Back to login page When seller click “Back to login” tab", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage.verifyInResetPasswordPage().clickBackToLoginLink();
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
+      .clickBackToLoginLink();
     loginPage.verifyInLoginPage();
   });
 
   it("A038 Back to login page When seller click “Back to login” tab in “Password reset success” page", () => {
     loginPage.clickForgotPasswordLink();
-    resetPasswordPage
-      .verifyInResetPasswordPage()
+    forgotPasswordPage
+      .verifyInForgotPasswordPage()
       .inputEmailAddress(user.valid.email)
       .clickResetPasswordButton()
       .verifyPasswordResetSuccessPage()

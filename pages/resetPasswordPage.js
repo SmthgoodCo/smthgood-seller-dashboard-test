@@ -1,19 +1,16 @@
 export class ResetPasswordPage {
     constructor() {
-        this.resetPasswordPageText = "Forgot your password? No worries";
         this.emailAddressInput = "#emailAddress";
         this.resetPasswordBtn = "RESET PASSWORD";
         this.errorMsg = ".error";
-        this.checkYourInboxMsg = "Check your inbox";
-        this.resetPasswordSuccessMsg = "Instructions to reset your password have been sent to your email.";
-        this.okBtn = "OK";
-        this.backToLoginLink = "Back to login";
-    }
-
-    verifyInResetPasswordPage() {
-        cy.url().should('include', "/reset-password");
-        cy.contains(this.resetPasswordPageText).should('be.visible');
-        return this;
+        this.passwordResetSuccessPageText = "Your new password is confirmed!";
+        this.passwordResetSuccessMsg = "You can use it to sign in right away.";
+        this.signInBtn = "SIGN IN";
+        this.resetPasswordPageText = "Reset your password";
+        this.newPasswordInput = "#newPassword";
+        this.confirmNewPasswordInput = "#confirmPassword";
+        this.confirmBtn = "CONFIRM";
+        this.showPassword = ".MuiIconButton-label";
     }
 
     inputEmailAddress(email = "") {
@@ -25,7 +22,7 @@ export class ResetPasswordPage {
 
     clickResetPasswordButton() {
         cy.get("button").contains(this.resetPasswordBtn).click();
-        cy.wait(2000);
+        cy.wait(30000);
         return this;
     }
 
@@ -34,24 +31,61 @@ export class ResetPasswordPage {
         return this;
     }
 
+    clickSignInButton() {
+        cy.contains(this.signInBtn).click();
+        return this;
+    }
+
+
+    inputNewPassword(newPassword = "") {
+        cy.get(this.newPasswordInput).clear();
+        if (newPassword != "") cy.get(this.newPasswordInput).type(newPassword);
+        return this;
+    }
+
+    inputConfirmNewPassword(confirmNewPassword = "") {
+        cy.get(this.confirmNewPasswordInput).clear();
+        if (confirmNewPassword != "") cy.get(this.confirmNewPasswordInput).type(confirmNewPassword);
+        return this;
+    }
+
+    clickConfirmButton() {
+        cy.get('button').contains(this.confirmBtn).click();
+        return this;
+    }
+
+    verifyInResetPasswordPage() {
+        cy.url().should('include', "/new-password");
+        cy.contains(this.resetPasswordPageText).should('be.visible');
+        return this;
+    }
+
     verifyPasswordResetSuccessPage() {
-        cy.contains(this.checkYourInboxMsg).should('be.visible');
-        cy.contains(this.resetPasswordSuccessMsg).should('be.visible');
+        cy.wait(5000);
+        cy.contains(this.passwordResetSuccessPageText).should('be.visible');
+        cy.contains(this.passwordResetSuccessMsg).should('be.visible');
         return this;
     }
 
-    clickOKButton() {
-        cy.get('button').contains(this.okBtn).click();
+    clickShowNewPasswordButton(password = "") {
+        cy.get(this.showPassword).first().click();
+        cy.get(this.newPasswordInput)
+            .should('have.value', password)
+            .invoke("attr", "type")
+            .then((type) => {
+                expect(type).equal("text");
+            });
         return this;
     }
 
-    clickBackToLoginLink(){
-        cy.get('a').contains(this.backToLoginLink).click();
-    }
-
-    verifyNotShowResetPasswordPage() {
-        cy.url().should('not.include', "/reset-password");
-        cy.contains(this.resetPasswordPageText).should('not.exist');
+    clickShowConfirmNewPasswordButton(password = "") {
+        cy.get(this.showPassword).last().click();
+        cy.get(this.confirmNewPasswordInput)
+            .should('have.value', password)
+            .invoke("attr", "type")
+            .then((type) => {
+                expect(type).equal("text");
+            });
         return this;
     }
 }

@@ -15,6 +15,7 @@ export class LoginPage {
   goToLoginPage() {
     cy.clearCookies();
     cy.visit(Cypress.env("login_url"));
+    return this;
   }
 
   loginWithUser(email = "", password = "") {
@@ -50,6 +51,7 @@ export class LoginPage {
       });
     return this;
   }
+  
   verifyInHomePage() {
     cy.wait(5000);
     cy.get("p").contains(this.homePageText).should("be.visible");
