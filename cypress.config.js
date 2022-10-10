@@ -17,7 +17,7 @@ module.exports = defineConfig({
     videosFolder: "reports/videos",
     viewportWidth: 1900,
     viewportHeight: 1070,
-    videoCompression: 50,
+    videoCompression: 40,
     numTestsKeepInMemory: 1,
     supportFile: "support/e2e.js",
     specPattern: "e2e/**/*.cy.{js,jsx,ts,tsx}",
