@@ -124,26 +124,3 @@ export const accessLinkFromEmail = (query) => {
             })
         })
 }
-
-export const checkInbox = () => {
-    const path = require("path");
-    const gmail = require("gmail-tester");
-    const resourcePath = "../"
-    const email = gmail.check_inbox(
-        path.resolve(resourcePath, "credentials.json"),
-        path.resolve(resourcePath, "gmail_token.json"),
-        {
-            subject: "Smthgood - Forgot your password?",
-            from: "noreply@vinova.sg",
-            to: "baoquoc@smthgoodco.com",
-            wait_time_sec: 10,
-            max_wait_time_sec: 30,
-            include_body: true
-        }
-    );
-    if (email) {
-        console.log("Email was found!");
-    } else {
-        console.log("Email was not found!");
-    }
-}
