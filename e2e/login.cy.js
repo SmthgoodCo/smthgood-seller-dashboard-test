@@ -13,120 +13,126 @@ describe("Login Functionality", () => {
     cy.url().should("include", Cypress.env("login_url"));
   });
 
-  it("B001 go home page when email and password are valid", () => {
+  it("A_002 go to homepage When seller enter valid all filed", () => {
     loginPage
       .loginWithUser(user.valid.email, user.valid.password)
       .clickLoginButton()
       .verifyInHomePage();
   });
 
-  it("B002 Shows validation messages when email is blank", () => {
+  it("A_003 Shows messages When seller leave email field blank", () => {
     loginPage
       .loginWithUser("", user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Email cannot be empty");
   });
 
-  it("B003 Shows validation messages When seller enter space email filed", () => {
+  it("A_004 Shows messages When seller enter space email filed", () => {
     loginPage
       .loginWithUser(" ", user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid");
   });
 
-  it("B004 Shows validation messages When seller enter text email filed", () => {
+  it("A_005 Shows messages When seller enter text email filed", () => {
     loginPage
       .loginWithUser("testing", user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid");
   });
 
-  it("B005 Shows validation messages When seller enter number email filed", () => {
+  it("A_006 Shows messages When seller enter number email filed", () => {
     loginPage
       .loginWithUser(122, user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid");
   });
 
-  it("B006 Shows validation messages when When seller enter special character email filed", () => {
+  it("A_007 Shows messages When seller enter special character email filed", () => {
     loginPage
       .loginWithUser("@$#@$", user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Email invalid");
   });
 
-  it("B007 Shows validation messages When seller leave password field blank", () => {
+  it("A_008 Shows messages When seller leave password field blank", () => {
     loginPage
       .loginWithUser(user.valid.email, "")
       .clickLoginButton()
       .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B008 Shows validation messages When seller enter space password filed", () => {
+  it("A_009 Shows messages When seller enter space password filed", () => {
     loginPage
       .loginWithUser(user.valid.email, "     ")
       .clickLoginButton()
       .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B009 Shows validation messages When seller enter space < 8 password filed", () => {
+  it("A_010 Shows messages When seller enter under 8 characters in password filed", () => {
+    loginPage
+      .loginWithUser(user.valid.email, "     ")
+      .clickLoginButton()
+      .verifyShowErrorMsg("Password must be at least 8 characters");
+  });
+  
+  it("A_011 Login successfully When seller enter 8 characters and correct in password filed", () => {
     loginPage
       .loginWithUser(user.valid.email, "     ")
       .clickLoginButton()
       .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B009 Shows validation messages When seller enter space >= 8 password filed", () => {
+  it("A_012 Show message When seller enter 8 characters and incorrect in password filed", () => {
     loginPage
-      .loginWithUser(user.valid.email, "         ")
-      .clickLoginButton()
-      .verifyShowErrorMsg("Incorrect username or password");
-  });
-
-  it("B010 Shows validation messages When seller enter character < 8 password filed", () => {
-    loginPage
-      .loginWithUser(user.valid.email, "abc123")
+      .loginWithUser(user.valid.email, "     ")
       .clickLoginButton()
       .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B011 Shows validation messages When seller enter character >= 8 password filed", () => {
+  it("A_013 Login successfully When seller enter least 8 characters and incorrect in password filed", () => {
     loginPage
-      .loginWithUser(user.valid.email, "abcd12345")
+      .loginWithUser(user.valid.email, "     ")
       .clickLoginButton()
-      .verifyShowErrorMsg("Incorrect username or password");
+      .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B012 Shows validation messagesWhen seller enter wrong email", () => {
+  it("A_014 Shows messages When seller enter wrong email (No exist)", () => {
     loginPage
       .loginWithUser(user.valid.email + "a", user.valid.password)
       .clickLoginButton()
       .verifyShowErrorMsg("Incorrect username or password");
   });
 
-  it("B013 Shows validation messages When seller enter wrong password", () => {
+  it("A_015 Shows messages When seller enter least 8 characters and correct in password filed", () => {
     loginPage
-      .loginWithUser(user.valid.email, user.valid.password + "1")
+      .loginWithUser(user.valid.email, "         ")
       .clickLoginButton()
       .verifyShowErrorMsg("Incorrect username or password");
   });
 
-  it("B014 Shows validation messages When seller enter wrong email and password", () => {
+  it("A_016 Shows messages When seller enter wrong email and password", () => {
     loginPage
       .loginWithUser(user.valid.email + "a", user.valid.password + "1")
       .clickLoginButton()
       .verifyShowErrorMsg("Incorrect username or password");
   });
 
-  it("B015 Shows validation messages When seller leave email and password fields blank", () => {
+  it("A_017 Shows messages When seller leave email and password fields blank", () => {
     loginPage
-      .loginWithUser("", "")
       .clickLoginButton()
       .verifyShowErrorMsg("Email cannot be empty")
       .verifyShowErrorMsg("Password cannot be empty");
   });
 
-  it("B016 Shows validation messages When seller invalid email and wrong password (under 8 character)", () => {
+  it("A_018 Shows messages When seller invalid email and wrong password (least 8 character)", () => {
+    loginPage
+      .loginWithUser("abc", "abc1234567")
+      .clickLoginButton()
+      .verifyShowErrorMsg("Email invalid");
+  });
+
+  it("A_019 Shows messages When seller invalid email and wrong password (under 8 character)", () => {
     loginPage
       .loginWithUser("abc", "abc123")
       .clickLoginButton()
@@ -134,19 +140,17 @@ describe("Login Functionality", () => {
       .verifyShowErrorMsg("Password must be at least 8 characters");
   });
 
-  it("B017 Shows validation messages When seller invalid email and wrong password (least 8 character)", () => {
+  it('A_020 Display password When seller click "Eye"', () => {
     loginPage
-      .loginWithUser("abc", "abc1234567")
-      .clickLoginButton()
-      .verifyShowErrorMsg("Email invalid");
-  });
-
-  it("B018 Shows validation messages When seller click Eye", () => {
-    loginPage
-      .loginWithUser("abc", "abc1234567")
+      .loginWithUser(user.valid.email, user.valid.password)
       .clickShowPasswordButton()
       .verifyPasswordIsShow()
+  });
+
+  it("A_021 Show messages When seller enter wrong password", () => {
+    loginPage
+      .loginWithUser(user.valid.email, user.valid.password + "1")
       .clickLoginButton()
-      .verifyShowErrorMsg("Email invalid");
+      .verifyShowErrorMsg("Incorrect username or password");
   });
 });

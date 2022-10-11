@@ -18,7 +18,7 @@ describe('Reset Password Functionality', () => {
         // loginPage.goToLoginPage();
     });
 
-    it('A039 Receive notification email and click notification email When seller enter valid email success', () => {
+    it('A_039 Receive notification email and click notification email When seller enter valid email success', () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -30,15 +30,15 @@ describe('Reset Password Functionality', () => {
         getEmail();
     })
 
-    it('A040 Receive notification email and display in gmail When seller enter valid email success', () => {
+    it('A_040 Receive notification email and display in gmail When seller enter valid email success', () => {
         checkEmail();
     })
 
-    it('A041 Display content in ‘Reset password” email', () => {
+    it('A_041 Display content in "Reset password" email', () => {
         checkContentEmail();
     })
 
-    it('A042 Show “Reset password” page When seller click “Reset your password”', () => {
+    it('A_042 Show “Reset password” page When seller click “Reset your password”', () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -50,7 +50,7 @@ describe('Reset Password Functionality', () => {
         resetPasswordPage.verifyInResetPasswordPage();
     })
 
-    it("A043 Shows messages When seller leave new password filed blank", () => {
+    it("A_043 Shows messages When seller leave new password filed blank", () => {
         resetPasswordPage
             .inputConfirmNewPassword("Linda@123")
             .clickConfirmButton()
@@ -58,7 +58,7 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Your password does not match"); //Expected Results Exel File: "You password does not match" 
     });
 
-    it("A044 Shows messages When seller enter under 8 character new password filed", () => {
+    it("A_044 Shows messages When seller enter under 8 character new password filed", () => {
         resetPasswordPage
             .inputNewPassword("12345")
             .inputConfirmNewPassword("Linda@123")
@@ -67,7 +67,7 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Your password does not match");
     });
 
-    it("A045 Show “Password reset success” page When seller enter 8 character new password filed, ", () => {
+    it("A_045 Show “Password reset success” page When seller enter 8 character new password filed, ", () => {
         resetPasswordPage
             .inputNewPassword("Linda123")
             .inputConfirmNewPassword("Linda123")
@@ -75,7 +75,7 @@ describe('Reset Password Functionality', () => {
             .verifyPasswordResetSuccessPage();
     });
 
-    it("A046 Shows messages When seller enter 8 character new password filed", () => {
+    it("A_046 Shows messages When seller enter 8 character new password filed", () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -92,7 +92,7 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Your password does not match");
     });
 
-    it("A047 Show “Password reset success” page When seller enter least 8 character new password filed, ", () => {
+    it("A_047 Show “Password reset success” page When seller enter least 8 character new password filed, ", () => {
         resetPasswordPage
             .inputNewPassword("Linda@123")
             .inputConfirmNewPassword("Linda@123")
@@ -100,7 +100,7 @@ describe('Reset Password Functionality', () => {
             .verifyPasswordResetSuccessPage();
     });
 
-    it("A048 Shows messages When seller enter least 8 character new password filed", () => {
+    it("A_048 Shows messages When seller enter least 8 character new password filed", () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -117,7 +117,7 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Your password does not match");
     });
 
-    it("A049 Shows messages When seller leave password again field", () => {
+    it("A_049 Shows messages When seller leave password again field", () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -133,7 +133,7 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Confirm new password cannot be empty");
     });
 
-    it("A050 Shows messages When seller enter under 8 character password again filed", () => {
+    it("A_050 Shows messages When seller enter under 8 character password again filed", () => {
         resetPasswordPage
             .inputNewPassword("Linda@123")
             .inputConfirmNewPassword("Linda")
@@ -142,7 +142,7 @@ describe('Reset Password Functionality', () => {
     });
 
     // Test Data A0051 the same A0047
-    it("A051 Show “Password reset success” page When seller enter password again the same new password, ", () => {
+    it("A_051 Show “Password reset success” page When seller enter password again the same new password, ", () => {
         resetPasswordPage
             .inputNewPassword("Linda@123")
             .inputConfirmNewPassword("Linda@123")
@@ -150,7 +150,7 @@ describe('Reset Password Functionality', () => {
             .verifyPasswordResetSuccessPage();
     });
 
-    it("A052 Shows messages When seller leave new password and password again filed blank", () => {
+    it("A_052 Shows messages When seller leave new password and password again filed blank", () => {
         loginPage
             .goToLoginPage()
             .clickForgotPasswordLink();
@@ -167,37 +167,29 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Confirm new password cannot be empty");
     });
 
-    it("A053 Show password When seller click “Eye” icon in new password filed", () => {
+    it("A_053 Show password When seller click “Eye” icon in new password filed", () => {
         resetPasswordPage
             .inputNewPassword("Linda123")
             .inputConfirmNewPassword("")
-            .clickShowNewPasswordButton("Linda123");
+            .clickShowPasswordButton("Linda123", "newPassword");
     });
 
-    it("A054 Show password When seller click “Eye” icon in password again filed", () => {
+    it("A_054 Show password When seller click “Eye” icon in password again filed", () => {
         resetPasswordPage
             .inputNewPassword("")
             .inputConfirmNewPassword("Linda123")
-            .clickShowConfirmNewPasswordButton("Linda123");
+            .clickShowPasswordButton("Linda123", "confirmPassword");
     });
 
-    it("A055 Show password When seller click “Eye” icon in new password and password again fileds", () => {
-        loginPage
-            .goToLoginPage()
-            .clickForgotPasswordLink();
-        forgotPasswordPage
-            .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
-            .verifyPasswordResetSuccessPage();
-        accessLinkFromEmail();
+    it("A_055 Show password When seller click “Eye” icon in new password and password again fileds", () => {
         resetPasswordPage
             .inputNewPassword("Linda@123")
-            .clickShowNewPasswordButton("Linda@123")
+            .clickShowPasswordButton("Linda@123", "newPassword")
             .inputConfirmNewPassword("Linda@123")
-            .clickShowConfirmNewPasswordButton("Linda@123");
+            .clickShowPasswordButton("Linda@123", "confirmPassword");
     });
 
-    it("A056 Show log in page When seller click “Sign in” button in “Password reset success” page", () => {
+    it('A_056 Show log in page When seller click “Sign in” button in "Password reset success" page', () => {
         resetPasswordPage
             .inputNewPassword(user.valid.password)
             .inputConfirmNewPassword(user.valid.password)
@@ -206,14 +198,14 @@ describe('Reset Password Functionality', () => {
         loginPage.verifyInLoginPage();
     });
 
-    it("A057 Login successfully When seller login with new password", () => {
+    it("A_057 Login successfully When seller login with new password", () => {
         loginPage
             .loginWithUser(user.valid.email, user.valid.password)
             .clickLoginButton()
             .verifyInHomePage();
     });
 
-    it("A058 Shows messages When seller login with old password", () => {
+    it("A_058 Shows messages When seller login with old password", () => {
         loginPage
             .goToLoginPage()
             .loginWithUser(user.valid.email, "Linda@123")
@@ -221,16 +213,12 @@ describe('Reset Password Functionality', () => {
             .verifyShowErrorMsg("Incorrect username or password");
     });
 
-    //failed test case: “Password reset success” When seller click again “Reset your password” button in email
-    it("A059 Shows messages When seller click again “Reset your password” button in email", () => {
-        loginPage.goToLoginPage();
-        accessLinkFromEmail();
-        cy.wait(1500000);
+    it("A_059 Shows messages When seller click again “Reset your password” button in email", () => {
         resetPasswordPage
+            .clickRestPasswordWithOldToken()
             .inputNewPassword("Linda1234")
             .inputConfirmNewPassword("Linda1234")
-            .clickConfirmButton();
-        resetPasswordPage
+            .clickConfirmButton()
             .verifyShowErrorMsg("Invalid reset password token or token has been expired");
     });
 })

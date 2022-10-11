@@ -87,9 +87,7 @@ export const checkContentEmail = (query) => {
                 emails[0].body.html
             ).then((el) => {
                 let text = el.toString();
-                console.log("text:"+text);
-               // link = el.substring(el.indexOf('https://seller-smthgood.vinova.sg/new-password?token='), el.indexOf('"><div class="custom-btn-confirm"'));
-                expect(text).contains("Hugs from Smthgood, automationTesting,")
+                expect(text).contains("Hugs from Smthgood, Baoteststaging,")
                 expect(text).contains("Forgot your password? That's okay, it happens! Click on the button below to reset your password.")
                 expect(text).contains("xoxo,")
                 expect(text).contains("Stella")

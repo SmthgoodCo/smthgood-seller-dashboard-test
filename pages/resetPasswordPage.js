@@ -36,7 +36,6 @@ export class ResetPasswordPage {
         return this;
     }
 
-
     inputNewPassword(newPassword = "") {
         cy.get(this.newPasswordInput).clear();
         if (newPassword != "") cy.get(this.newPasswordInput).type(newPassword);
@@ -67,25 +66,34 @@ export class ResetPasswordPage {
         return this;
     }
 
-    clickShowNewPasswordButton(password = "") {
-        cy.get(this.showPassword).first().click();
-        cy.get(this.newPasswordInput)
-            .should('have.value', password)
-            .invoke("attr", "type")
-            .then((type) => {
-                expect(type).equal("text");
-            });
+    clickShowPasswordButton(password = "", passwordLabel = "") {
+        switch (passwordLabel) {
+            case "newPassword":
+                cy.get(this.showPassword).first().click();
+                cy.get(this.newPasswordInput)
+                    .should('have.value', password)
+                    .invoke("attr", "type")
+                    .then((type) => {
+                        expect(type).equal("text");
+                    });
+                cy.get(this.showPassword).first().click();
+                break;
+            case "confirmPassword":
+                cy.get(this.showPassword).last().click();
+                cy.get(this.confirmNewPasswordInput)
+                    .should('have.value', password)
+                    .invoke("attr", "type")
+                    .then((type) => {
+                        expect(type).equal("text");
+                    });
+                cy.get(this.showPassword).last().click();
+                break;
+        }
         return this;
     }
 
-    clickShowConfirmNewPasswordButton(password = "") {
-        cy.get(this.showPassword).last().click();
-        cy.get(this.confirmNewPasswordInput)
-            .should('have.value', password)
-            .invoke("attr", "type")
-            .then((type) => {
-                expect(type).equal("text");
-            });
+    clickRestPasswordWithOldToken() {
+        cy.visit("https://seller-smthgood.vinova.sg/new-password?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5NDAiLCJqdGkiOiJlY2NlNDM4OC0yNGE3LTQyOTgtOGNiMS1kYjgwYWE3ZWU2YWIiLCJpYXQiOjE2NjU0NjU2NDgsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJTbXRoR29vZFNlbGxlciIsIlNtdGhHb29kU2VsbGVyOkVtYWlsIjoiYXV0b21hdGlvbnNtdGdvb2RAZ21haWwuY29tIiwiU210aEdvb2RTZWxsZXI6VXNlcm5hbWUiOiJiYW90ZXN0c3RhZ2luZyIsIlNtdGhHb29kU2VsbGVyOklkIjoiOTQwIiwiU210aEdvb2RTZWxsZXI6VmVuZG9ySWQiOiIzNzciLCJuYmYiOjE2NjU0NjU2NDgsImV4cCI6MTY2NTQ2NjI0OCwiaXNzIjoiU210aEdvb2RTZWxsZXIiLCJhdWQiOiJTbXRoR29vZFNlbGxlciJ9.lztBRt6cY8b7KREPz9f51YVxGABSrGS40XHqVRx6L2k");
         return this;
     }
 }
