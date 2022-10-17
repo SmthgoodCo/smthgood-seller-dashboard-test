@@ -1,6 +1,7 @@
 {
   "valid" : {
     "email" : "automationsmtgood@gmail.com",
-    "password" : "Auto@123"
+    "password" : "Auto@123",
+    "sellerName": "Baoteststaging"
   }
 }

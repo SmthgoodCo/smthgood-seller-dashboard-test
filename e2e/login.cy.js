@@ -59,7 +59,7 @@ describe("Login Functionality", () => {
     loginPage
       .loginWithUser(user.valid.email, "")
       .clickLoginButton()
-      .verifyShowErrorMsg("Password must be at least 8 characters");
+      .verifyShowErrorMsg("Password cannot be empty");
   });
 
   it("A_009 Shows messages When seller enter space password filed", () => {
@@ -78,23 +78,23 @@ describe("Login Functionality", () => {
   
   it("A_011 Login successfully When seller enter 8 characters and correct in password filed", () => {
     loginPage
-      .loginWithUser(user.valid.email, "     ")
+      .loginWithUser(user.valid.email, "        ")
       .clickLoginButton()
-      .verifyShowErrorMsg("Password must be at least 8 characters");
+      .verifyInHomePage();
   });
 
   it("A_012 Show message When seller enter 8 characters and incorrect in password filed", () => {
     loginPage
-      .loginWithUser(user.valid.email, "     ")
+      .loginWithUser(user.valid.email, "ancdefgh")
       .clickLoginButton()
-      .verifyShowErrorMsg("Password must be at least 8 characters");
+      .verifyShowErrorMsg("Incorrect username or password");
   });
 
   it("A_013 Login successfully When seller enter least 8 characters and incorrect in password filed", () => {
     loginPage
       .loginWithUser(user.valid.email, "     ")
       .clickLoginButton()
-      .verifyShowErrorMsg("Password must be at least 8 characters");
+      .verifyShowErrorMsg("Incorrect username or password");
   });
 
   it("A_014 Shows messages When seller enter wrong email (No exist)", () => {
