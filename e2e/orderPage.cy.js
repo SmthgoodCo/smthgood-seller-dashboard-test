@@ -9,6 +9,7 @@ const homePage = new HomePage();
 const orderPage = new OrderPage();
 
 describe('OrderPage Functionality', () => {
+
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
             .goToLoginPage()
@@ -16,6 +17,15 @@ describe('OrderPage Functionality', () => {
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.verifyShowOrderEmptyText();
+    })
+
+    it('B_052 show “Order - empty” page When seller doesn’t have order', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.verifyOrderReceivedEmpty();
     })
 
 })

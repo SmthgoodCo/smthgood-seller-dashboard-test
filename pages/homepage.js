@@ -1,6 +1,5 @@
 export class HomePage {
     constructor() {
-        this.homePageText = 'AT A GLANCE';
         this.sellerName = '.MuiGrid-root .jss15';
         this.helpBtn = 'Help';
         this.messagesBtn = 'Messages';
@@ -48,11 +47,13 @@ export class HomePage {
         return this;
     }
 
-    verifyShowInboxGmail() {
-
-    }
-
     clickMessagesButton() {
+        cy.window().then(win => {
+            cy.stub(win, 'open').callsFake((url) => {
+                win.location.href = url;
+            })
+        })
+
         cy.contains(this.messagesBtn).click();
         return this;
     }
@@ -63,7 +64,23 @@ export class HomePage {
     }
 
     clickEditProfileLink() {
+        cy.window().then(win => {
+            cy.stub(win, 'open').callsFake((url) => {
+                win.location.href = url;
+            })
+        })
+
         cy.contains(this.editProfileLink).click();
+        return this;
+    }
+
+    verifyInEditProfilePage() {
+        cy.url().should('include', 'https://app-smthgood.vinova.sg/profile/edit-profile?');
+        return this;
+    }
+
+    verifyInMessagesPage() {
+        cy.url().should('include', 'https://app-smthgood.vinova.sg/');
         return this;
     }
 }

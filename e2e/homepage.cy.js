@@ -1,16 +1,14 @@
 /// <reference types="Cypress" />
 const { LoginPage } = require("../pages/loginPage");
 const { HomePage } = require("../pages/homepage");
+const { EditProfilePage } = require("../pages/editProfilePage");
 import user from "../fixtures/userData.json";
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
+const editProfilePage = new EditProfilePage();
 
 describe('Home Page Functionality', () => {
-    // beforeEach(function () {
-    //     loginPage.goToLoginPage();
-    // });
-
     it('B_001 Display business name in homepage', () => {
         loginPage
             .goToLoginPage()
@@ -20,8 +18,11 @@ describe('Home Page Functionality', () => {
         homePage.verifyDisplaySellerName(user.valid.sellerName);
     });
 
-    it.skip('B_002 Show inbox gmail When seller click “Help” button', () => {
-        homePage.clickHelpButton();
+    //Fail: Messages button don't click
+    it.skip('B_003 Show message page in web app When seller click “Messages” button', () => {
+        homePage
+            .clickMessagesButton()
+            .verifyInMessagesPage();
     });
 
     it('B_004 Show dropdown When seller click name seller', () => {
@@ -36,29 +37,16 @@ describe('Home Page Functionality', () => {
             .verifyTurnOffDropdownPopup();
     });
 
-    // it('Handling new Browser Window', function () {
-    //     cy.visit('https://app-smthgood.vinova.sg/profile/edit-profile?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU210aEdvb2QiLCJTbXRoR29vZDpJZCI6Ijk0MCIsIlNtdGhHb29kOlZlbmRvcklkIjoiMzc3IiwibmJmIjoxNjY2MDAyNjYxLCJleHAiOjE2NjYwMDg2NjEsImlzcyI6IlNtdGhHb29kT25lVGltZSIsImF1ZCI6IlNtdGhHb29kT25lVGltZSJ9.xUfbI375ZyLG12nP5rkP5LWL0YIL6j4pn7mfZ3STXck');
-
-    //     homePage.clickEditProfileLink();
-    // });
-
-    // it.only('Handling new Browser Window', function () {
-    //     // cy.visit('https://app-smthgood.vinova.sg/profile/edit-profile?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiU210aEdvb2QiLCJTbXRoR29vZDpJZCI6Ijk0MCIsIlNtdGhHb29kOlZlbmRvcklkIjoiMzc3IiwibmJmIjoxNjY2MDAyNjYxLCJleHAiOjE2NjYwMDg2NjEsImlzcyI6IlNtdGhHb29kT25lVGltZSIsImF1ZCI6IlNtdGhHb29kT25lVGltZSJ9.xUfbI375ZyLG12nP5rkP5LWL0YIL6j4pn7mfZ3STXck');
-    //     loginPage
-    //         .goToLoginPage()
-    //         .loginWithUser(user.valid.email, user.valid.password)
-    //         .clickLoginButton()
-    //         .verifyInHomePage();
-    //     homePage
-    //         .verifyDisplaySellerName(user.valid.sellerName)
-    //         .clickSellerName();
-
-    //     cy.window().then((win) => {
-    //         cy.stub(win, 'open', url => {
-    //             win.location.href = '../';
-    //             // win.location.href = 'https://app-smthgood.vinova.sg/profile/edit-profile?/';
-    //         }).as("popup")
-    //     })
-    //     homePage.clickEditProfileLink();
-    // })
+    it.only('B_006 Show “Profile” page in web app When seller click “Edit profile”', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        homePage
+            .clickSellerName()
+            .clickEditProfileLink()
+            .verifyInEditProfilePage();
+        editProfilePage.verifyUsername();
+    });
 });
