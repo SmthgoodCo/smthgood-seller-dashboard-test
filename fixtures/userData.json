@@ -2,6 +2,10 @@
   "valid" : {
     "email" : "automationsmtgood@gmail.com",
     "password" : "Auto@123",
-    "sellerName": "Baoteststaging"
+    "sellerName": "Baoteststaging",
+    "yourShopifyApiKey": "ece8d3868ec048b9f0a18c89ad8bec2d",
+    "adminApiAccessToken": "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",
+    "shopUrl": "https://gavin-storee.myshopify.com/",
+    "webhookVersion": "2022-10"
   }
 }

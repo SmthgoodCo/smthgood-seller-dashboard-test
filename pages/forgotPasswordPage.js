@@ -23,9 +23,10 @@ export class ForgotPasswordPage {
         return this;
     }
 
-    clickResetPasswordButton() {
+    clickResetPasswordButton(isCheckEmail = false) {
         cy.get("button").contains(this.resetPasswordBtn).click();
-        cy.wait(20000);
+        if(isCheckEmail)
+            cy.wait(20000);
         return this;
     }
 
@@ -47,6 +48,7 @@ export class ForgotPasswordPage {
 
     clickBackToLoginLink() {
         cy.get('a').contains(this.backToLoginLink).click();
+        return this;
     }
 
     verifyNotShowForgotPasswordPage() {

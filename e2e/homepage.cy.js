@@ -18,8 +18,11 @@ describe('Home Page Functionality', () => {
         homePage.verifyDisplaySellerName(user.valid.sellerName);
     });
 
-    //Fail: Messages button don't click
-    it.skip('B_003 Show message page in web app When seller click “Messages” button', () => {
+    it('B_002 Show inbox gmail When seller click “Help” button', () => {
+        homePage.checkHelpButton();
+    })
+
+    it('B_003 Show message page in web app When seller click “Messages” button', () => {
         homePage
             .clickMessagesButton()
             .verifyInMessagesPage();
@@ -37,12 +40,7 @@ describe('Home Page Functionality', () => {
             .verifyTurnOffDropdownPopup();
     });
 
-    it.only('B_006 Show “Profile” page in web app When seller click “Edit profile”', () => {
-        loginPage
-            .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
-            .clickLoginButton()
-            .verifyInHomePage();
+    it('B_006 Show “Profile” page in web app When seller click “Edit profile”', () => {
         homePage
             .clickSellerName()
             .clickEditProfileLink()

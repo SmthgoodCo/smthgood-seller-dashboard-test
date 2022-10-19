@@ -25,7 +25,7 @@ describe('Reset Password Functionality', () => {
         forgotPasswordPage
             .verifyInForgotPasswordPage()
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         getEmail();
     })
@@ -44,7 +44,7 @@ describe('Reset Password Functionality', () => {
             .clickForgotPasswordLink();
         forgotPasswordPage
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         accessLinkFromEmail();
         resetPasswordPage.verifyInResetPasswordPage();
@@ -81,7 +81,7 @@ describe('Reset Password Functionality', () => {
             .clickForgotPasswordLink();
         forgotPasswordPage
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         accessLinkFromEmail();
         resetPasswordPage
@@ -106,7 +106,7 @@ describe('Reset Password Functionality', () => {
             .clickForgotPasswordLink();
         forgotPasswordPage
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         accessLinkFromEmail();
         resetPasswordPage
@@ -123,7 +123,7 @@ describe('Reset Password Functionality', () => {
             .clickForgotPasswordLink();
         forgotPasswordPage
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         accessLinkFromEmail();
         resetPasswordPage
@@ -156,7 +156,7 @@ describe('Reset Password Functionality', () => {
             .clickForgotPasswordLink();
         forgotPasswordPage
             .inputEmailAddress(user.valid.email)
-            .clickResetPasswordButton()
+            .clickResetPasswordButton(true)
             .verifyPasswordResetSuccessPage();
         accessLinkFromEmail();
         resetPasswordPage

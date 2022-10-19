@@ -6,6 +6,8 @@ export class HomePage {
         this.OrderEmptyText = "You do not have any orders at the moment.";
         this.sellerDropdown = '.MuiMenu-list';
         this.editProfileLink = "Edit Profile";
+        this.homeMenu = '.MuiListItem-root .jss36';
+        this.productLink = 'Products';
     }
 
     verifyDisplaySellerName(selller = "") {
@@ -19,7 +21,7 @@ export class HomePage {
     }
 
     clickOutsideDropdown() {
-        cy.get('body').click(0,0);;
+        cy.get('body').click(0, 0);
         return this;
     }
 
@@ -35,15 +37,18 @@ export class HomePage {
     }
 
     verifyTurnOffDropdownPopup() {
-        cy.contains('Review').should('exist');
-        cy.contains('Review').should('not.be.visible');
-        cy.contains('Edit Profile').should('exist');
-        cy.contains('Edit Profile').should('not.be.visible');
+        cy.contains('Review').should('exist')
+            .and('not.be.visible');
+        cy.contains('Edit Profile').should('exist')
+            .and('not.be.visible');
         return this;
     }
 
-    clickHelpButton() {
-        cy.contains(this.helpBtn).click();
+    checkHelpButton() {
+        cy.get('a').contains(this.helpBtn)
+            .should('not.be.disabled')
+            .invoke('attr', 'href')
+            .should('equal', 'mailto:help@smthgoodco.com');
         return this;
     }
 
@@ -81,6 +86,11 @@ export class HomePage {
 
     verifyInMessagesPage() {
         cy.url().should('include', 'https://app-smthgood.vinova.sg/');
+        return this;
+    }
+
+    clickProductsOnMenu() {
+        cy.get(this.homeMenu).contains(this.productLink).click();
         return this;
     }
 }
