@@ -6,10 +6,9 @@ import user from "../fixtures/userData.json";
 
 const loginPage = new LoginPage();
 const homePage = new HomePage();
-const editProfilePage = new EditProfilePage();
 
 describe('Home Page Functionality', () => {
-    it('B_001 Display business name in homepage', () => {
+    it.only('B_001 Display business name in homepage', () => {
         loginPage
             .goToLoginPage()
             .loginWithUser(user.valid.email, user.valid.password)
@@ -40,11 +39,10 @@ describe('Home Page Functionality', () => {
             .verifyTurnOffDropdownPopup();
     });
 
-    it('B_006 Show “Profile” page in web app When seller click “Edit profile”', () => {
+    it.only('B_006 Show “Profile” page in web app When seller click “Edit profile”', () => {
         homePage
             .clickSellerName()
             .clickEditProfileLink()
             .verifyInEditProfilePage();
-        editProfilePage.verifyUsername();
     });
 });
