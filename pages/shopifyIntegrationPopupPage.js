@@ -7,7 +7,7 @@ export class ShopifyIntegrationPopupPage {
         this.integrationPopupOkBtn = 'Ok';
         this.integrationCompletedTitle = 'Integration Completed';
     }
-    
+
     verifyIntegrationPopup(integrationMsg = '', isCheckCompleted = false) {
         cy.contains(this.integratingTitle).should('be.visible');
         cy.contains(this.integratingText).should('be.visible');
@@ -24,10 +24,10 @@ export class ShopifyIntegrationPopupPage {
             case true:
                 cy.get(this.integrationPopup)
                     .contains(this.integrationCompletedTitle)
-                    .and('contain', 'Integration summary')
                     .should('be.visible');
                 cy.get(this.integrationPopup)
-                    .should('have.text', 'Integration summary');
+                    .contains('Integration summary')
+                    .should('be.visible');
                 break;
         }
         return this;

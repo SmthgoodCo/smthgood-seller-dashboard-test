@@ -6,8 +6,9 @@ export class ProductPage {
         this.integrateShopifyPopupText = 'To integrate your smthgood and Shopify inventories, simply follow the steps below.';
         this.uploadDynamicSpreadsheetTxt = 'Upload Dynamic Spreadsheet';
         this.inputProductsManually = 'Input Products Manually';
-        this.integrateShopifyBtn = 'Proceed to integrate';
-        
+        this.integrateWithShopifyBtn = 'Integrate with Shopify';
+        this.productTagButton = '.MuiToggleButtonGroup-root>button';
+        this.proctTable = '.MuiTableBody-root>tr'
     }
 
     verifyEmptyProductMessages() {
@@ -28,7 +29,17 @@ export class ProductPage {
     }
 
     clickIntegrateWithShopifyButton() {
-        cy.contains(this.integrateShopifyBtn).click();
+        cy.wait(2000);
+        cy.get('button>span').contains(this.integrateWithShopifyBtn).click();
         return this;
+    }
+
+    verifyShowlistProduct() {
+        cy.get(this.productTagButton).then(($tagName) => {
+            expect($tagName.eq(1)).to.contain('Active')
+            expect($tagName.eq(2)).to.contain('Draft')
+            expect($tagName.eq(3)).to.contain('Archived')
+        });
+        cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
     }
 }

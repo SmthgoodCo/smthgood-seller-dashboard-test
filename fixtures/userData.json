@@ -6,6 +6,8 @@
     "yourShopifyApiKey": "ece8d3868ec048b9f0a18c89ad8bec2d",
     "adminApiAccessToken": "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",
     "shopUrl": "https://gavin-storee.myshopify.com/",
-    "webhookVersion": "2022-10"
+    "webhookVersion": "2022-10",
+    "urlAPI" : "https://api-smthgood.vinova.sg",
+    "accessToken" : "CfDJ8BMIRt4k9xFNqLxXbyyhASOe8mtF_i7TH08NAxsAFvmwg-g_vWCFo0lBf7ULDOjrG791NMJ4iG6J4jI9TGlPkl97FyN6YVPqP6TIv1fg4nd8FEb9QYQ4NwrPUD5qaL2Mzi1qqIc2zvTGyc6s5aZTTjU"
   }
 }

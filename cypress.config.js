@@ -26,6 +26,8 @@ module.exports = defineConfig({
     env: {
       login_url: "/login",
     },
+    includeShadowDom: true,
+    // watchForFileChanges: false,
     defaultCommandTimeout: 60000,
     setupNodeEvents(on, config) {
 		 on("task", {

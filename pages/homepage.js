@@ -81,6 +81,7 @@ export class HomePage {
 
     verifyInEditProfilePage() {
         cy.url().should('include', 'https://app-smthgood.vinova.sg/profile/edit-profile?');
+        cy.reload();
         return this;
     }
 

@@ -5,7 +5,8 @@ const { ProductPage } = require("../pages/productPage");
 const { ShopifyIntegrationPage } = require("../pages/shopifyIntegrationPage");
 const { ShopifyIntegrationPopupPage } = require("../pages/shopifyIntegrationPopupPage");
 import user from "../fixtures/userData.json";
-
+let email = user.valid.email;
+let password = user.valid.password;
 const loginPage = new LoginPage();
 const homePage = new HomePage();
 const productPage = new ProductPage();
@@ -14,6 +15,34 @@ const shopifyIntegrationPopupPage = new ShopifyIntegrationPopupPage();
 
 describe('OrderPage Functionality', () => {
     before(() => {
+        cy.request({
+            method: 'POST',
+            url: user.valid.urlAPI + '/api/services/app/tokenauth/login-seller',
+            headers: {
+                'X-XSRF-TOKEN': user.valid.accessToken
+            },
+            body: {
+                emailAddress: email,
+                password: password,
+            }
+        })
+            .should((response) => {
+                cy.request({
+                    method: 'GET',
+                    url: user.valid.urlAPI + '/api/services/seller/shopify/reset-integrate',
+                    failOnStatusCode: false,
+                    headers: {
+                        'X-XSRF-TOKEN': user.valid.accessToken,
+                        'Authorization': 'Bearer ' + response.body.result.accessToken
+                    },
+                })
+                    .should((response) => {
+                        expect(response.status).to.not.eq(401);
+
+                    });
+
+            });
+
         loginPage
             .goToLoginPage()
             .loginWithUser(user.valid.email, user.valid.password)
@@ -49,7 +78,7 @@ describe('OrderPage Functionality', () => {
         shopifyIntegrationPage
             .clickCancelButton();
         productPage
-            .verifyShowProductPage();
+            .verifyShowlistProduct();
     })
 
     it('C_008 Show message When seller leave “YOUR SHOPIFY API KEY” field blank', () => {
@@ -291,27 +320,11 @@ describe('OrderPage Functionality', () => {
         shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
     })
 
-    it('C_024 Show Intergration Error popup When seller enter invalid in “WEBHOOK VERSION” field', () => {
+    it('C_025 Show Integration Completed popup When seller enter valid all field', () => {
         shopifyIntegrationPopupPage
             .clickOkButon();
         productPage
             .clickIntegrateWithShopifyButton();
-        shopifyIntegrationPage
-            .inputIntegrateShopifyInfo(
-                user.valid.yourShopifyApiKey,
-                user.valid.adminApiAccessToken,
-                user.valid.shopUrl,
-                'ABCD-10'
-            )
-            .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
-    })
-
-    it('C_025 Show Integration Completed popup When seller enter valid all field', () => {
-        // shopifyIntegrationPopupPage
-        //     .clickOkButon();
-        // productPage
-        //     .clickIntegrateWithShopifyButton();
         shopifyIntegrationPage
             .inputIntegrateShopifyInfo(
                 user.valid.yourShopifyApiKey,
@@ -436,5 +449,89 @@ describe('OrderPage Functionality', () => {
             )
             .clickStartIntegrationButton();
         shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+    })
+
+    it('C_033 Show message When seller enter invalid “YOUR SHOPIFY API KEY” and “SHOP URL” field', () => {
+        shopifyIntegrationPopupPage
+            .clickOkButon();
+        productPage
+            .clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC',
+                user.valid.adminApiAccessToken,
+                'http:/ABCD 123!@#.store,com/',
+                user.valid.webhookVersion
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it('C_034 Show Integration Error popup When seller enter invalid “YOUR SHOPIFY API KEY” and “WEBHOOK VERSION” field', () => {
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC 123!@#',
+                user.valid.adminApiAccessToken,
+                user.valid.shopUrl,
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton();
+        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please check that your Webhook Version');
+    })
+
+    it('C_035 Show message When seller enter invalid “ADMIN API ACCESS TOKEN” and “SHOP URL” field', () => {
+        shopifyIntegrationPopupPage
+            .clickOkButon();
+        productPage
+            .clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                user.valid.yourShopifyApiKey,
+                'ABC 123!@#',
+                'http:/ABCD 123!@#.store,com/',
+                user.valid.webhookVersion
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it('C_036 Show Integration Error popup When seller enter invalid “ADMIN API ACCESS TOKEN” and “WEBHOOK VERSION” field', () => {
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                user.valid.yourShopifyApiKey,
+                'ABC 123!@#',
+                user.valid.shopUrl,
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton();
+        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please check that your Admin API Access Token and Webhook Version');
+    })
+
+    it('C_037 Show message When seller enter invalid “SHOP URL” and “WEBHOOK VERSION” field', () => {
+        shopifyIntegrationPopupPage
+            .clickOkButon();
+        productPage
+            .clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                user.valid.yourShopifyApiKey,
+                user.valid.adminApiAccessToken,
+                'http:/ABCD 123!@#.store,com/',
+                'ABC 123!@#'
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it('C_038 Show message When seller enter valid “YOUR SHOPIFY API KEY” and invalid remaining field', () => {
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                user.valid.yourShopifyApiKey,
+                'ABC 123!@#',
+                'http:/ABCD 123!@#.store,com/',
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
     })
 })
