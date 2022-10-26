@@ -6,9 +6,10 @@ export class ShopifyIntegrationPopupPage {
         this.integrationPopup = '[role="presentation"]>.MuiGrid-root';
         this.integrationPopupOkBtn = 'Ok';
         this.integrationCompletedTitle = 'Integration Completed';
+        this.closeIconBtn = 'img[alt="cloce"]';
     }
 
-    verifyIntegrationPopup(integrationMsg = '', isCheckCompleted = false) {
+    verifyShowIntegrationPopup(integrationMsg = '', isCheckCompleted = false) {
         cy.contains(this.integratingTitle).should('be.visible');
         cy.contains(this.integratingText).should('be.visible');
         cy.wait(20000);
@@ -38,5 +39,17 @@ export class ShopifyIntegrationPopupPage {
             .contains(this.integrationPopupOkBtn)
             .click();
         return this;
+    }
+
+    clickCloseIconButton() {
+        cy.wait(2000);
+        cy.contains(this.integratingTitle).should('be.visible');
+        cy.contains(this.integratingText).should('be.visible');
+        cy.get(this.closeIconBtn).click();
+        return this;
+    }
+
+    verifyShowStopPopupConfirm(){
+        cy.contains('Stop the integration?').should('be.visible');
     }
 }

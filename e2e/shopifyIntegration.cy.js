@@ -13,7 +13,7 @@ const productPage = new ProductPage();
 const shopifyIntegrationPage = new ShopifyIntegrationPage();
 const shopifyIntegrationPopupPage = new ShopifyIntegrationPopupPage();
 
-describe('OrderPage Functionality', () => {
+describe('Shopify with Integration Functionality', () => {
     before(() => {
         cy.request({
             method: 'POST',
@@ -50,6 +50,10 @@ describe('OrderPage Functionality', () => {
             .verifyInHomePage();
         homePage.clickProductsOnMenu();
         productPage.clickIntegrateWithShopifyButton();
+    })
+
+    it('C_003 Show “Integrate with Shopify” popup When seller click “Integrate with Shopify” button in product list page', () => {
+        shopifyIntegrationPage.verifyShowIntegrateWithShopifyPopup();
     })
 
     it('C_004 Open new tab and show “Shopify Integration” page When seller click “here” tab in “Integrate with Shopify” page', () => {
@@ -117,7 +121,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Admin API Access token');
     })
 
     it('C_011 Show Intergration Error popup When seller enter number in “ADMIN API ACCESS TOKEN” field', () => {
@@ -133,7 +137,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Admin API Access token');
     })
 
     it('C_012 Show Intergration Error popup When seller enter special character in “ADMIN API ACCESS TOKEN” field', () => {
@@ -149,7 +153,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Admin API Access token');
     })
 
     it('C_013 Show Intergration Error popup When seller enter invalid in “ADMIN API ACCESS TOKEN” field', () => {
@@ -165,7 +169,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Admin API Access token');
     })
 
     it('C_014 Show message When seller leave “SHOP URL” field blank', () => {
@@ -269,7 +273,7 @@ describe('OrderPage Functionality', () => {
                 ' '
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Webhook Version');
     })
 
     it('C_022 Show Intergration Error popup When seller enter number in “WEBHOOK VERSION” field', () => {
@@ -285,7 +289,7 @@ describe('OrderPage Functionality', () => {
                 '123456789'
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Webhook Version');
     })
 
     it('C_023 Show Intergration Error popup When seller enter special character in “WEBHOOK VERSION” field', () => {
@@ -301,7 +305,7 @@ describe('OrderPage Functionality', () => {
                 '!@#$%^&*'
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Webhook Version');
     })
 
     it('C_024 Show Intergration Error popup When seller enter invalid in “WEBHOOK VERSION” field', () => {
@@ -317,7 +321,7 @@ describe('OrderPage Functionality', () => {
                 'ABCD-10'
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Webhook Version');
     })
 
     it('C_025 Show Integration Completed popup When seller enter valid all field', () => {
@@ -333,7 +337,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('', true);
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('', true);
     })
 
     it('C_026 Show message When seller leave all field blank', () => {
@@ -448,7 +452,7 @@ describe('OrderPage Functionality', () => {
                 user.valid.webhookVersion
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please double check Admin API Access token');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please double check Admin API Access token');
     })
 
     it('C_033 Show message When seller enter invalid “YOUR SHOPIFY API KEY” and “SHOP URL” field', () => {
@@ -476,7 +480,7 @@ describe('OrderPage Functionality', () => {
                 'ABCD-10'
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please check that your Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please check that your Webhook Version');
     })
 
     it('C_035 Show message When seller enter invalid “ADMIN API ACCESS TOKEN” and “SHOP URL” field', () => {
@@ -504,7 +508,7 @@ describe('OrderPage Functionality', () => {
                 'ABCD-10'
             )
             .clickStartIntegrationButton();
-        shopifyIntegrationPopupPage.verifyIntegrationPopup('Please check that your Admin API Access Token and Webhook Version');
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please check that your Admin API Access Token and Webhook Version');
     })
 
     it('C_037 Show message When seller enter invalid “SHOP URL” and “WEBHOOK VERSION” field', () => {
@@ -533,5 +537,75 @@ describe('OrderPage Functionality', () => {
             )
             .clickStartIntegrationButton()
             .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it.skip('C_039 Show message When seller enter valid “ADMIN API ACCESS TOKEN” and invalid remaining field', () => {
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC 123!@#',
+                user.valid.adminApiAccessToken,
+                'http:/ABCD 123!@#.store,com/',
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it('C_040 Show Integration Error popup When seller enter valid “SHOP URL” and invalid remaining fields', () => {
+        shopifyIntegrationPage.clickCancelButton();
+        productPage.clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC 123!@#',
+                'ABC 123!@#',
+                user.valid.shopUrl,
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton();
+        shopifyIntegrationPopupPage.verifyShowIntegrationPopup('Please check that your Admin API Access Token and Webhook Version');
+    })
+
+    it('C_041 Show message When seller enter valid “WEBHOOK VERSION” and invalid remaining fields', () => {
+        shopifyIntegrationPopupPage.clickOkButon();
+        productPage.clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC 123!@#',
+                'ABC 123!@#',
+                'http:/ABCD 123!@#.store,com/',
+                user.valid.webhookVersion
+            )
+            .clickStartIntegrationButton()
+            .verifyShowErrorMsg('Shop URL should be https', 5);
+    })
+
+    it('C_042 Show list product When seller click “Cancel” button in Integrate with Shopify popup', () => {
+        shopifyIntegrationPage.clickCancelButton();
+        shopifyIntegrationPage.verifyDisAppearIntegrateWithShopify();
+        productPage.verifyShowlistProduct();
+    })
+
+    it('C_043 Show list product When seller click “Close” icon in Integration with shopify popup', () => {
+        productPage.clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .verifyShowIntegrateWithShopifyPopup()
+            .clickCloseIconButton();
+        shopifyIntegrationPage.verifyDisAppearIntegrateWithShopify();
+        productPage.verifyShowlistProduct();
+    })
+
+    it('C_044 Show popup confirm “Stop the integration?” When seller click “Close” icon in Integrating popup', () => {
+        productPage.clickIntegrateWithShopifyButton();
+        shopifyIntegrationPage
+            .inputIntegrateShopifyInfo(
+                'ABC 123!@#',
+                user.valid.adminApiAccessToken,
+                user.valid.shopUrl,
+                'ABCD-10'
+            )
+            .clickStartIntegrationButton();
+        shopifyIntegrationPopupPage
+            .clickCloseIconButton()
+            .verifyShowStopPopupConfirm();
     })
 })

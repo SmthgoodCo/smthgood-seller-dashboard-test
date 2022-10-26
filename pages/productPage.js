@@ -9,6 +9,7 @@ export class ProductPage {
         this.integrateWithShopifyBtn = 'Integrate with Shopify';
         this.productTagButton = '.MuiToggleButtonGroup-root>button';
         this.proctTable = '.MuiTableBody-root>tr'
+        this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input'
     }
 
     verifyEmptyProductMessages() {
@@ -19,7 +20,7 @@ export class ProductPage {
         return this;
     }
 
-    verifyShowProductPage(){
+    verifyShowProductPage() {
         cy.url().should('include', 'products');
         cy.contains(this.addingYourInventoryTxt, { matchCase: false }).should('be.visible');
         cy.contains(this.integrateShopifyTxt).should('be.visible');
@@ -30,16 +31,21 @@ export class ProductPage {
 
     clickIntegrateWithShopifyButton() {
         cy.wait(2000);
+        cy.scrollTo('top');
         cy.get('button>span').contains(this.integrateWithShopifyBtn).click();
         return this;
     }
 
     verifyShowlistProduct() {
+        cy.url().should('include', 'product');
         cy.get(this.productTagButton).then(($tagName) => {
             expect($tagName.eq(1)).to.contain('Active')
             expect($tagName.eq(2)).to.contain('Draft')
             expect($tagName.eq(3)).to.contain('Archived')
         });
+        cy.get(this.searchProductListBtn)
+            .invoke('attr', 'placeholder')
+            .should('eq', 'Search products');
         cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
     }
 }

@@ -16,11 +16,22 @@ export class ShopifyIntegrationPage {
         this.shopUrlInput = 'input[name="domain"]';
         this.webhookVersionInput = 'input[name="webhook"]';
         this.startIntegrationBtn = 'Start Integration';
+        this.closeIconBtn = 'img[alt="cloce"]';
     }
 
-    verifyShowIntegrateWithShopifyPoup() {
+    verifyShowIntegrateWithShopifyPopup() {
+        cy.wait(2000);
         cy.contains(this.shopifyIntegrationTitle).should('be.visible');
         cy.contains(this.shopifyIntegrationText).should('be.visible');
+        return this;
+    }
+
+    verifyDisAppearIntegrateWithShopify() {
+        cy.wait(2000);
+        cy.contains(this.shopifyIntegrationText).should('not.exist');
+        cy.get(this.yourShopifyApiKeyInput).should('not.exist');
+        cy.contains(this.cancelBtn).should('not.exist');
+        cy.contains(this.startIntegrationBtn).should('not.exist');
         return this;
     }
 
@@ -33,6 +44,7 @@ export class ShopifyIntegrationPage {
     }
 
     verifyShowShopifyIntegrationPage() {
+        cy.wait(2000);
         cy.url().should('include', 'shopify-integration');
         cy.contains(this.shopifyIntegrationPageTitle).should('be.visible');
         return this;
@@ -53,10 +65,10 @@ export class ShopifyIntegrationPage {
     }
 
     verifyShowSlideImage(imageText = '') {
+        cy.wait(2000);
         cy.get(this.slideImageSrc)
             .should('have.attr', 'src')
             .and('include', '/static/media/imgSlider');
-        cy.wait(2000);
         cy.get(this.slideImageSrc)
             .parent()
             .next()
@@ -101,6 +113,11 @@ export class ShopifyIntegrationPage {
 
     clickStartIntegrationButton() {
         cy.contains(this.startIntegrationBtn).click();
+        return this;
+    }
+
+    clickCloseIconButton() {
+        cy.get(this.closeIconBtn).click();
         return this;
     }
 }

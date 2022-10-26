@@ -60,10 +60,4 @@ describe('Product Functionality', () => {
         productPage
             .verifyShowlistProduct();
     })
-
-    it('C_003 Show “Integrate with Shopify” popup When seller click “Integrate with Shopify” button in product list page', () => {
-        productPage.clickIntegrateWithShopifyButton();
-        shopifyIntegrationPage.verifyShowIntegrateWithShopifyPoup();
-    })
-
 })
