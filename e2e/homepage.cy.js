@@ -39,9 +39,4 @@ describe('Home Page Functionality', () => {
             .clickOutsideDropdown()
             .verifyTurnOffDropdownPopup();
     });
-
-    it("B_006 Show “Profile” page in web app When seller click “Edit profile”", { includeShadowDom: true }, () => {
-        homePage.clickSellerName().clickEditProfileLink().verifyInEditProfilePage();
-        editProfilePage.verifyShowEditProfilePageApp();
-    });
 });

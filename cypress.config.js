@@ -30,7 +30,7 @@ module.exports = defineConfig({
     // watchForFileChanges: false,
     defaultCommandTimeout: 60000,
     setupNodeEvents(on, config) {
-		 on("task", {
+      on("task", {
         "gmail:get-messages": async args => {
           const messages = await gmail_tester.get_messages(
             path.resolve("plugins/", "credentials.json"),
