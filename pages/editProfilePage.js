@@ -13,7 +13,7 @@ export class EditProfilePage {
   }
 
   inputUsername(username = '') {
-    cy.wait(5000);
+    cy.wait(15000);
     cy.get("flt-glass-pane").click();
     cy.get("flt-glass-pane").shadow()
       .find('input.flt-text-editing').clear().type(username);
@@ -27,20 +27,21 @@ export class EditProfilePage {
     return this;
   }
 
-  verifyErrorMsg(username = '') {
+  verifyErrorMsg(msg = '') {
+    cy.wait(15000);
     cy.get("flt-glass-pane").click();
     cy.get("flt-glass-pane").shadow()
       .find('flt-scene-host')
       .find('flt-transform')
-      .find('flt-clip-interior').contains(username).should('be.visible');
+      .find('flt-clip-interior').contains(msg).should('be.visible');
     return this;
   }
 
   clickSaveButton() {
-    // cy.get("flt-clip-interior").click();
     cy.get("flt-glass-pane").shadow().within(() => {
-      cy.get('flt-scene-host').find('flt-span').contains('SAVE').click();
+      cy.get('flt-scene-host').find('flt-span').contains('SAVE').click({force: true});
     })
+    cy.wait(5000);
     return this;
   }
 }
