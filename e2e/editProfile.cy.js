@@ -27,39 +27,28 @@ describe('Edit Profile Functionality', () => {
         editProfilePage.verifyShowEditProfilePage();
     });
 
-    it('B_007 Seller change lowercase letter in “Username” filed', { includeShadowDom: true }, () => {
+    it('B_007 Check again show username correct When Seller change lowercase letter in “Username” filed', { includeShadowDom: true }, () => {
         let username = 'testlowercase';
         editProfilePage
             .inputUsername(username)
-            .clickSaveButton();
-        // editProfilePage.verifyUsername(username);
-    });
-    it('B_007 Check again show username correct When seller change lowercase letter in “Username” filed', { includeShadowDom: true }, () => {
-        let username = 'testlowercase';
-        editProfilePage.verifyUsername(username);
+            .clickSaveButton()
+            .verifyUsername(username);
     });
 
-    it('B_008 Seller change uppercase letter in “Username” filed', { includeShadowDom: true }, () => {
+    it('B_008 Check again show username correct When Seller change uppercase letter in “Username” filed', { includeShadowDom: true }, () => {
         let username = 'TESTUPPERCASE';
         editProfilePage
             .inputUsername(username)
-            .clickSaveButton();
+            .clickSaveButton()
+            .verifyUsername(username);
+
     });
 
-    it('B_008 Check again show username correct When seller change uppercase letter in “Username” filed', { includeShadowDom: true }, () => {
-        let username = 'TESTUPPERCASE';
-        editProfilePage.verifyUsername(username);
-    });
-
-    it('B_009 Seller change number letter in “Username” filed', { includeShadowDom: true }, () => {
+    it('B_009 Check again show username correct When seller change number letter in “Username” filed', { includeShadowDom: true }, () => {
         let username = '12345332';
         editProfilePage
             .inputUsername(username)
             .clickSaveButton();
-    });
-
-    it('B_009 check again show username correct When seller change number letter in “Username” filed', { includeShadowDom: true }, () => {
-        let username = '12345332';
         editProfilePage.verifyUsername(username);
     });
 
@@ -72,7 +61,51 @@ describe('Edit Profile Functionality', () => {
 
     it('B_010 Show message When seller change the “Username” with dot(.) in the top', { includeShadowDom: true }, () => {
         editProfilePage
+            .inputUsername('testlowercase')
+            .clickSaveButton()
             .inputUsername('.Baosmth')
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_011 check again show username correct When seller change the “Username” with dot(.) in between', { includeShadowDom: true }, () => {
+        let username = 'testdot.between';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    it('B_012 Show message When seller change the “Username” with dot(.) at the end', { includeShadowDom: true }, () => {
+        let username = 'dotatheend.';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_013 Show message When seller change the “Username” with underline(_) in the top', { includeShadowDom: true }, () => {
+        let username = '_underlinetop';
+        editProfilePage
+            .inputUsername('testusername')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_014 Check again show username correct When seller change the “Username” with underline(_) in between', { includeShadowDom: true }, () => {
+        let username = 'underlinetop_between';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    it('B_015 Show message When seller change the “Username” with underline(_) in the end', { includeShadowDom: true }, () => {
+        let username = 'underlineend_';
+        editProfilePage
+            .inputUsername(username)
             .clickSaveButton()
             .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
     });

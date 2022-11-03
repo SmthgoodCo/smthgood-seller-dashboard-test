@@ -16,7 +16,7 @@ export class EditProfilePage {
     cy.wait(5000);
     cy.get("flt-glass-pane").click();
     cy.get("flt-glass-pane").shadow()
-      .find('input.flt-text-editing').clear().type(username);
+      .find('input.flt-text-editing').clear({force: true}).type(username);
     return this;
   }
 
@@ -40,7 +40,6 @@ export class EditProfilePage {
   }
 
   clickSaveButton() {
-    cy.wait(5000);
     cy.get("flt-glass-pane").shadow().within(() => {
       cy.get('flt-scene-host').find('flt-span').contains('SAVE').click({force: true});
     })
