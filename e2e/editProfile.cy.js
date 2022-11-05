@@ -109,4 +109,64 @@ describe('Edit Profile Functionality', () => {
             .clickSaveButton()
             .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
     });
+
+    it('B_016 Show message When seller change the “Username” with 2 consecutive dots in the top', { includeShadowDom: true }, () => {
+        let username = '..twodotsinthetop';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_017 Show message When seller change the “Username” with 2 consecutive dots in between', { includeShadowDom: true }, () => {
+        let username = 'twodots..inbetween';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_018 Show message When seller change the “Username” with 2 consecutive dots at the end', { includeShadowDom: true }, () => {
+        let username = 'twodotsattheend..';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_019 Show message When seller change the “Username” with more consecutive dots in the top', { includeShadowDom: true }, () => {
+        let username = '....moredotsinthetop';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_020 Show message When seller change the “Username” with more consecutive dots in between', { includeShadowDom: true }, () => {
+        let username = 'moredots....inbetween';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_020 Show message When seller change the “Username” with more consecutive dots at the end', { includeShadowDom: true }, () => {
+        let username = 'moredotsattheend....';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
 })

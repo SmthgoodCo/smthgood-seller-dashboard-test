@@ -1,7 +1,7 @@
 export class EditProfilePage {
 
   verifyShowEditProfilePage() {
-    cy.wait(10000)
+    cy.wait(12000)
     cy.get("flt-glass-pane").click();
     cy.get("flt-glass-pane").shadow()
       .find("flt-span").contains('Username').should('be.visible');
