@@ -160,7 +160,7 @@ describe('Edit Profile Functionality', () => {
             .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
     });
 
-    it('B_020 Show message When seller change the “Username” with more consecutive dots at the end', { includeShadowDom: true }, () => {
+    it('B_021 Show message When seller change the “Username” with more consecutive dots at the end', { includeShadowDom: true }, () => {
         let username = 'moredotsattheend....';
         editProfilePage
             .inputUsername('usernametest')
@@ -169,4 +169,83 @@ describe('Edit Profile Functionality', () => {
             .clickSaveButton()
             .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
     });
+
+    it('B_022 Show message When seller change “Username” filed with enter only space', { includeShadowDom: true }, () => {
+        let username = '   ';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_023 Show message When seller change “Username” filed with enter space in between text', { includeShadowDom: true }, () => {
+        let username = 'space  inbetween';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_024 Show message When seller change “Username” filed with enter space in between number', { includeShadowDom: true }, () => {
+        let username = '1212  323232';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_025 Show message When seller change “Username” filed with enter space in between special character', { includeShadowDom: true }, () => {
+        let username = '##@   $%#';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_026 Show message When seller change “Username” filed with enter space in between text and number', { includeShadowDom: true }, () => {
+        let username = 'spacetextnumber   123';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    // it.only('Email', { includeShadowDom: true }, () => {
+    //     let username = 'mail.com';
+    //     editProfilePage
+    //     cy.wait(5000);
+    //     cy.get("flt-glass-pane").click();
+    //     cy.get("flt-glass-pane").shadow()
+    //     .find('flt-span').contains('Email')
+    //     .parent('flt-paragraph')
+    //     .parent('flt-canvas')
+    //     .parent('flt-picture')
+    //     .next('flt-offset').click({force: true})
+    //     .find('flt-span').contains('@').click({force: true})
+    // });
+
+    // it.only('click flt-clip-interior', () => {
+    //     cy.wait(5000);
+    //     cy.get("flt-glass-pane").click();
+    //     cy.get("flt-glass-pane").shadow()
+    //         .find('flt-paragraph')
+    //         // .find('flt-span')
+    //         .contains('ABOUT').parent('flt-paragraph').click({force: true})
+    //         // .trigger("wheel", {deltaY: -66.66666, whellDelta: 240, whellDeltaX: 0, whellDeltaY: 240, bubbles: true})
+    //         cy.scrollTo('bottom',{ensureScrollable: false})
+    //         // .trigger('mousedown')
+    //         // .trigger('wheel', {deltaY: -500, force: true})
+    //         // .next('flt-paragraph').click({force: true}).contains('Display Name')
+    //     return this;
+    // })
 })
