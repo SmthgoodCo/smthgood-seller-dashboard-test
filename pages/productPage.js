@@ -30,9 +30,9 @@ export class ProductPage {
     }
 
     clickIntegrateWithShopifyButton() {
-        cy.wait(2000);
-        cy.scrollTo('top');
-        cy.get('button>span').contains(this.integrateWithShopifyBtn).click();
+        cy.wait(5000);
+        cy.get('p.MuiTypography-root').contains('Products').scrollIntoView()
+        cy.get('span.MuiButton-label').contains(this.integrateWithShopifyBtn).click({timeout: 5000});
         return this;
     }
 
