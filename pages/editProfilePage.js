@@ -16,7 +16,7 @@ export class EditProfilePage {
     cy.wait(5000);
     cy.get("flt-glass-pane").click();
     cy.get("flt-glass-pane").shadow()
-      .find('input.flt-text-editing').clear({force: true}).type(username);
+      .find('input.flt-text-editing').clear({force: true}).type(username, {force: true});
     return this;
   }
 

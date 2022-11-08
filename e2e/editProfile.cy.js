@@ -220,18 +220,80 @@ describe('Edit Profile Functionality', () => {
             .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
     });
 
-    // it.only('Email', { includeShadowDom: true }, () => {
+    it('B_027 Show message When seller change “Username” filed with enter space in between text and character', { includeShadowDom: true }, () => {
+        let username = 'spacetextnumber   a';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_028 Show message When seller change “Username” filed with enter space in between number and text', { includeShadowDom: true }, () => {
+        let username = '123456   abcdefgh';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_029 Show message When seller change “Username” filed with enter space in between number and character', { includeShadowDom: true }, () => {
+        let username = '123456   a';
+        editProfilePage
+            .inputUsername('usernametest')
+            .clickSaveButton()
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyErrorMsg('You can use a-z, A-Z, 0-9, dot(.) and underline(_) characters.The length must be between 3 and 30 characters.Not allowed to have two or more consecutive dots in a row.Not allowed to start or end the username with a dot or underline.');
+    });
+
+    it('B_030 Check again show username correct When seller change “Username” filed with lowercase and uppercase letter', { includeShadowDom: true }, () => {
+        let username = 'lowercaseUPPERCASE';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    it('B_031 Check again show username correct When seller change “Username” filed with lowercase letter and number', { includeShadowDom: true }, () => {
+        let username = 'lowercase123456789';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    it('B_032 Check again show username correct When seller change “Username” filed with uppercase letter and number', { includeShadowDom: true }, () => {
+        let username = 'UPPERCASE123456789';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    it('B_033 Check again show username correct When seller change “Username” filed with uppercase, lowercase letter and number', { includeShadowDom: true }, () => {
+        let username = 'UPPERlowercase123456789';
+        editProfilePage
+            .inputUsername(username)
+            .clickSaveButton()
+            .verifyUsername(username);
+    });
+
+    // it('Passs', { includeShadowDom: true }, () => {
     //     let username = 'mail.com';
     //     editProfilePage
     //     cy.wait(5000);
     //     cy.get("flt-glass-pane").click();
     //     cy.get("flt-glass-pane").shadow()
-    //     .find('flt-span').contains('Email')
+    //     .find('flt-span').contains('Password')
     //     .parent('flt-paragraph')
     //     .parent('flt-canvas')
     //     .parent('flt-picture')
     //     .next('flt-offset').click({force: true})
-    //     .find('flt-span').contains('@').click({force: true})
+    //     .find('flt-span').contains('***').click({force: true})
     // });
 
     // it.only('click flt-clip-interior', () => {
