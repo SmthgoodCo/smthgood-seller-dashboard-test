@@ -8,6 +8,7 @@ export class HomePage {
         this.editProfileLink = "Edit Profile";
         this.homeMenu = '.MuiListItem-root .jss36';
         this.productLink = 'Products';
+        this.signOutBtn = 'Sign Out';
     }
 
     verifyDisplaySellerName(selller = "") {
@@ -92,6 +93,11 @@ export class HomePage {
 
     clickProductsOnMenu() {
         cy.get(this.homeMenu).contains(this.productLink).click();
+        return this;
+    }
+
+    clickLogOutButton(){
+        cy.contains(this.signOutBtn).click();
         return this;
     }
 }

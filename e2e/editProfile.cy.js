@@ -281,33 +281,4 @@ describe('Edit Profile Functionality', () => {
             .clickSaveButton()
             .verifyUsername(username);
     });
-
-    // it('Passs', { includeShadowDom: true }, () => {
-    //     let username = 'mail.com';
-    //     editProfilePage
-    //     cy.wait(5000);
-    //     cy.get("flt-glass-pane").click();
-    //     cy.get("flt-glass-pane").shadow()
-    //     .find('flt-span').contains('Password')
-    //     .parent('flt-paragraph')
-    //     .parent('flt-canvas')
-    //     .parent('flt-picture')
-    //     .next('flt-offset').click({force: true})
-    //     .find('flt-span').contains('***').click({force: true})
-    // });
-
-    // it.only('click flt-clip-interior', () => {
-    //     cy.wait(5000);
-    //     cy.get("flt-glass-pane").click();
-    //     cy.get("flt-glass-pane").shadow()
-    //         .find('flt-paragraph')
-    //         // .find('flt-span')
-    //         .contains('ABOUT').parent('flt-paragraph').click({force: true})
-    //         // .trigger("wheel", {deltaY: -66.66666, whellDelta: 240, whellDeltaX: 0, whellDeltaY: 240, bubbles: true})
-    //         cy.scrollTo('bottom',{ensureScrollable: false})
-    //         // .trigger('mousedown')
-    //         // .trigger('wheel', {deltaY: -500, force: true})
-    //         // .next('flt-paragraph').click({force: true}).contains('Display Name')
-    //     return this;
-    // })
 })
