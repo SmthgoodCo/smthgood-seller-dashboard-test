@@ -10,19 +10,19 @@ const editProfilePage = new EditProfilePage();
 
 describe('Edit Profile Functionality', () => {
     before(() => {
-        cy.clearLocalStorage()
-        cy.clearCookies();
-        cy.getCookies().should('be.empty');
-        sessionStorage.clear();
-        loginPage
-            .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
-            .clickLoginButton();
-        homePage
-            .clickSellerName()
-            .clickEditProfileLink()
+        // cy.clearLocalStorage()
+        // cy.clearCookies();
+        // cy.getCookies().should('be.empty');
+        // sessionStorage.clear();
+        // loginPage
+        //     .goToLoginPage()
+        //     .loginWithUser(user.valid.email, user.valid.password)
+        //     .clickLoginButton();
+        // homePage
+        //     .clickSellerName()
+        //     .clickEditProfileLink()
     })
-    it('B_006 Show “Profile” page in web app When seller click “Edit profile”', { includeShadowDom: true }, () => {
+    it.skip('B_006 Show “Profile” page in web app When seller click “Edit profile”', { includeShadowDom: true }, () => {
         homePage.verifyInEditProfilePage();
         editProfilePage
             .clickPasswordField()
