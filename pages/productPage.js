@@ -10,6 +10,7 @@ export class ProductPage {
         this.productTagButton = '.MuiToggleButtonGroup-root>button';
         this.proctTable = '.MuiTableBody-root>tr'
         this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input'
+        this.proceedToIntegrateLink = 'Proceed to integrate';
     }
 
     verifyEmptyProductMessages() {
@@ -31,21 +32,36 @@ export class ProductPage {
 
     clickIntegrateWithShopifyButton() {
         cy.wait(5000);
-        cy.get('p.MuiTypography-root').contains('Products').scrollIntoView()
-        cy.get('span.MuiButton-label').contains(this.integrateWithShopifyBtn).click({timeout: 5000});
+        cy.get('p.MuiTypography-root').contains('Products').scrollIntoView();
+        cy.get("body").then($body => {
+            if ($body.find('.MuiGrid-item').length > 0) {
+                cy.get('span.MuiButton-label').contains(this.integrateWithShopifyBtn).click();
+            } else {
+                cy.get('p').contains(this.proceedToIntegrateLink).click();
+            }
+        })
         return this;
     }
 
     verifyShowlistProduct() {
         cy.url().should('include', 'product');
-        cy.get(this.productTagButton).then(($tagName) => {
-            expect($tagName.eq(1)).to.contain('Active')
-            expect($tagName.eq(2)).to.contain('Draft')
-            expect($tagName.eq(3)).to.contain('Archived')
-        });
-        cy.get(this.searchProductListBtn)
-            .invoke('attr', 'placeholder')
-            .should('eq', 'Search products');
-        cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
+        cy.get("body").then($body => {
+            if ($body.find('.MuiGrid-item').length > 0) {
+                cy.get(this.productTagButton).then(($tagName) => {
+                    expect($tagName.eq(1)).to.contain('Active')
+                    expect($tagName.eq(2)).to.contain('Draft')
+                    expect($tagName.eq(3)).to.contain('Archived')
+                });
+                cy.get(this.searchProductListBtn)
+                    .invoke('attr', 'placeholder')
+                    .should('eq', 'Search products');
+                cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
+            } else {
+                cy.contains('You do not have any product at the moment.')
+                    .should('be.visible');
+                cy.contains('Start adding products to sell!')
+                    .should('be.visible');
+            }
+        })
     }
 }
