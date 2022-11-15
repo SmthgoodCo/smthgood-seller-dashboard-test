@@ -3,15 +3,16 @@ export class ProductPage {
         this.emptyProductText = '.MuiGrid-root';
         this.addingYourInventoryTxt = 'ADDING YOUR INVENTORY ';
         this.integrateShopifyTxt = 'Integrate With Shopify';
-        this.integrateShopifyPopupText = 'To integrate your smthgood and Shopify inventories, simply follow the steps below.';
         this.uploadDynamicSpreadsheetTxt = 'Upload Dynamic Spreadsheet';
         this.inputProductsManually = 'Input Products Manually';
-        this.integrateWithShopifyBtn = 'Integrate with Shopify';
         this.productTagButton = '.MuiToggleButtonGroup-root>button';
         this.proctTable = '.MuiTableBody-root>tr'
         this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input'
         this.proceedToIntegrateLink = 'Proceed to integrate';
+        this.proceedToUploadLink = 'Proceed to upload';
         this.buttonList = '.MuiGrid-item';
+        this.integrateWithShopifyBtn = 'Integrate with Shopify';
+        this.dynamicSpreadsheetBtn = 'Dynamic Spreadsheet';
     }
 
     verifyEmptyProductMessages() {
@@ -36,9 +37,21 @@ export class ProductPage {
         cy.get('p.MuiTypography-root').contains('Products').scrollIntoView();
         cy.get("body").then($body => {
             if ($body.find(this.buttonList).length > 0) {
-                cy.get('span.MuiButton-label').contains(this.integrateWithShopifyBtn).click();
+                cy.get(this.buttonList).contains(this.integrateWithShopifyBtn).click();
             } else {
                 cy.get('p').contains(this.proceedToIntegrateLink).click();
+            }
+        })
+        return this;
+    }
+
+    clickDynamicSpreadsheetButton() {
+        cy.wait(5000);
+        cy.get("body").then($body => {
+            if ($body.find(this.buttonList).length > 0) {
+                cy.get(this.buttonList).contains(this.dynamicSpreadsheetBtn).click();
+            } else {
+                cy.get('p').contains(this.proceedToUploadLink).click();
             }
         })
         return this;
