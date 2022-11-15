@@ -11,6 +11,7 @@ export class ProductPage {
         this.proctTable = '.MuiTableBody-root>tr'
         this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input'
         this.proceedToIntegrateLink = 'Proceed to integrate';
+        this.buttonList = '.MuiGrid-item';
     }
 
     verifyEmptyProductMessages() {
@@ -34,7 +35,7 @@ export class ProductPage {
         cy.wait(5000);
         cy.get('p.MuiTypography-root').contains('Products').scrollIntoView();
         cy.get("body").then($body => {
-            if ($body.find('.MuiGrid-item').length > 0) {
+            if ($body.find(this.buttonList).length > 0) {
                 cy.get('span.MuiButton-label').contains(this.integrateWithShopifyBtn).click();
             } else {
                 cy.get('p').contains(this.proceedToIntegrateLink).click();
