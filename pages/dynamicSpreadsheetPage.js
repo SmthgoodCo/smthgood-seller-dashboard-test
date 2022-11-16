@@ -3,12 +3,16 @@ export class DynamicSpreadsheetPage {
         this.uploadDynamicSpreadsheetTitle = 'If you have a large inventory, it may be easier to upload a CSV file.';
         this.uploadDynamicSpreadsheetText = 'Don’t have an existing CSV file?Downloadthe smthgood CSV template now.';
         this.browseFilesBtn = '.MuiBadge-root';
+        this.chooseFile = 'input[type="file"]';
         this.chooseAnotherFileBtn = 'Choose Another File';
         this.drapAndDropBox = 'label[for="file"]';
         this.fileName = 'img[alt="IcBlankCavas"]'; //next('p') or parrent()
         this.uploadBtn = 'Upload';
         this.cancelBtn = 'Cancel';
-        this.inputFile = '.MuiBadge-root>input';
+        this.uploadingTitle = 'Uploading';
+        this.uploadCompletedTitle = 'Upload Completed';
+        this.uploadCompletedText = 'Dynamic spreadsheet upload summary';
+        this.okBtn = 'Ok';
     }
 
     verifyShowUploadDynamicSpreadsheetPopup() {
@@ -28,21 +32,50 @@ export class DynamicSpreadsheetPage {
         return this;
     }
 
-    clickBrowseFilesButtonAndSelectFile(path = '') {
+    
+    clickUploadButton() {
+        cy.get('button').contains(this.uploadBtn).click();
+        return this;
+    }
+
+    clickBrowseFilesButtonAndSelectFile(file = '') {
+        const path = './fixtures/files/'+file;
         cy.get(this.browseFilesBtn).click({force: true});
-        if (path != '') {
+        if (file != '') {
             cy.get('input[type="file"]').first().selectFile(path, {force: true})
         }
         return this;
     }
 
-    verifyChooseAnotherFileNotDisplayed() {
+    verifyUploadNothingHappen() {
         cy.contains(this.chooseAnotherFileBtn).should('not.exist');
+        cy.get('button').contains(this.uploadBtn).should('be.disabled');
         return this;
     }
 
-    verifyBrowseFilesSelect() {
-        cy.get(this.inputFile).invoke('attr', 'type')
-        .should('eq', 'file');
+    verifyBrowseFilesHaveAttributesUpload() {
+        cy.get(this.chooseFile)
+        .should('have.attr', 'accept', '.csv')
+        .should('have.attr','type', 'file');
+        return this;
+    }
+
+    verifyChooseFileSuccess(filename){
+        cy.get(this.fileName).next('p').contains(filename).should('be.visible');
+        cy.contains(this.chooseAnotherFileBtn).should('be.visible');
+        cy.get('button').contains(this.uploadBtn).should('not.be.disabled');
+        return this;
+    }
+
+    verifyShowUploadingPopup() {
+        cy.contains(this.uploadingTitle).should('be.visible');
+        return this;
+    }
+
+    verifyShowUploadCompletedSuccess() {
+        cy.contains(this.uploadCompletedTitle).should('be.visible');
+        cy.contains(this.uploadCompletedText).should('be.visible');
+        cy.contains(this.okBtn).click();
+        return this;
     }
 }

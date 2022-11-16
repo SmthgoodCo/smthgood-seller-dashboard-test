@@ -1,0 +1,12 @@
+{
+  "valid" : {
+    "audio" : "audio-file.mp3",
+    "video" : "video-file.mp4",
+    "document": "document-file.docx",
+    "image1": "image-1.jpg",
+    "image": "image-file.jpg",
+    "template": "productVariants-Template.csv",
+    "template1": "productVariants-Template-1.csv",
+    "template2": "productVariants-Template-2.csv"
+  }
+}
