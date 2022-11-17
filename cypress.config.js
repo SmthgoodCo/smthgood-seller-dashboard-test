@@ -3,6 +3,7 @@ const { rmdir } = require("fs");
 const del = require("del");
 const path = require("path");
 const gmail_tester = require("gmail-tester");
+const { resolve } = require("path");
 module.exports = defineConfig({
   reporter: "cypress-multi-reporters",
   reporterOptions: {
@@ -46,6 +47,13 @@ module.exports = defineConfig({
             args.options
           );
           return messages;
+        },
+        deleteDownloads() {
+          return new Promise((resolve) => {
+            rmdir('cypress/downloads', { recursive: true }, () => {
+              resolve(null)
+            })
+          })
         }
       });
       on("after:spec", (spec, results) => {

@@ -1,7 +1,1 @@
-{
-    "access_token": "ya29.a0AeTM1ifyBIZlXM2-goo3DBvEAmlx8rhNYIAWBpqY0pjzyROIxfPkL9yuScQ3QpMBhnW4HoODvBiAp1TBfsf_hAWyYywhxWI0c3kYWTt0_9luiYVIVW127asaQQmld___UcRvKiqWhYwgkzNvjfi6Y-ABqY_9aCgYKAUwSARMSFQHWtWOmYCofVapvAmjax3g1Yp4Gkg0163",
-    "refresh_token": "1//0erhBifgJmg_DCgYIARAAGA4SNwF-L9IrE2vs6b_03WEXJBkKa67Gnjsjdea0w6lXHbp6Zbs4FHfF7j1oLPPDLqI0GWY_oFUOjKk",
-    "scope": "https://www.googleapis.com/auth/gmail.readonly",
-    "token_type": "Bearer",
-    "expiry_date": 1668332287502
-}
+{"access_token":"ya29.a0AeTM1iezjZof6k2Jcq2skohyh1SCWPBsM7BNHbFZMorgrJ2CXuc9HLl-pQCKKnWWkc6Xt1ESnEOrogjt31RlAKbOFpukt3IZEkvdbYaOsTwSC_6AyL5lI59VuUMbFOdigJLP9MRgkM8mtimvFlRCTkygPiV3aCgYKAUwSARASFQHWtWOmfh9_qF5457lRIopdzwrr5w0163","refresh_token":"1//0e4ZMNMhvyrt3CgYIARAAGA4SNwF-L9IrcDLj-2UKeRVI7_X01JmVzvGhJRvtOc55jp0sonsPGgMDlh8DbNj_ZHZZxGqjFwbmqM0","scope":"https://www.googleapis.com/auth/gmail.readonly","token_type":"Bearer","expiry_date":1668667711879}

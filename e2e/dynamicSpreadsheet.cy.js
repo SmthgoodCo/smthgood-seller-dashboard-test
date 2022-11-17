@@ -36,53 +36,79 @@ describe('Shopify with Integration Functionality', () => {
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
             .verifyBrowseFilesHaveAttributesUpload()
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.template)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template, 'browseFile')
             .clickCancelButton();
     })
 
     it('D_004 When seller click “Cancel” button, window should be closed', () => {
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile()
+            .clickChooseFilesButtonAndSelectFile('', 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_005 When seller not upload file type, nothing happens', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile()
+            .clickChooseFilesButtonAndSelectFile('', 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_006 When seller upload invalid file type is image file, nothing happen', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.image)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.image, 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_007 When seller upload invalid file type is document file, nothing happen', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.document)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.document, 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_008 When seller upload invalid file type is audio file, nothing happen', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.audio)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.audio, 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_009 When seller upload invalid file type is video file, nothing happen', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.video)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.video, 'browseFile')
             .verifyUploadNothingHappen();
     })
 
     it('D_010 When seller upload valid file type is CSV file, show Upload Completed popup', () => {
         dynamicSpreadsheetPage
-            .clickBrowseFilesButtonAndSelectFile(fileName.valid.template1)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template1, 'browse')
             .verifyChooseFileSuccess(fileName.valid.template1)
             .clickUploadButton()
             .verifyShowUploadingPopup()
             .verifyShowUploadCompletedSuccess();
+    })
+
+    it('D_011 When seller click “Choose Another File” button, window should be open to select the file', () => {
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template1, 'browse')
+            .verifyChooseFileSuccess(fileName.valid.template1)
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template2, 'another')
+            .verifyChooseFileSuccess(fileName.valid.template2);
+    })
+
+    it('D_012 When seller click on “Checkbox”, show checked of checkbox', () => {
+        dynamicSpreadsheetPage
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template1, 'browse')
+            .verifyChooseFileSuccess(fileName.valid.template1)
+            .clickCheckbox(true);
+    })
+
+    it('D_013 When seller click on “Checkbox”, show checked of checkbox', () => {
+        dynamicSpreadsheetPage
+            .clickCheckbox();
+    })
+
+    it('D_014 When seller click “Download” hyperlink, the file CSV sample file downloaded', () => {
+        dynamicSpreadsheetPage
+            .clickDownloadFileTemplate();
     })
 })
