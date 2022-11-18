@@ -111,4 +111,69 @@ describe('Shopify with Integration Functionality', () => {
         dynamicSpreadsheetPage
             .clickDownloadFileTemplate();
     })
+
+    it('D_015 When seller click “click here” hyperlink, open new tab Dynamic Spreadsheet Upload', () => {
+        dynamicSpreadsheetPage
+            .clickOpenLink('hereLink')
+            .verifyShowDynamicSpreadsheetUploadPage();
+    })
+
+    it('D_016 When seller click “How to get CSV file from Shopee” hyperlink, open Shopee tab', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickOpenLink('shopee')
+            .verifyShowOpenLinkGetCSVFile('shopee');
+    })
+
+    it('D_017 When seller click “How to get CSV file from Lazada” hyperlink, open Lazada tab', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickOpenLink('lazada')
+            .verifyShowOpenLinkGetCSVFile('lazada');
+    })
+
+    it('D_018 When seller click “How to get CSV file from Tokopedia” hyperlink, open Tokopedia tab', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickOpenLink('tokopedia')
+            .verifyShowOpenLinkGetCSVFile('tokopedia');
+    })
+
+    it('D_019 When seller click “How to get CSV file from Woo Commerce” hyperlink, open Woo Commerce tab', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickOpenLink('wooCommerce')
+            .verifyShowOpenLinkGetCSVFile('wooCommerce');
+    })
+
+    it('D_020 When seller click “How to get CSV file from Big Commerce” hyperlink, open Big Commerce tab', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickOpenLink('bigCommerce')
+            .verifyShowOpenLinkGetCSVFile('bigCommerce');
+    })
+
+    it('D_021 When seller upload CSV file success, the data should be synced to seller dashboard', () => {
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
+        dynamicSpreadsheetPage
+            .clickChooseFilesButtonAndSelectFile(fileName.valid.template, 'browse')
+            .verifyChooseFileSuccess(fileName.valid.template)
+            .clickUploadButton()
+            .verifyShowUploadingPopup()
+            .verifyShowUploadCompletedSuccess();
+        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        productPage.verifyProductAfterUploadCSVFileSuccess('example pants');
+    })
 })

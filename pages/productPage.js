@@ -78,4 +78,15 @@ export class ProductPage {
             }
         })
     }
+
+    verifyProductAfterUploadCSVFileSuccess(productName) {
+        cy.get(this.searchProductListBtn).type(productName);
+        cy.get(this.proctTable).within(() => {
+            cy.get('td').eq(1).should('have.text', 'Example Pants');
+            cy.get('td').eq(1).find('img').invoke('attr', 'src')
+                .should('include', '/product_variants/Template/pexels-neosiam-603022.jpg');
+            cy.get('td').eq(2).should('have.text', '2 in stockfor 2 variants');
+            cy.get('td').eq(3).should('have.text', 'Draft');
+        })
+    }
 }

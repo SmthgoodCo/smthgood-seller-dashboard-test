@@ -15,7 +15,9 @@ export class DynamicSpreadsheetPage {
         this.okBtn = 'Ok';
         this.download = 'a[download]';
         this.checkbox = 'input[type="checkbox"]';
-        this.textAfterCheckbox = 'Overwrite any existing products'
+        this.textAfterCheckbox = 'Overwrite any existing products';
+        this.dynamicSpreadsheetPageTitle = 'Dynamic Spreadsheet Upload';
+        this.openLink;
     }
 
     verifyShowUploadDynamicSpreadsheetPopup() {
@@ -113,4 +115,68 @@ export class DynamicSpreadsheetPage {
         }
         return this;
     }
+
+    clickOpenLink(linkOpen) {
+        switch (linkOpen) {
+            case 'hereLink':
+                this.openLink = ' click here.';
+                break;
+            case 'shopee':
+                this.openLink = 'How to get CSV file from Shopee';
+                break;
+            case 'lazada':
+                this.openLink = 'How to get CSV file from Lazada';
+                break;
+            case 'tokopedia':
+                this.openLink = 'How to get CSV file from Tokopedia';
+                break;
+            case 'wooCommerce':
+                this.openLink = 'How to get CSV file from Woo Commerce';
+                break;
+            case 'bigCommerce':
+                this.openLink = 'How to get CSV file from Big Commerce';
+                break;
+        }
+
+        cy.get('a').contains(this.openLink)
+            .invoke('removeAttr', 'target')
+            .click();
+        return this;
+    }
+
+    verifyShowDynamicSpreadsheetUploadPage() {
+        cy.url().should('include', 'dynamic-spreadsheet-upload');
+        cy.contains(this.dynamicSpreadsheetPageTitle).should('be.visible');
+        return this;
+    }
+
+    verifyShowOpenLinkGetCSVFile(linkOpen) {
+        switch (linkOpen) {
+            case 'shopee':
+                cy.url().should('include', 'shopee')
+                    .and('include', 'about-mass-upload');
+                cy.contains('What is Mass Upload?', {timeout: 5000}).should('be.visible');
+                break;
+            case 'lazada':
+                cy.url().should('include', 'lazada');
+                cy.contains('Open your Lazada', {timeout: 5000}).should('be.visible');
+                break;
+            case 'tokopedia':
+                cy.url().should('include', 'tokopedia')
+                    .and('include', 'upload-kategori-sekaligus');
+                cy.contains('Produk Sekaligus dengan Kategori', {timeout: 5000}).should('be.visible');
+                break;
+            case 'wooCommerce':
+                cy.url().should('include', 'woocommerce')
+                    .and('include', 'product-csv-import-suite-column-header-reference');
+                cy.contains('Column Header Reference', {timeout: 5000}).should('be.visible');
+                break;
+            case 'bigCommerce':
+                cy.url().should('include', 'bigcommerce')
+                    .and('include', 'any-sample-csv-for-bulk-upload-of-products-with-product-options-and-rules');
+                break;
+        }
+        return this;
+    }
+
 }

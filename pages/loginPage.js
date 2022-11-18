@@ -76,4 +76,15 @@ export class LoginPage {
     cy.contains(this.loginPageMsg).should('be.visible');
     return this;
   }
+
+  checkLoginExit(email, password) {
+    this.goToLoginPage();
+    cy.url().then(($url) => {
+      if ($url.includes('/login')) {
+        this.loginWithUser(email, password);
+        this.clickLoginButton();
+      }
+    })
+    return this;
+  }
 }

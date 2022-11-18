@@ -8,6 +8,7 @@ export class HomePage {
         this.editProfileLink = "Edit Profile";
         this.homeMenu = '.MuiListItem-root .jss36';
         this.productLink = 'Products';
+        this.orderLink = 'Orders';
         this.signOutBtn = 'Sign Out';
     }
 
@@ -93,6 +94,11 @@ export class HomePage {
 
     clickProductsOnMenu() {
         cy.get(this.homeMenu).contains(this.productLink).click();
+        return this;
+    }
+
+    clickOdersOnMenu() {
+        cy.get(this.homeMenu).contains(this.orderLink).click();
         return this;
     }
 
