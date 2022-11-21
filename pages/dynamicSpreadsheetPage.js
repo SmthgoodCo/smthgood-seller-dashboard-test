@@ -146,11 +146,12 @@ export class DynamicSpreadsheetPage {
 
     verifyShowDynamicSpreadsheetUploadPage() {
         cy.url().should('include', 'dynamic-spreadsheet-upload');
-        cy.contains(this.dynamicSpreadsheetPageTitle).should('be.visible');
+        cy.contains(this.dynamicSpreadsheetPageTitle, {timeout: 5000}).should('be.visible');
         return this;
     }
 
     verifyShowOpenLinkGetCSVFile(linkOpen) {
+        cy.wait(7000);
         switch (linkOpen) {
             case 'shopee':
                 cy.url().should('include', 'shopee')

@@ -13,6 +13,7 @@ export class ProductPage {
         this.buttonList = '.MuiGrid-item';
         this.integrateWithShopifyBtn = 'Integrate with Shopify';
         this.dynamicSpreadsheetBtn = 'Dynamic Spreadsheet';
+        this.addProductBtn = 'Add Product';
     }
 
     verifyEmptyProductMessages() {
@@ -88,5 +89,16 @@ export class ProductPage {
             cy.get('td').eq(2).should('have.text', '2 in stockfor 2 variants');
             cy.get('td').eq(3).should('have.text', 'Draft');
         })
+    }
+
+    clickAddProductButton() {
+        cy.get("body").then($body => {
+            if ($body.find(this.buttonList).length > 0) {
+                cy.get(this.buttonList).contains(this.addProductBtn).click();
+            } else {
+                cy.get('p').contains('Proceed to input').click();
+            }
+        })
+        return this;
     }
 }

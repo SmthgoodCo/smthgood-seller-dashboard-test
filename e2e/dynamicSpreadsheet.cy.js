@@ -12,7 +12,7 @@ const homePage = new HomePage();
 const productPage = new ProductPage();
 const dynamicSpreadsheetPage = new DynamicSpreadsheetPage();
 
-describe('Shopify with Integration Functionality', () => {
+describe('Dynamic Spreadsheet Upload Functionality', () => {
     before(() => {
         loginPage
             .goToLoginPage()

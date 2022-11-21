@@ -8,7 +8,7 @@ const loginPage = new LoginPage();
 const homePage = new HomePage();
 const editProfilePage = new EditProfilePage();
 
-describe('Edit Profile Functionality', () => {
+describe.skip('Edit Profile Functionality', () => {
     before(() => {
         cy.clearLocalStorage()
         cy.clearCookies();
