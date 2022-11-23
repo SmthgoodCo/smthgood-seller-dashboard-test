@@ -59,25 +59,23 @@ export class ProductPage {
     }
 
     verifyShowlistProduct() {
+        // cy.intercept('https://api-smthgood.vinova.sg/api/services/seller/categories', (req) => {
         cy.url().should('include', 'product');
-        cy.get("body").then($body => {
-            if ($body.find('.MuiGrid-item').length > 0) {
-                cy.get(this.productTagButton).then(($tagName) => {
-                    expect($tagName.eq(1)).to.contain('Active')
-                    expect($tagName.eq(2)).to.contain('Draft')
-                    expect($tagName.eq(3)).to.contain('Archived')
-                });
-                cy.get(this.searchProductListBtn)
-                    .invoke('attr', 'placeholder')
-                    .should('eq', 'Search products');
-                cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
-            } else {
-                cy.contains('You do not have any product at the moment.')
-                    .should('be.visible');
-                cy.contains('Start adding products to sell!')
-                    .should('be.visible');
-            }
-        })
+            cy.wait(5000);
+            cy.get("body").then($body => {
+                if ($body.find(this.searchProductListBtn).length > 0) {
+                    cy.get(this.searchProductListBtn)
+                        .invoke('attr', 'placeholder')
+                        .should('eq', 'Search products');
+                    cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
+                }
+                else {
+                    cy.contains('You do not have any product at the moment.')
+                        .should('be.visible');
+                    cy.contains('Start adding products to sell!')
+                        .should('be.visible');
+                }
+            })
     }
 
     verifyProductAfterUploadCSVFileSuccess(productName) {
@@ -92,8 +90,9 @@ export class ProductPage {
     }
 
     clickAddProductButton() {
+        cy.wait(5000);
         cy.get("body").then($body => {
-            if ($body.find(this.buttonList).length > 0) {
+            if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.buttonList).contains(this.addProductBtn).click();
             } else {
                 cy.get('p').contains('Proceed to input').click();

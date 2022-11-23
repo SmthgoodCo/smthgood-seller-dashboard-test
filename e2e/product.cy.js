@@ -5,6 +5,7 @@ const { ProductPage } = require("../pages/productPage");
 const { AddProductPage } = require("../pages/addProductPage");
 const { ShopifyIntegrationPage } = require("../pages/shopifyIntegrationPage");
 import user from "../fixtures/userData.json";
+import fileName from "../fixtures/fileNames.json";
 let email = user.valid.email;
 let password = user.valid.password;
 const loginPage = new LoginPage();
@@ -13,7 +14,7 @@ const productPage = new ProductPage();
 const addProductPage = new AddProductPage();
 const shopifyIntegrationPage = new ShopifyIntegrationPage();
 
-describe('Product Functionality', () => {
+describe('Product Empty Functionality', () => {
     before(() => {
         cy.request({
             method: 'POST',
@@ -57,6 +58,17 @@ describe('Product Functionality', () => {
             .verifyShowProductPage();
     })
 
+})
+
+describe('Product Functionality', () => {
+    before(() => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+    })
+
     it('C_002 Show Products - empty When seller click PRODUCTS', () => {
         homePage.clickProductsOnMenu();
         productPage
@@ -65,8 +77,7 @@ describe('Product Functionality', () => {
 
     it('C_003 When seller click “Add Product” button in product list page, show add product page', () => {
         homePage.clickProductsOnMenu();
-        productPage
-            .clickAddProductButton();
+        productPage.clickAddProductButton();
         addProductPage.verifyShowAddProductPage();
     })
 
@@ -77,10 +88,38 @@ describe('Product Functionality', () => {
 
     it('C_005 When seller leave “TITLE” field blank, show warning message', () => {
         productPage.clickAddProductButton();
-        addProductPage.clickSaveButton()
-            .verifyShowMessageEmptyTitle();
+        addProductPage
+            .inputInforProduct('', 'test2', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required');
     })
 
-    // <p class="MuiTypography-root jss976 MuiTypography-body1">Create failed, please check again!</p>
+    it('C_006 When seller enter space in “TITLE” field, show Message Bar Notification', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('   ', 'test2', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowMessageBarNotification();
+    })
+
+
+    it('C_007 When seller leave “DESCRIPTION” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('test2', '', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Description', 'Description is required');
+    })
+
+    it('C_008 When seller enter space in “DESCRIPTION” field, show Message Bar Notification', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('test2', '   ', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowMessageBarNotification();
+    })
 
 })
