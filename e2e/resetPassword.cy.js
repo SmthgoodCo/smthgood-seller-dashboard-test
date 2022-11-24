@@ -14,8 +14,8 @@ const resetPasswordPage = new ResetPasswordPage();
 const forgotPasswordPage = new ForgotPasswordPage();
 
 describe('Reset Password Functionality', () => {
-    beforeEach(() => {
-        // loginPage.goToLoginPage();
+    before(() => {
+        cy.task("gmail:refresh_access_token", {});
     });
 
     it('A_039 Receive notification email and click notification email When seller enter valid email success', () => {

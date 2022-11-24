@@ -48,6 +48,13 @@ module.exports = defineConfig({
           );
           return messages;
         },
+        "gmail:refresh_access_token": async () => {
+          await gmail_tester.refresh_access_token(
+            path.resolve("plugins/", "credentials.json"),
+            path.resolve("plugins/", "gmail_token.json")
+          );
+          return null;
+        },
         deleteDownloads() {
           return new Promise((resolve) => {
             rmdir('cypress/downloads', { recursive: true }, () => {
