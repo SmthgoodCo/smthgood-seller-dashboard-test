@@ -61,7 +61,7 @@ export class ResetPasswordPage {
 
     verifyPasswordResetSuccessPage() {
         // cy.wait(5000);
-        cy.contains(this.passwordResetSuccessPageText, {timeout: 5000}).should('be.visible');
+        cy.contains(this.passwordResetSuccessPageText, {timeout: 10000}).should('be.visible');
         cy.contains(this.passwordResetSuccessMsg).should('be.visible');
         return this;
     }

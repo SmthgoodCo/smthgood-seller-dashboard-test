@@ -18,6 +18,8 @@ export class DynamicSpreadsheetPage {
         this.textAfterCheckbox = 'Overwrite any existing products';
         this.dynamicSpreadsheetPageTitle = 'Dynamic Spreadsheet Upload';
         this.openLink;
+        this.templateTypeBtn = '[placeholder="Select Template Type"]';
+        this.templateTypeList = 'li[role="option"]';
     }
 
     verifyShowUploadDynamicSpreadsheetPopup() {
@@ -79,15 +81,18 @@ export class DynamicSpreadsheetPage {
         return this;
     }
 
-    verifyShowUploadingPopup() {
-        cy.contains(this.uploadingTitle).should('be.visible');
-        return this;
-    }
-
     verifyShowUploadCompletedSuccess() {
         cy.contains(this.uploadCompletedTitle).should('be.visible');
         cy.contains(this.uploadCompletedText).should('be.visible');
         cy.contains(this.okBtn).click();
+        return this;
+    }
+
+    clickSelectTemplateType(template){
+        cy.get(this.templateTypeBtn).parent().click();
+        cy.get(this.templateTypeList).contains(template).click();
+        cy.get(this.templateTypeBtn).prev().should('contain', template);
+        cy.get(this.templateTypeBtn).should('have.value', template);
         return this;
     }
 

@@ -81,8 +81,8 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
         dynamicSpreadsheetPage
             .clickChooseFilesButtonAndSelectFile(fileName.valid.template1, 'browse')
             .verifyChooseFileSuccess(fileName.valid.template1)
+            .clickSelectTemplateType('Smthgood')
             .clickUploadButton()
-            .verifyShowUploadingPopup()
             .verifyShowUploadCompletedSuccess();
     })
 
@@ -170,8 +170,8 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
         dynamicSpreadsheetPage
             .clickChooseFilesButtonAndSelectFile(fileName.valid.template, 'browse')
             .verifyChooseFileSuccess(fileName.valid.template)
+            .clickSelectTemplateType('Smthgood')
             .clickUploadButton()
-            .verifyShowUploadingPopup()
             .verifyShowUploadCompletedSuccess();
         homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.verifyProductAfterUploadCSVFileSuccess('example pants');
