@@ -20,6 +20,9 @@ export class AddProductPage {
         this.categorySelect = '[alt="icArrowDownNoactive"]';
         this.occasionsListCheckbox = '.MuiFormGroup-root';
         this.msgBarNotification = 'Create failed, please check again!';
+        this.optionCheckbox = 'This product has various sizes and/or colours'; //prev
+        this.sizeOptionsText = 'Size Options';
+        this.colourMaterialOptionsText = 'Colour / Material Options';
     }
 
     verifyShowAddProductPage() {
@@ -106,6 +109,22 @@ export class AddProductPage {
     verifyShowMessageBarNotification() {
         cy.contains(this.msgBarNotification).should('be.visible')
 
+        return this;
+    }
+
+    clickOptionCheckbox(isCheck) {
+        switch (isCheck) {
+            case true:
+                cy.contains(this.optionCheckbox).prev().find('[type="checkbox"]').check();
+                cy.contains(this.sizeOptionsText).should('be.visible');
+                cy.contains(this.colourMaterialOptionsText).should('be.visible')
+                break;
+            case false:
+                cy.contains(this.optionCheckbox).prev().find('[type="checkbox"]').uncheck();
+                cy.contains(this.sizeOptionsText).should('not.be.visible')
+                cy.contains(this.colourMaterialOptionsText).should('not.be.visible')
+                break;
+        }
         return this;
     }
 }

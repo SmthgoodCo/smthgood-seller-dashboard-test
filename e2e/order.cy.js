@@ -13,7 +13,7 @@ describe('OrderPage Functionality', () => {
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
             .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
+            .loginWithUser(user.valid.email1, user.valid.password1)
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.verifyShowOrderEmptyText();
@@ -22,7 +22,7 @@ describe('OrderPage Functionality', () => {
     it('B_052 show “Order - empty” page When seller doesn’t have order', () => {
         loginPage
             .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
+            .loginWithUser(user.valid.email1, user.valid.password1)
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.verifyOrderReceivedEmpty();

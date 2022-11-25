@@ -1,5 +1,7 @@
 {
   "valid" : {
+    "email1": "baoquoc@smthgoodco.com",
+    "password1": "iRDb0vno",
     "email" : "automation.smtgood@gmail.com",
     "password" : "Auto@123",
     "sellerName": "Baoteststaging",

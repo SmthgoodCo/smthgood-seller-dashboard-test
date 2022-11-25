@@ -147,4 +147,52 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
 
+    it('C_017 When seller leave “QUANTITY” field blank, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('product name', 'Description test', '', '123', '', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity is required');
+    })
+
+    it('C_018 When seller enter space in “QUANTITY” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('product name', 'Description test', '', '123', '   ', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
+    })
+
+    it('C_019 When seller enter special character in “QUANTITY” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('product name', 'Description test', '', '123', '!@#$%', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
+    })
+
+    it('C_020 When seller enter character data in “QUANTITY” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('product name', 'Description test', '', '123', 'abcdef', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
+    })
+
+    it('C_021 When seller click on check-box “Option”, show Size Options and Colour / Material Options', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+            .clickOptionCheckbox(true);
+    })
+
+    it('C_022 When click on check-box to uncheck Options, Size Options and Colour Options will hide', () => {
+        addProductPage
+            .clickOptionCheckbox(false);
+    })
+
 })
