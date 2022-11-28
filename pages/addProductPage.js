@@ -23,6 +23,7 @@ export class AddProductPage {
         this.optionCheckbox = 'This product has various sizes and/or colours'; //prev
         this.sizeOptionsText = 'Size Options';
         this.colourMaterialOptionsText = 'Colour / Material Options';
+        this.createdProductSuccessMsg = 'Created product successfully!';
     }
 
     verifyShowAddProductPage() {
@@ -127,4 +128,10 @@ export class AddProductPage {
         }
         return this;
     }
+
+    verifyShowMessageBarCreatedProductSuccess() {
+        cy.contains(this.createdProductSuccessMsg).should('be.visible');
+        return this;
+    }
+
 }

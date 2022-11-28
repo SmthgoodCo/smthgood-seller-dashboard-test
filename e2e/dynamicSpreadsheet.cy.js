@@ -174,6 +174,15 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
             .clickUploadButton()
             .verifyShowUploadCompletedSuccess();
         homePage.clickOdersOnMenu().clickProductsOnMenu();
-        productPage.verifyProductAfterUploadCSVFileSuccess('example pants');
+        productPage.verifyProductAfterUploadCSVFileSuccess('Dynamic Spreadsheet Product 2')
+        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        productPage.clickDeleteProduct('Dynamic Spreadsheet Product 1')
+        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 1')
+        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        productPage.clickDeleteProduct('Dynamic Spreadsheet Product 2')
+        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 2');
+
     })
 })

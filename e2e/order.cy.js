@@ -8,7 +8,7 @@ const loginPage = new LoginPage();
 const homePage = new HomePage();
 const orderPage = new OrderPage();
 
-describe('OrderPage Functionality', () => {
+describe('OrderPage First Login Functionality', () => {
 
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
@@ -26,6 +26,26 @@ describe('OrderPage Functionality', () => {
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.verifyOrderReceivedEmpty();
+    })
+})
+
+describe('OrderPage Functionality', () => {
+    it('B_053 When seller have order, show list order', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.verifyShowListOrder();
+    })
+
+    it('B_054 Show the number “At a glance” is 0, when it doesn’t have order', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.verifyShowListOrder();
     })
 
 })

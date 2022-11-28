@@ -195,4 +195,22 @@ describe('Product Functionality', () => {
             .clickOptionCheckbox(false);
     })
 
+    it('C_023 when seller enter required fields successfully, check product imported successfully', () => {
+        const productName = 'Add test product manully';
+        const quantity = '123';
+        const addFile = fileName.valid.image;
+        const category = 'Clothing';
+
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton()
+
+        addProductPage
+            .inputInforProduct(productName, 'Description test', '', '99.95', quantity, 1, addFile, 't-shirt', category, 3)
+            .clickSaveButton()
+            .verifyShowMessageBarCreatedProductSuccess()
+        productPage.verifyProductAddSuccess(productName, quantity, '', category)
+            .clickDeleteProduct(productName)
+            .verifyDeleteProductSuccess(productName);
+    })
+
 })
