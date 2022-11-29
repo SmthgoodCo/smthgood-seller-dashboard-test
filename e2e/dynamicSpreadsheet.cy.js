@@ -164,9 +164,9 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_021 When seller upload CSV file success, the data should be synced to seller dashboard', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
-        homePage.clickProductsOnMenu();
-        productPage.clickDynamicSpreadsheetButton();
+        // loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        // homePage.clickProductsOnMenu();
+        // productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
             .clickChooseFilesButtonAndSelectFile(fileName.valid.template, 'browse')
             .verifyChooseFileSuccess(fileName.valid.template)
@@ -175,10 +175,14 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
             .verifyShowUploadCompletedSuccess();
         homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.verifyProductAfterUploadCSVFileSuccess('Dynamic Spreadsheet Product 2')
+    })
+    it('D_022 When seller delete product after upload CSV file success, verify product of CSV file is empty', () => {
+       
         homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.clickDeleteProduct('Dynamic Spreadsheet Product 1')
         homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 1')
+
         homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.clickDeleteProduct('Dynamic Spreadsheet Product 2')
         homePage.clickOdersOnMenu().clickProductsOnMenu();

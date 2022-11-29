@@ -85,7 +85,8 @@ export class ProductPage {
 
     verifyProductAfterUploadCSVFileSuccess(productName) {
         cy.get(this.searchProductInPut).type(productName);
-        cy.get(this.proctTable).within(() => {
+        cy.wait(5000)
+        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', 'Dynamic Spreadsheet Product 2');
             cy.get('td').eq(1).find('img').invoke('attr', 'src')
                 .should('include', '/product_variants/Template/pexels-neosiam-603022.jpg');
@@ -97,7 +98,7 @@ export class ProductPage {
 
     clickAddProductButton() {
         cy.wait(5000);
-        cy.get("body").then($body => {
+        cy.get("body",{ timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.buttonList).contains(this.addProductBtn).click();
             } else {
@@ -109,7 +110,7 @@ export class ProductPage {
 
     verifyProductAddSuccess(productName, quantity, status, category) {
         cy.get(this.searchProductInPut).clear().type(productName);
-        cy.get(this.proctTable).within(() => {
+        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', productName);
             cy.get('td').eq(2).should('have.text', quantity + ' in stock');
             if (status == '') {
@@ -125,7 +126,7 @@ export class ProductPage {
 
     clickDeleteProduct(productName) {
         cy.get(this.searchProductInPut).clear().type(productName);
-        cy.get(this.proctTable).within(() => {
+        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(6).find('button').last().click({ force: true });
         })
         cy.get(this.deletePopupConfirm).contains(this.deleteBtn).click({ force: true });
@@ -135,7 +136,8 @@ export class ProductPage {
     }
 
     verifyDeleteProductSuccess(productName) {
-        cy.get("body").then($body => {
+        cy.wait(5000)
+        cy.get("body",{ timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.searchProductInPut).clear().type(productName);
                 // cy.contains(this.productEmptyText).should('be.visible');

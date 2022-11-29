@@ -8,7 +8,7 @@ const loginPage = new LoginPage();
 const homePage = new HomePage();
 const orderPage = new OrderPage();
 
-describe('OrderPage First Login Functionality', () => {
+describe.skip('OrderPage First Login Functionality', () => {
 
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
@@ -25,7 +25,7 @@ describe('OrderPage First Login Functionality', () => {
             .loginWithUser(user.valid.email1, user.valid.password1)
             .clickLoginButton()
             .verifyInHomePage();
-        orderPage.verifyOrderReceivedEmpty();
+        orderPage.verifyShowOrderEmptyText();
     })
 })
 
@@ -45,7 +45,18 @@ describe('OrderPage Functionality', () => {
             .loginWithUser(user.valid.email, user.valid.password)
             .clickLoginButton()
             .verifyInHomePage();
-        orderPage.verifyShowListOrder();
+        orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
+        .verifyShowNumberAtAGrance(1);
+    })
+
+    it('B_055 Show the number “At a glance”, when it has order', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
+        .verifyShowNumberAtAGrance(1);
     })
 
 })
