@@ -164,9 +164,9 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_021 When seller upload CSV file success, the data should be synced to seller dashboard', () => {
-        // loginPage.checkLoginExit(user.valid.email, user.valid.password);
-        // homePage.clickProductsOnMenu();
-        // productPage.clickDynamicSpreadsheetButton();
+        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        homePage.clickProductsOnMenu();
+        productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
             .clickChooseFilesButtonAndSelectFile(fileName.valid.template, 'browse')
             .verifyChooseFileSuccess(fileName.valid.template)
