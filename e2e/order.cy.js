@@ -8,7 +8,7 @@ const loginPage = new LoginPage();
 const homePage = new HomePage();
 const orderPage = new OrderPage();
 
-describe.skip('OrderPage First Login Functionality', () => {
+describe('OrderPage First Login Functionality', () => {
 
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
@@ -46,7 +46,7 @@ describe('OrderPage Functionality', () => {
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
-        .verifyShowNumberAtAGrance(1);
+            .verifyShowNumberAtAGlance(0);
     })
 
     it('B_055 Show the number “At a glance”, when it has order', () => {
@@ -56,7 +56,47 @@ describe('OrderPage Functionality', () => {
             .clickLoginButton()
             .verifyInHomePage();
         orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
-        .verifyShowNumberAtAGrance(1);
+            .verifyShowNumberAtAGlance(0);
+    })
+
+    it('B_056 When seller click “ORDERS RECEIVED”, show “Orders empty” if doesn’t have status is Orders Received', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
+            .verifyNewOrder();
+    })
+
+    it('B_057 When seller click “ORDERS RECEIVED”, show orders has status is Orders Received', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.clickOrderTabButton(orderPage.orderReceivedBtn)
+            .verifyNewOrder();
+    })
+
+    it('B_058 When seller click “SHIPPED”, show “Orders empty” if doesn’t have status is Shipped', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.clickOrderTabButton(orderPage.shippedBtn)
+            .verifyNewShippingOrder();
+    })
+
+    it('B_059 When seller click “SHIPPED”, show orders has status is Shipped', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(user.valid.email, user.valid.password)
+            .clickLoginButton()
+            .verifyInHomePage();
+        orderPage.clickOrderTabButton(orderPage.shippedBtn)
+            .verifyNewShippingOrder();
     })
 
 })

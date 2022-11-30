@@ -14,6 +14,7 @@ export class OrderPage {
         this.refundedBtn = 'Refunded';
         this.orderTableList = '.MuiTableBody-root >tr';
         this.orderTableCell = '.MuiTableCell-body';
+        this.orderStatus = 'div[aria-haspopup="listbox"]';
     }
 
     verifyShowOrderEmptyText() {
@@ -31,53 +32,27 @@ export class OrderPage {
         return this;
     }
 
+    getValueAtAGlance(item) {
+        cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((orderReceived) => { });
+    }
     verifyShowListOrder() {
 
-        cy.contains(this.atAGlanceTitle).next().children('div').eq(0).children('p').invoke('text').then((orderReceived) => {
-            if (orderReceived == 0) {
-                cy.contains(this.atAGlanceTitle).next().children('div').eq(1).children('p').invoke('text').then((orderCancelled) => {
-                    if (orderCancelled == 0) {
-                        cy.contains(this.atAGlanceTitle).next().children('div').eq(2).children('p').invoke('text').then((orderCompleted) => {
-                            if (orderCompleted == 0) {
-                                cy.contains(this.atAGlanceTitle).next().children('div').eq(3).children('p').invoke('text').then((refund_Inprogress) => {
-                                    if (refund_Inprogress == 0) {
-                                        cy.contains(this.atAGlanceTitle).next().children('div').eq(4).children('p').invoke('text').then((itemSoldOut) => {
-                                            if (itemSoldOut == 0) {
-                                                cy.contains(this.atAGlanceTitle).next().children('div').eq(5).children('p').invoke('text').then((activeDiscount) => {
-                                                    if (activeDiscount == 0) {
-                                                        cy.get(this.orderPage).scrollIntoView();
-                                                        cy.contains(this.orderEmptyText).should('be.visible');
-                                                    } else {
-                                                        cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                                                        cy.contains(this.orderEmptyText).should('not.exist');
-                                                    }
-                                                })
-                                            } else {
-                                                cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                                                cy.contains(this.orderEmptyText).should('not.exist');
-                                            }
-                                        })
-                                    } else {
-                                        cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                                        cy.contains(this.orderEmptyText).should('not.exist');
-                                    }
-                                })
-                            } else {
-                                cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                                cy.contains(this.orderEmptyText).should('not.exist');
-                            }
-                        })
-                    } else {
-                        cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                        cy.contains(this.orderEmptyText).should('not.exist');
-                    }
-                })
-            } else {
-                cy.get(this.orderTableList).its('length').should('be.gt', 0)
-                cy.contains(this.orderEmptyText).should('not.exist');
-            }
+        var orderReceived = this.getValueAtAGlance(0);
+        var orderCancelled = this.getValueAtAGlance(1);
+        var orderCompleted = this.getValueAtAGlance(2);
+        var refund_Inprogress = this.getValueAtAGlance(3);
+        var itemSoldOut = this.getValueAtAGlance(4);
+        var activeDiscount = this.getValueAtAGlance(5);
 
-        });
+        if (orderReceived == 0 && orderCancelled == 0
+            && orderCompleted == 0 && refund_Inprogress == 0
+            && itemSoldOut == 0 && activeDiscount == 0) {
+            cy.get(this.orderPage).scrollIntoView();
+            cy.contains(this.orderEmptyText).should('be.visible');
+        } else {
+            cy.get(this.orderTableList).its('length').should('be.gt', 0)
+            cy.contains(this.orderEmptyText).should('not.exist');
+        }
         return this;
     }
 
@@ -86,30 +61,17 @@ export class OrderPage {
         return this;
     }
 
-    // verifyShowNumberAtAGrance(item) {
-    //     cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((elmText) =>{
-    //         if(elmText == 0){
-    //             cy.contains(this.orderEmptyText).should('not.exist');
-    //         } else {
-    //             cy.get(this.orderTableList).its('length').then(($orderLength) => {
-    //                 var lengthText = $orderLength.toString();
-    //                 expect(elmText).to.equal(lengthText);
-    //             })
-    //         }
-    //     })
-    // }
-
-    verifyShowNumberAtAGrance(item) {
+    verifyShowNumberAtAGlance(item) {
         cy.wait(2000);
         cy.get(this.orderTableCell).its('length').then(($orderLength) => {
-            if($orderLength == 1) {
-                cy.get(this.orderTableList).children('td').children('p').invoke('text').then((elmText)=>{
-                    if(elmText == this.orderEmptyText) {
+            if ($orderLength == 1) {
+                cy.get(this.orderTableList).children('td').children('p').invoke('text').then((elmText) => {
+                    if (elmText == this.orderEmptyText) {
                         cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').should('have.text', '0');
-                    } 
+                    }
                 })
             } else {
-                cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((elmText) =>{
+                cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((elmText) => {
                     cy.get(this.orderTableList).its('length').then(($orderLength) => {
                         var lengthText = $orderLength.toString();
                         expect(elmText).to.equal(lengthText);
@@ -120,13 +82,42 @@ export class OrderPage {
 
     }
 
-    verifyShowNumberAtAGranceIs0() {
+    verifyNewOrder() {
         cy.wait(2000);
-        cy.get(this.orderTableList).children('td').children('p').invoke('text').then((elmText)=>{
-            if(elmText == this.orderEmptyText) {
-                cy.contains(this.atAGlanceTitle).next().children('div').eq(1).children('p').should('have.text', '0');
-            } 
+        cy.get(this.orderTableCell).its('length').then(($orderLength) => {
+            if ($orderLength == 1) {
+                cy.get(this.orderTableList).contains(this.orderEmptyText).should('be.visible');
+                cy.contains(this.atAGlanceTitle).next().children('div').eq(0).children('p').should('have.text', '0');
+            } else {
+                cy.get(this.orderTableCell).find(this.orderStatus).first().invoke('text').then(($elmText) => {
+                    if ($elmText == 'Order Received') {
+                        cy.get(this.orderTableCell).find(this.orderStatus).should('contain', 'Order Received');
+                        cy.contains(this.atAGlanceTitle).next().children('div').eq(0).children('p').invoke('text').then((elmText) => {
+                            cy.get(this.orderTableList).its('length').then(($orderLength) => {
+                                var lengthText = $orderLength.toString();
+                                expect(elmText).to.equal(lengthText);
+                            })
+                        })
+                    }
+                })
+            }
         })
+    }
 
+    verifyNewShippingOrder() {
+        cy.wait(2000);
+        cy.get(this.orderTableCell).its('length').then(($orderLength) => {
+            if ($orderLength == 1) {
+                cy.get(this.orderTableList).contains(this.orderEmptyText).should('be.visible');
+            } else {
+                cy.get(this.orderTableCell).find(this.orderStatus).first().invoke('text').then(($elmText) => {
+                    if ($elmText == 'Shipped') {
+                        cy.get(this.orderTableList).its('length').should('be.greaterThan', 0);
+                        cy.get(this.orderTableCell).find(this.orderStatus).should('contain', 'Shipped');
+                        cy.get(this.orderTableList).contains(this.orderEmptyText).should('not.exist');
+                    }
+                })
+            }
+        })
     }
 }

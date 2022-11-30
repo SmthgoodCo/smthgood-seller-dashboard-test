@@ -161,21 +161,17 @@ export class DynamicSpreadsheetPage {
             case 'shopee':
                 cy.url().should('include', 'shopee')
                     .and('include', 'about-mass-upload');
-                cy.contains('What is Mass Upload?', {timeout: 5000}).should('be.visible');
                 break;
             case 'lazada':
                 cy.url().should('include', 'lazada');
-                cy.contains('Open your Lazada', {timeout: 5000}).should('be.visible');
                 break;
             case 'tokopedia':
                 cy.url().should('include', 'tokopedia')
                     .and('include', 'upload-kategori-sekaligus');
-                cy.contains('Produk Sekaligus dengan Kategori', {timeout: 5000}).should('be.visible');
                 break;
             case 'wooCommerce':
                 cy.url().should('include', 'woocommerce')
                     .and('include', 'product-csv-import-suite-column-header-reference');
-                cy.contains('Column Header Reference', {timeout: 5000}).should('be.visible');
                 break;
             case 'bigCommerce':
                 cy.url().should('include', 'bigcommerce')
