@@ -3,15 +3,15 @@ export class OrderPage {
         this.orderEmptyText = 'You do not have any orders at the moment.';
         this.orderTracking = '.MuiGrid-root .jss53';
         this.orderPage = '.MuiGrid-root .jss52'
-        this.orderReceived = 'ORDERS RECEIVED';
+        this.orderReceivedTitle = 'ORDERS RECEIVED';
         this.atAGlanceTitle = 'AT A GLANCE';
         this.orderBtnList = '[role="group"]';
         this.allBtn = 'All';
-        this.orderReceivedBtn = 'Order Received';
-        this.shippedBtn = 'Shipped';
-        this.completedBtn = 'Completed';
-        this.cancelledBtn = 'Cancelled';
-        this.refundedBtn = 'Refunded';
+        this.orderReceived = 'Order Received';
+        this.shipped = 'Shipped';
+        this.completed = 'Completed';
+        this.cancelled = 'Cancelled';
+        this.refunded = 'Refunded';
         this.orderTableList = '.MuiTableBody-root >tr';
         this.orderTableCell = '.MuiTableCell-body';
         this.orderStatus = 'div[aria-haspopup="listbox"]';
@@ -25,7 +25,7 @@ export class OrderPage {
 
     verifyOrderReceivedEmpty() {
         cy.get(this.orderTracking)
-            .contains(this.orderReceived)
+            .contains(this.orderReceivedTitle)
             .prev('p').should('have.text', '0');
         cy.get(this.orderPage).scrollIntoView();
         cy.contains(this.orderEmptyText).should('be.visible');
@@ -35,6 +35,7 @@ export class OrderPage {
     getValueAtAGlance(item) {
         cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((orderReceived) => { });
     }
+
     verifyShowListOrder() {
 
         var orderReceived = this.getValueAtAGlance(0);
@@ -82,29 +83,27 @@ export class OrderPage {
 
     }
 
-    verifyNewOrder() {
+    verifyOrderInOrderTable(item, status) {
         cy.wait(2000);
         cy.get(this.orderTableCell).its('length').then(($orderLength) => {
             if ($orderLength == 1) {
                 cy.get(this.orderTableList).contains(this.orderEmptyText).should('be.visible');
-                cy.contains(this.atAGlanceTitle).next().children('div').eq(0).children('p').should('have.text', '0');
+                cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').should('have.text', '0');
             } else {
                 cy.get(this.orderTableCell).find(this.orderStatus).first().invoke('text').then(($elmText) => {
-                    if ($elmText == 'Order Received') {
-                        cy.get(this.orderTableCell).find(this.orderStatus).should('contain', 'Order Received');
-                        cy.contains(this.atAGlanceTitle).next().children('div').eq(0).children('p').invoke('text').then((elmText) => {
-                            cy.get(this.orderTableList).its('length').then(($orderLength) => {
-                                var lengthText = $orderLength.toString();
-                                expect(elmText).to.equal(lengthText);
-                            })
+                    expect($elmText).to.equal(status);
+                    cy.contains(this.atAGlanceTitle).next().children('div').eq(item).children('p').invoke('text').then((elmText) => {
+                        cy.get(this.orderTableList).its('length').then(($orderLength) => {
+                            var lengthText = $orderLength.toString();
+                            expect(elmText).to.equal(lengthText);
                         })
-                    }
+                    })
                 })
             }
         })
     }
 
-    verifyNewShippingOrder() {
+    verifyOrderShippingInOrderTable() {
         cy.wait(2000);
         cy.get(this.orderTableCell).its('length').then(($orderLength) => {
             if ($orderLength == 1) {

@@ -78,7 +78,8 @@ describe('Product Functionality', () => {
     it('C_005 When seller leave “TITLE” field blank, show warning message', () => {
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('', 'test2', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('', 'test2', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Title', 'Title is required');
     })
@@ -87,7 +88,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('   ', 'test2', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('   ', 'test2', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowMessageBarNotification();
     })
@@ -97,7 +99,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('test2', '', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('test2', '', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Description', 'Description is required');
     })
@@ -106,7 +109,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('test2', '   ', '', 100, 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('test2', '   ', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowMessageBarNotification();
     })
@@ -115,7 +119,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '', 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '', 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Price', 'Price is required');
     })
@@ -124,7 +129,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '   ', 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '   ', 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
@@ -133,7 +139,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '!@#$%', 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '!@#$%', 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
@@ -142,7 +149,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', 'abcdef', 99, 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', 'abcdef', 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
@@ -151,7 +159,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '123', '', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '123', '', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Quantity', 'Quantity is required');
     })
@@ -160,7 +169,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '123', '   ', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '123', '   ', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
@@ -169,7 +179,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '123', '!@#$%', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '123', '!@#$%', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
@@ -178,7 +189,8 @@ describe('Product Functionality', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct('product name', 'Description test', '', '123', 'abcdef', 1, fileName.valid.image, 't-shirt', 'Clothing', 3)
+            .inputInforProduct('product name', 'Description test', '', '123', 'abcdef', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
@@ -205,7 +217,8 @@ describe('Product Functionality', () => {
         productPage.clickAddProductButton()
 
         addProductPage
-            .inputInforProduct(productName, 'Description test', '', '99.95', quantity, 1, addFile, 't-shirt', category, 3)
+            .inputInforProduct(productName, 'Description test', '', '99.95', quantity, 1, addFile, category, 3)
+            .clickAddTagButton()
             .clickSaveButton()
             .verifyShowMessageBarCreatedProductSuccess()
         productPage.verifyProductAddSuccess(productName, quantity, '', category)

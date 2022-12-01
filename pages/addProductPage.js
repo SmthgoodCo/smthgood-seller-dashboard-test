@@ -54,7 +54,7 @@ export class AddProductPage {
         return this;
     }
 
-    inputInforProduct(title, description, status, price, quantity, shippingWeight, addMediaFile, icTag, category, occasionsItem) {
+    inputInforProduct(title, description, status, price, quantity, shippingWeight, addMediaFile, category, occasionsItem) {
         const path = './fixtures/files/' + addMediaFile;
         const occasionsList = ['Night out', 'Day out', 'Party', 'Formal', 'Active', 'Work', 'Vacation', 'Lounging', 'Special', 'Swimwear'];
 
@@ -86,15 +86,9 @@ export class AddProductPage {
             cy.get(this.addMediaFileBtn).selectFile(path, { force: true });
         }
 
-        if (icTag != '') {
-            cy.get('button').contains(this.generateTagsBtn).click()
-            cy.contains(this.additionalTagsInput).parent().find('input').clear({force: true}).type(icTag);
-            cy.contains(this.additionalTagsInput).parents().find('button').contains('Add', {timeout: 5000}).click();
-        }
-
         if(category != '') {
             cy.get(this.categorySelect).click();
-            cy.get('[alt="icArrowRight"]').prev().contains(category).click()
+            cy.get('[alt="icArrowRight"]').prev().contains(category).click();
             cy.contains('Dresses').click();
         }
 
@@ -104,6 +98,15 @@ export class AddProductPage {
             })
         }
 
+        return this;
+    }
+
+    clickAddTagButton(){
+        cy.get('button').contains(this.generateTagsBtn).click();
+        cy.contains('Do check the tags for accuracy.').next('div').children('div', {timeout: 15000}).then(($div)=>{
+            cy.get($div).eq(0).click();
+            cy.get($div).eq(1).click();
+        })
         return this;
     }
 
