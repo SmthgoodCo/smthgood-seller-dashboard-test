@@ -29,7 +29,6 @@ export class LoginPage {
 
   clickLoginButton() {
     cy.get("button").contains(this.signInBtn).click();
-    cy.wait(2000);
     return this;
   }
 
@@ -53,8 +52,7 @@ export class LoginPage {
   }
   
   verifyInHomePage() {
-    cy.wait(5000);
-    cy.get("p").contains(this.homePageText).should("be.visible");
+    cy.contains(this.homePageText, {timeout: 15000}).should("be.visible");
     return this;
   }
 

@@ -30,7 +30,7 @@ describe('OrderPage First Login Functionality', () => {
 })
 
 describe('OrderPage Functionality', () => {
-    beforeEach(()=>{
+    beforeEach(() => {
         loginPage
             .goToLoginPage()
             .loginWithUser(user.valid.email, user.valid.password)
@@ -100,6 +100,29 @@ describe('OrderPage Functionality', () => {
     it('B_065 When seller click “REFUNDED”, show orders has status is Refunded', () => {
         orderPage.clickOrderTabButton(orderPage.refunded)
             .verifyOrderInOrderTable(3, orderPage.refunded);
+    })
+
+    it('B_066 When seller click “ALL” button, show list products', () => {
+        orderPage.clickOrderTabButton(orderPage.allBtn)
+            .verifyShowListOrder();
+    })
+
+    it.only('B_067 When seller click “Sort” button, show list sort option', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .verifyShowListSortButton();
+
+    })
+
+    it('B_068 When seller click “Newest first” in list option sort, show Newest Order', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.newestfirstBtn)
+            .verifyShowSortOrder(1, 'New');
+    })
+
+    it('B_069 When seller click “Oldest first” in list sort, show Oldest Order', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.oldestfirstBtn)
+            .verifyShowSortOrder(1, 'Old');
     })
 
 })

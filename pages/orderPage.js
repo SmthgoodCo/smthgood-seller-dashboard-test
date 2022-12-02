@@ -15,6 +15,14 @@ export class OrderPage {
         this.orderTableList = '.MuiTableBody-root >tr';
         this.orderTableCell = '.MuiTableCell-body';
         this.orderStatus = 'div[aria-haspopup="listbox"]';
+        this.sortBtn = 'Sort';
+        this.sortListBtn = '[aria-labelledby="basic-button"]';
+        this.newestfirstBtn = 'Newest first';
+        this.oldestfirstBtn = 'Oldest first';
+        this.highestamount = 'Highest amount';
+        this.lowestamount = 'Lowest amount';
+        this.NoneBtn = 'None'; //next()
+        this.filterBtn = 'Filter';
     }
 
     verifyShowOrderEmptyText() {
@@ -101,6 +109,7 @@ export class OrderPage {
                 })
             }
         })
+        console.log('countOrderNumberWithStatus', +this.countOrderNumberWithStatus(status));
     }
 
     verifyOrderShippingInOrderTable() {
@@ -118,5 +127,58 @@ export class OrderPage {
                 })
             }
         })
+    }
+
+    countOrderNumberWithStatus(status) {
+        cy.get(this.orderTableCell)
+            .find(this.orderStatus)
+            .contains(status)
+            .its('length')
+            .then(($orderLength) => {
+            })
+    }
+
+    clickButtonOrerPage(button) {
+        cy.get('button').contains(button).click()
+        return this;
+    }
+
+    clickSortOptionButton(button) {
+        cy.get(this.sortListBtn).contains(button).click();
+        cy.wait(2000);
+        return this;
+    }
+
+    verifyShowListSortButton() {
+        cy.get(this.sortListBtn).contains(this.newestfirstBtn).should('be.visible');
+        cy.get(this.sortListBtn).contains(this.oldestfirstBtn).should('be.visible');
+        cy.get(this.sortListBtn).contains(this.highestamount).should('be.visible');
+        cy.get(this.sortListBtn).contains(this.lowestamount).should('be.visible');
+        cy.get(this.sortListBtn).contains(this.NoneBtn).should('be.visible');
+        return this;
+    }
+
+    verifyShowSortOrder(col, sort) {
+        cy.get(this.orderTableList).its('length').then(($length) => {
+            let firstUserPrices = []
+            for (var i = 0; i < $length; i++) {
+                cy.get(this.orderTableList).eq(i).children('td').eq(col).invoke('text').then(($value) => {
+                    firstUserPrices.push(parseInt($value.slice(1)));
+                    for (var j = 0; j < firstUserPrices.length - 1; j++) {
+                        switch (sort) {
+                            case 'New':
+                                expect(firstUserPrices[j]).to.be.greaterThan(firstUserPrices[j + 1])
+                                break;
+                            case 'Old':
+                                expect(firstUserPrices[j]).to.be.lessThan(firstUserPrices[j + 1])
+                                break;
+                        }
+                    }
+                    console.log('firstUserPrices: ' + firstUserPrices)
+                })
+                firstUserPrices = [];
+            }
+        });
+        return this;
     }
 }
