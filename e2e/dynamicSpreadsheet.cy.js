@@ -16,7 +16,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     before(() => {
         loginPage
             .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
+            .loginWithUser(email, password)
             .clickLoginButton();
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
@@ -119,7 +119,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_016 When seller click “How to get CSV file from Shopee” hyperlink, open Shopee tab', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage.checkLoginExit(email, password);
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -128,7 +128,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_017 When seller click “How to get CSV file from Lazada” hyperlink, open Lazada tab', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage.checkLoginExit(email, password);
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -137,7 +137,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_018 When seller click “How to get CSV file from Tokopedia” hyperlink, open Tokopedia tab', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage.checkLoginExit(email, password);
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -146,7 +146,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_019 When seller click “How to get CSV file from Woo Commerce” hyperlink, open Woo Commerce tab', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage.checkLoginExit(email, password);
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -155,7 +155,7 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_020 When seller click “How to get CSV file from Big Commerce” hyperlink, open Big Commerce tab', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage.checkLoginExit(email, password);
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -164,7 +164,10 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
     })
 
     it('D_021 When seller upload CSV file success, the data should be synced to seller dashboard', () => {
-        loginPage.checkLoginExit(user.valid.email, user.valid.password);
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton();
         homePage.clickProductsOnMenu();
         productPage.clickDynamicSpreadsheetButton();
         dynamicSpreadsheetPage
@@ -173,19 +176,29 @@ describe('Dynamic Spreadsheet Upload Functionality', () => {
             .clickSelectTemplateType('Smthgood')
             .clickUploadButton()
             .verifyShowUploadCompletedSuccess();
-        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        homePage.clickSellerName().clickLogOutButton();
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton();
+        homePage.clickProductsOnMenu();
         productPage.verifyProductAfterUploadCSVFileSuccess('Dynamic Spreadsheet Product 2')
     })
     it('D_022 When seller delete product after upload CSV file success, verify product of CSV file is empty', () => {
-       
-        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton();
+        homePage.clickProductsOnMenu();
         productPage.clickDeleteProduct('Dynamic Spreadsheet Product 1')
-        homePage.clickOdersOnMenu().clickProductsOnMenu();
-        productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 1')
-
-        homePage.clickOdersOnMenu().clickProductsOnMenu();
         productPage.clickDeleteProduct('Dynamic Spreadsheet Product 2')
-        homePage.clickOdersOnMenu().clickProductsOnMenu();
+        homePage.clickSellerName().clickLogOutButton();
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton();
+        homePage.clickProductsOnMenu();
+        productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 1')
         productPage.verifyDeleteProductSuccess('Dynamic Spreadsheet Product 2');
 
     })

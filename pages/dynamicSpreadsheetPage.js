@@ -82,7 +82,7 @@ export class DynamicSpreadsheetPage {
     }
 
     verifyShowUploadCompletedSuccess() {
-        cy.contains(this.uploadCompletedTitle).should('be.visible');
+        cy.contains(this.uploadCompletedTitle, {timeout: 10000}).should('be.visible');
         cy.contains(this.uploadCompletedText).should('be.visible');
         cy.contains(this.okBtn).click();
         return this;

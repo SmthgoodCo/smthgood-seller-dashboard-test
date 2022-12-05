@@ -21,7 +21,7 @@ export class OrderPage {
         this.oldestfirstBtn = 'Oldest first';
         this.highestamount = 'Highest amount';
         this.lowestamount = 'Lowest amount';
-        this.NoneBtn = 'None'; //next()
+        this.noneBtn = 'None'; //next()
         this.filterBtn = 'Filter';
     }
 
@@ -149,36 +149,70 @@ export class OrderPage {
         return this;
     }
 
-    verifyShowListSortButton() {
-        cy.get(this.sortListBtn).contains(this.newestfirstBtn).should('be.visible');
-        cy.get(this.sortListBtn).contains(this.oldestfirstBtn).should('be.visible');
-        cy.get(this.sortListBtn).contains(this.highestamount).should('be.visible');
-        cy.get(this.sortListBtn).contains(this.lowestamount).should('be.visible');
-        cy.get(this.sortListBtn).contains(this.NoneBtn).should('be.visible');
+    verifyShowListSortButton(isClick = 'Visible') {
+        switch (isClick) {
+            case 'Visible':
+                cy.get(this.sortListBtn).contains(this.newestfirstBtn).should('be.visible');
+                cy.get(this.sortListBtn).contains(this.oldestfirstBtn).should('be.visible');
+                cy.get(this.sortListBtn).contains(this.highestamount).should('be.visible');
+                cy.get(this.sortListBtn).contains(this.lowestamount).should('be.visible');
+                cy.get(this.sortListBtn).contains(this.noneBtn).should('be.visible');
+                break;
+
+            case 'Exit':
+                cy.contains(this.newestfirstBtn).should('not.exist');
+                cy.contains(this.oldestfirstBtn).should('not.exist');
+                cy.contains(this.highestamount).should('not.exist');
+                cy.contains(this.lowestamount).should('not.exist');
+                break;
+        }
+
         return this;
     }
 
-    verifyShowSortOrder(col, sort) {
+    verifyShowSortOrder(col, sort, sliceIndex) {
         cy.get(this.orderTableList).its('length').then(($length) => {
             let firstUserPrices = []
+            let arrPrices = []
             for (var i = 0; i < $length; i++) {
                 cy.get(this.orderTableList).eq(i).children('td').eq(col).invoke('text').then(($value) => {
-                    firstUserPrices.push(parseInt($value.slice(1)));
+                    firstUserPrices.push(parseInt($value.slice(sliceIndex)));
+                    arrPrices.push(parseFloat($value.slice(sliceIndex)));
                     for (var j = 0; j < firstUserPrices.length - 1; j++) {
                         switch (sort) {
-                            case 'New':
+                            case 'Newest first':
                                 expect(firstUserPrices[j]).to.be.greaterThan(firstUserPrices[j + 1])
                                 break;
-                            case 'Old':
+                            case 'Oldest first':
                                 expect(firstUserPrices[j]).to.be.lessThan(firstUserPrices[j + 1])
+                                break;
+                            case 'Highest amount':
+                                if (arrPrices[j] == arrPrices[j + 1]) {
+                                    expect(arrPrices[j]).to.be.equal(arrPrices[j + 1])
+                                }
+                                expect(arrPrices[j]).to.be.greaterThan(arrPrices[j + 1])
+                                break;
+                            case 'Lowest amount':
+                                if (arrPrices[j] == arrPrices[j + 1]) {
+                                    expect(arrPrices[j]).to.be.equal(arrPrices[j + 1])
+                                }
+                                expect(arrPrices[j]).to.be.lessThan(arrPrices[j + 1])
+                                break;
+                            case 'None':
+                                expect(firstUserPrices[j]).to.be.greaterThan(firstUserPrices[j + 1])
                                 break;
                         }
                     }
-                    console.log('firstUserPrices: ' + firstUserPrices)
                 })
                 firstUserPrices = [];
+                arrPrices = [];
             }
         });
+        return this;
+    }
+
+    clickOutside() {
+        cy.get('body').click(0, 400);
         return this;
     }
 }

@@ -140,7 +140,7 @@ export class ProductPage {
         cy.get("body",{ timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.searchProductInPut).clear().type(productName);
-                // cy.contains(this.productEmptyText).should('be.visible');
+                cy.contains(this.productEmptyText).should('be.visible');
                 cy.contains(productName).should('not.exist');
             }
             else {

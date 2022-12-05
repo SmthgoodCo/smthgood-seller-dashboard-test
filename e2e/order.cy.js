@@ -107,7 +107,7 @@ describe('OrderPage Functionality', () => {
             .verifyShowListOrder();
     })
 
-    it.only('B_067 When seller click “Sort” button, show list sort option', () => {
+    it('B_067 When seller click “Sort” button, show list sort option', () => {
         orderPage.clickButtonOrerPage(orderPage.sortBtn)
             .verifyShowListSortButton();
 
@@ -116,13 +116,38 @@ describe('OrderPage Functionality', () => {
     it('B_068 When seller click “Newest first” in list option sort, show Newest Order', () => {
         orderPage.clickButtonOrerPage(orderPage.sortBtn)
             .clickSortOptionButton(orderPage.newestfirstBtn)
-            .verifyShowSortOrder(1, 'New');
+            .verifyShowSortOrder(1, 'Newest first', 1);
     })
 
     it('B_069 When seller click “Oldest first” in list sort, show Oldest Order', () => {
         orderPage.clickButtonOrerPage(orderPage.sortBtn)
             .clickSortOptionButton(orderPage.oldestfirstBtn)
-            .verifyShowSortOrder(1, 'Old');
+            .verifyShowSortOrder(1, 'Oldest first', 1);
+    })
+
+    it('B_070 When seller click “Highest amount” in list sort, show Highest amout Order', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.highestamount)
+            .verifyShowSortOrder(3, 'Highest amount', 4);
+    })
+
+    it('B_071 When seller click “Lowest amount” in list sort, show Lowest amount Order', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.lowestamount)
+            .verifyShowSortOrder(3, 'Lowest amount', 4);
+    })
+
+    it('B_072 When seller click “None” in list sort, show ORDER NO follow ASC order', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.noneBtn)
+            .verifyShowSortOrder(1, 'None', 1);
+    })
+
+    it('B_073 When seller click outside button Sort, turn off list option', () => {
+        orderPage.clickButtonOrerPage(orderPage.sortBtn)
+            .verifyShowListSortButton()
+            .clickOutside()
+            .verifyShowListSortButton('Exit');
     })
 
 })
