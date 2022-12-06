@@ -14,41 +14,13 @@ const productPage = new ProductPage();
 const addProductPage = new AddProductPage();
 const shopifyIntegrationPage = new ShopifyIntegrationPage();
 
-describe('Product Functionality', () => {
-    before(() => {
-        cy.request({
-            method: 'POST',
-            url: user.valid.urlAPI + '/api/services/app/tokenauth/login-seller',
-            headers: {
-                'X-XSRF-TOKEN': user.valid.accessToken
-            },
-            body: {
-                emailAddress: email,
-                password: password,
-            }
-        })
-            .should((response) => {
-                cy.request({
-                    method: 'GET',
-                    url: user.valid.urlAPI + '/api/services/seller/shopify/reset-integrate',
-                    failOnStatusCode: false,
-                    headers: {
-                        'X-XSRF-TOKEN': user.valid.accessToken,
-                        'Authorization': 'Bearer ' + response.body.result.accessToken
-                    },
-                })
-                    .should((response) => {
-                        expect(response.status).to.not.eq(401);
-
-                    });
-
-            });
-
+describe('Product Functionality - First Login', () => {
+    beforeEach(()=> {
         loginPage
-            .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
-            .clickLoginButton()
-            .verifyInHomePage();
+        .goToLoginPage()
+        .loginWithUser(user.valid.email1, user.valid.password1)
+        .clickLoginButton()
+        .verifyInHomePage();
     })
 
     it('C_001 Show Products - empty When seller click PRODUCTS', () => {
@@ -62,6 +34,16 @@ describe('Product Functionality', () => {
         homePage.clickProductsOnMenu();
         productPage
             .verifyShowlistProduct();
+    })
+})
+
+describe('Product Functionality', () => {
+    before(() => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton()
+            .verifyInHomePage();
     })
 
     it('C_003 When seller click “Add Product” button in product list page, show add product page', () => {
@@ -224,6 +206,38 @@ describe('Product Functionality', () => {
         productPage.verifyProductAddSuccess(productName, quantity, '', category)
             .clickDeleteProduct(productName)
             .verifyDeleteProductSuccess(productName);
+    })
+
+    it.only('E_019 When click on Add icon in Size option, displays Add option value field', () => {
+        homePage.clickProductsOnMenu();
+
+        productPage.clickAddProductButton();
+        addProductPage
+            .clickOptionCheckbox(true)
+            .clickPlusIcon(addProductPage.sizeOptionsText);
+    })
+
+    it.only('E_020 When seller enter size option in Add option value field, Done button will be enable', () => {
+        addProductPage
+            .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
+            .inputAddOptionValue(addProductPage.sizeOptionsText, 1, 'M');
+    })
+
+    it.only('E_021 When seller click “Delete” icon in Size option, show popup Delete Size Option', () => {
+        addProductPage
+            .clickDeleteOption(addProductPage.sizeOptionsText)
+            .verifyShowDeletePopup(true);
+    })
+
+    it.only('E_022 When seller click “Remove” button, Size Option will be remove', () => {
+        addProductPage
+            .clickButton(addProductPage.removeBtn)
+            .verifyShowDeletePopup(false)
+            .verifyRemoveOptionSuccess(1)
+            .clickDeleteOption(addProductPage.sizeOptionsText)
+            .clickButton(addProductPage.removeBtn)
+            .verifyShowDeletePopup(false)
+            .verifyRemoveOptionSuccess(0);
     })
 
 })

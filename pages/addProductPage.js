@@ -14,7 +14,7 @@ export class AddProductPage {
         this.quantityInput = '[name="quantity"]';
         this.shippingWeightInput = '[name="shippingWeight"]';
         this.generateTagsBtn = 'Generate Tags';
-        this.generateicTag = '[alt="icTagGenerate"]'; 
+        this.generateicTag = '[alt="icTagGenerate"]';
         this.generateTagsMsg = 'Please add Image to “Generate Tags”';
         this.additionalTagsInput = 'Additional Tags'; //parent()->input/button
         this.categorySelect = '[alt="icArrowDownNoactive"]';
@@ -23,6 +23,11 @@ export class AddProductPage {
         this.optionCheckbox = 'This product has various sizes and/or colours'; //prev
         this.sizeOptionsText = 'Size Options';
         this.colourMaterialOptionsText = 'Colour / Material Options';
+        this.plusIcon = 'img[alt="plus"]';
+        this.optionValue = 'Option Values';
+        this.addOptionValueInput = 'input[placeholder="Add option value"]';
+        this.removeBtn = 'Remove';
+        this.cancel = 'Cancel';
         this.createdProductSuccessMsg = 'Created product successfully!';
     }
 
@@ -86,14 +91,14 @@ export class AddProductPage {
             cy.get(this.addMediaFileBtn).selectFile(path, { force: true });
         }
 
-        if(category != '') {
+        if (category != '') {
             cy.get(this.categorySelect).click();
             cy.get('[alt="icArrowRight"]').prev().contains(category).click();
             cy.contains('Dresses').click();
         }
 
-        if(occasionsItem != ''){
-            cy.get(this.occasionsListCheckbox).find('label').within(() =>{
+        if (occasionsItem != '') {
+            cy.get(this.occasionsListCheckbox).find('label').within(() => {
                 cy.contains(occasionsList[occasionsItem]).prev().find('[type="checkbox"]').check();
             })
         }
@@ -101,9 +106,9 @@ export class AddProductPage {
         return this;
     }
 
-    clickAddTagButton(){
+    clickAddTagButton() {
         cy.get('button').contains(this.generateTagsBtn).click();
-        cy.contains('Do check the tags for accuracy.').next('div').children('div', {timeout: 15000}).then(($div)=>{
+        cy.contains('Do check the tags for accuracy.').next('div').children('div', { timeout: 15000 }).then(($div) => {
             cy.get($div).eq(0).click();
             cy.get($div).eq(1).click();
         })
@@ -134,6 +139,55 @@ export class AddProductPage {
 
     verifyShowMessageBarCreatedProductSuccess() {
         cy.contains(this.createdProductSuccessMsg).should('be.visible');
+        return this;
+    }
+
+    clickPlusIcon(option) {
+        cy.contains(option).parent().next().find(this.plusIcon).click();
+        cy.get(this.addOptionValueInput)
+            .should('have.attr', 'placeholder', 'Add option value');
+        cy.contains(option).parent().next().children('button').eq(1).should('be.disabled');
+        cy.contains(this.optionValue).parent().children('button').should('be.disabled');
+
+        return this;
+    }
+
+    inputAddOptionValue(option, eq, value) {
+        cy.get(this.addOptionValueInput).eq(eq).clear().type(value);
+        cy.get(this.addOptionValueInput).eq(eq).parents('span').prev().children('span').children('input')
+        .invoke('val').should('eq', value);
+        cy.contains(option).parent().next().children('button').eq(1).should('not.be.disabled');
+        cy.contains(this.optionValue).parent().children('button').contains('Done').should('not.be.disabled');
+        return this;
+    }
+
+    clickDeleteOption(option) {
+        cy.contains(option).parent().next().children('button').eq(1).click();
+        return this;
+    }
+
+    verifyShowDeletePopup(isShow) {
+        switch (isShow) {
+            case true:
+                cy.contains('Delete Size Options?').should('be.visible');
+                cy.contains('Remove size options from this product listing? This action cannot be undone.').should('be.visible');
+                break;
+            case false:
+                cy.contains('Delete Size Options?').should('not.exist');
+                cy.contains('Remove size options from this product listing? This action cannot be undone.').should('not.exist');
+                break;
+        }
+        return this;
+    }
+
+    clickButton(button){
+        cy.get('button').contains(button).click();
+        return this;
+    }
+
+    verifyRemoveOptionSuccess(eq){
+        cy.get(this.addOptionValueInput).eq(eq).parents('span').prev().children('span').children('input')
+        .invoke('val').should('be.empty');
         return this;
     }
 

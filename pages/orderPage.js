@@ -27,6 +27,8 @@ export class OrderPage {
         this.filterBtn = 'Filter';
         this.filterListBtn = '[role="menu"] .MuiList-root';
         this.dateInput = '[placeholder="00-00-0000"]';
+        this.dayOfMonth = '.MuiPickersModal-dialog [tabindex="0"]';
+        this.dayOfWeek = '.MuiPickersCalendarHeader-daysHeader';
     }
 
     verifyShowOrderEmptyText() {
@@ -70,7 +72,7 @@ export class OrderPage {
     }
 
     clickOrderTabButton(button) {
-        cy.get(this.orderBtnList).contains(button).click({force: true});
+        cy.get(this.orderBtnList).contains(button).click({ force: true });
         return this;
     }
 
@@ -147,8 +149,7 @@ export class OrderPage {
     }
 
     clickSortOptionButton(button) {
-        cy.get(this.sortListBtn).contains(button).click();
-        cy.wait(2000);
+        cy.get(this.sortListBtn, { timeout: 5000 }).contains(button).click();
         return this;
     }
 
@@ -174,6 +175,7 @@ export class OrderPage {
     }
 
     verifyShowSortOrder(col, sort, sliceIndex) {
+        cy.wait(2000);
         cy.get(this.orderTableList).its('length').then(($length) => {
             let arrOrderNo = []
             let arrPrices = []
@@ -246,14 +248,14 @@ export class OrderPage {
         return this;
     }
 
-    inputDateFilter(selectDate, date) {
+    inputDateFilter(selectDate, date, today) {
         switch (selectDate) {
             case 'from':
                 cy.get(this.dateInput).eq(0).type(date, { force: true });
                 break;
             case 'to':
-                cy.get(this.dateInput).eq(1).next().children('button').click({force: true});
-                cy.get('.MuiPickersModal-dialog [tabindex="0"]').contains('2').click({force: true});
+                cy.get(this.dateInput).eq(1).next().children('button').click({ force: true });
+                cy.get(this.dayOfMonth).contains(today).click({ force: true });
                 cy.get('button').contains('OK').click();
                 break;
         }
@@ -272,20 +274,45 @@ export class OrderPage {
                             expect($value.slice(0, 10)).to.be.equal(formValue);
                         })
                     } else {
-                        if(toValue != ''){
+                        if (toValue != '') {
                             cy.get(this.orderTableList).first().children('td').eq(2).invoke('text').then(($value) => {
                                 expect($value.slice(0, 10)).to.be.equal(toValue);
                             })
                             cy.get(this.orderTableList).last().children('td').eq(2).invoke('text').then(($value) => {
                                 expect($value.slice(0, 10)).to.be.equal(formValue);
                             })
+                        } else {
+                            cy.get(this.orderTableList).last().children('td').eq(2).invoke('text').then(($value) => {
+                                expect($value.slice(0, 10)).to.be.equal(formValue);
+                            })
                         }
-                        cy.get(this.orderTableList).last().children('td').eq(2).invoke('text').then(($value) => {
-                            expect($value.slice(0, 10)).to.be.equal(formValue);
-                        })
                     }
                 })
             }
         })
+    }
+
+    clickCalendarIcon(eq) {
+        cy.get(this.dateInput).eq(eq).next().children('button').click({ force: true });
+        return this;
+    }
+
+    verifyshowCalendarPicker() {
+        cy.get(this.dayOfWeek)
+            .should('contain', 'Su')
+            .should('contain', 'Mo')
+            .should('contain', 'Tu')
+            .should('contain', 'We')
+            .should('contain', 'Th')
+            .should('contain', 'Fr')
+            .should('contain', 'Sa');
+        cy.get(this.dayOfMonth)
+            .should('contain', '10')
+            .should('contain', '11')
+            .should('contain', '12')
+            .should('contain', '13')
+            .should('contain', '14')
+            .should('contain', '15')
+            .should('contain', '16');
     }
 }

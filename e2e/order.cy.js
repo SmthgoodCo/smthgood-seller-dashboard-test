@@ -8,7 +8,7 @@ const loginPage = new LoginPage();
 const homePage = new HomePage();
 const orderPage = new OrderPage();
 
-describe('OrderPage First Login Functionality', () => {
+describe('OrderPage Functionality -First Login', () => {
 
     it('B_051 show “Order - empty” page When seller fist login page', () => {
         loginPage
@@ -171,7 +171,7 @@ describe('OrderPage Functionality', () => {
     it('B_075 When seller select from and to Date, show Order matching with Filter condition', () => {
         orderPage.clickButtonOrerPage(orderPage.filterBtn)
             .inputDateFilter('from', '30-11-2022')
-            .inputDateFilter('to', '02-12-2022')
+            .inputDateFilter('to', '02-12-2022', '2')
             .verifyShowOrderWithDateFilter('30-11-2022', '02-12-2022');
 
     })
@@ -201,5 +201,33 @@ describe('OrderPage Functionality', () => {
         orderPage.clickButtonOrerPage(orderPage.filterBtn)
             .clickFilterListButton(orderPage.completed)
             .verifyOrderInOrderTable(1, orderPage.completed);
+    })
+
+    it('B_077 When seller click Order Received then select from and to Date, show Order matching with Filter condition', () => {
+        orderPage.clickOrderTabButton(orderPage.orderReceived)
+            .clickButtonOrerPage(orderPage.filterBtn)
+            .inputDateFilter('from', '30-11-2022')
+            .inputDateFilter('to', '06-12-2022', '6')
+            .verifyShowOrderWithDateFilter('30-11-2022', '06-12-2022');
+    })
+
+    it('B_078 When seller click “Refunded” in list filter, show order has status Refunded', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickFilterListButton(orderPage.refunded)
+            .verifyOrderInOrderTable(3, orderPage.refunded);
+    })
+
+    it('B_078 When seller click Shipped and select from and to Date then select Lowest amount, show Order matching with Filter condition', () => {
+        orderPage.clickOrderTabButton(orderPage.shipped)
+            .clickButtonOrerPage(orderPage.filterBtn)
+            .inputDateFilter('from', '30-11-2022')
+            .inputDateFilter('to', '06-12-2022', '6')
+            .verifyShowOrderWithDateFilter('30-11-2022', '06-12-2022');
+    })
+
+    it('B_079 When seller click calendar icon in from field, show calendar to select dd/mm/yyyy', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickCalendarIcon(0)
+            .verifyshowCalendarPicker();
     })
 })
