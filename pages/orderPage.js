@@ -1,3 +1,5 @@
+import { convertDate } from "../support/functionCommon";
+
 export class OrderPage {
     constructor() {
         this.orderEmptyText = 'You do not have any orders at the moment.';
@@ -23,6 +25,8 @@ export class OrderPage {
         this.lowestamount = 'Lowest amount';
         this.noneBtn = 'None'; //next()
         this.filterBtn = 'Filter';
+        this.filterListBtn = '[role="menu"] .MuiList-root';
+        this.dateInput = '[placeholder="00-00-0000"]';
     }
 
     verifyShowOrderEmptyText() {
@@ -66,7 +70,7 @@ export class OrderPage {
     }
 
     clickOrderTabButton(button) {
-        cy.get(this.orderBtnList).contains(button).click();
+        cy.get(this.orderBtnList).contains(button).click({force: true});
         return this;
     }
 
@@ -109,7 +113,6 @@ export class OrderPage {
                 })
             }
         })
-        console.log('countOrderNumberWithStatus', +this.countOrderNumberWithStatus(status));
     }
 
     verifyOrderShippingInOrderTable() {
@@ -149,9 +152,9 @@ export class OrderPage {
         return this;
     }
 
-    verifyShowListSortButton(isClick = 'Visible') {
+    verifyShowListSortButton(isClick = true) {
         switch (isClick) {
-            case 'Visible':
+            case true:
                 cy.get(this.sortListBtn).contains(this.newestfirstBtn).should('be.visible');
                 cy.get(this.sortListBtn).contains(this.oldestfirstBtn).should('be.visible');
                 cy.get(this.sortListBtn).contains(this.highestamount).should('be.visible');
@@ -159,7 +162,7 @@ export class OrderPage {
                 cy.get(this.sortListBtn).contains(this.noneBtn).should('be.visible');
                 break;
 
-            case 'Exit':
+            case false:
                 cy.contains(this.newestfirstBtn).should('not.exist');
                 cy.contains(this.oldestfirstBtn).should('not.exist');
                 cy.contains(this.highestamount).should('not.exist');
@@ -172,19 +175,19 @@ export class OrderPage {
 
     verifyShowSortOrder(col, sort, sliceIndex) {
         cy.get(this.orderTableList).its('length').then(($length) => {
-            let firstUserPrices = []
+            let arrOrderNo = []
             let arrPrices = []
             for (var i = 0; i < $length; i++) {
                 cy.get(this.orderTableList).eq(i).children('td').eq(col).invoke('text').then(($value) => {
-                    firstUserPrices.push(parseInt($value.slice(sliceIndex)));
+                    arrOrderNo.push(parseInt($value.slice(sliceIndex)));
                     arrPrices.push(parseFloat($value.slice(sliceIndex)));
-                    for (var j = 0; j < firstUserPrices.length - 1; j++) {
+                    for (var j = 0; j < arrOrderNo.length - 1; j++) {
                         switch (sort) {
                             case 'Newest first':
-                                expect(firstUserPrices[j]).to.be.greaterThan(firstUserPrices[j + 1])
+                                expect(arrOrderNo[j]).to.be.greaterThan(arrOrderNo[j + 1])
                                 break;
                             case 'Oldest first':
-                                expect(firstUserPrices[j]).to.be.lessThan(firstUserPrices[j + 1])
+                                expect(arrOrderNo[j]).to.be.lessThan(arrOrderNo[j + 1])
                                 break;
                             case 'Highest amount':
                                 if (arrPrices[j] == arrPrices[j + 1]) {
@@ -199,12 +202,12 @@ export class OrderPage {
                                 expect(arrPrices[j]).to.be.lessThan(arrPrices[j + 1])
                                 break;
                             case 'None':
-                                expect(firstUserPrices[j]).to.be.greaterThan(firstUserPrices[j + 1])
+                                expect(arrOrderNo[j]).to.be.greaterThan(arrOrderNo[j + 1])
                                 break;
                         }
                     }
                 })
-                firstUserPrices = [];
+                arrOrderNo = [];
                 arrPrices = [];
             }
         });
@@ -214,5 +217,75 @@ export class OrderPage {
     clickOutside() {
         cy.get('body').click(0, 400);
         return this;
+    }
+
+    verifyShowListFilterButton(isClick = true) {
+        switch (isClick) {
+            case true:
+                cy.get(this.filterListBtn).contains(this.orderReceived).should('be.visible');
+                cy.get(this.filterListBtn).contains(this.shipped).should('be.visible');
+                cy.get(this.filterListBtn).contains(this.completed).should('be.visible');
+                cy.get(this.filterListBtn).contains(this.cancelled).should('be.visible');
+                cy.get(this.filterListBtn).contains(this.refunded).should('be.visible');
+                cy.get(this.filterListBtn).contains("Date").should('be.visible');
+                cy.get(this.filterListBtn).find(this.dateInput).should('be.visible');
+                cy.get(this.filterListBtn).contains(this.noneBtn).should('be.visible');
+                break;
+
+            case false:
+                cy.get(this.filterListBtn).should('not.exist');
+                cy.get(this.dateInput).should('not.exist');
+                break;
+        }
+
+        return this;
+    }
+
+    clickFilterListButton(button) {
+        cy.get(this.filterListBtn).contains(button).click();
+        return this;
+    }
+
+    inputDateFilter(selectDate, date) {
+        switch (selectDate) {
+            case 'from':
+                cy.get(this.dateInput).eq(0).type(date, { force: true });
+                break;
+            case 'to':
+                cy.get(this.dateInput).eq(1).next().children('button').click({force: true});
+                cy.get('.MuiPickersModal-dialog [tabindex="0"]').contains('2').click({force: true});
+                cy.get('button').contains('OK').click();
+                break;
+        }
+        return this;
+    }
+
+    verifyShowOrderWithDateFilter(formValue, toValue) {
+        cy.wait(2000);
+        cy.get(this.orderTableCell).its('length').then(($orderLength) => {
+            if ($orderLength == 1) {
+                cy.get(this.orderTableList).contains(this.orderEmptyText).should('be.visible');
+            } else {
+                cy.get(this.orderTableList).its('length').then(($length) => {
+                    if ($length == 1) {
+                        cy.get(this.orderTableList).children('td').eq(2).invoke('text').then(($value) => {
+                            expect($value.slice(0, 10)).to.be.equal(formValue);
+                        })
+                    } else {
+                        if(toValue != ''){
+                            cy.get(this.orderTableList).first().children('td').eq(2).invoke('text').then(($value) => {
+                                expect($value.slice(0, 10)).to.be.equal(toValue);
+                            })
+                            cy.get(this.orderTableList).last().children('td').eq(2).invoke('text').then(($value) => {
+                                expect($value.slice(0, 10)).to.be.equal(formValue);
+                            })
+                        }
+                        cy.get(this.orderTableList).last().children('td').eq(2).invoke('text').then(($value) => {
+                            expect($value.slice(0, 10)).to.be.equal(formValue);
+                        })
+                    }
+                })
+            }
+        })
     }
 }

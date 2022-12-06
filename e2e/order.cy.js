@@ -147,7 +147,59 @@ describe('OrderPage Functionality', () => {
         orderPage.clickButtonOrerPage(orderPage.sortBtn)
             .verifyShowListSortButton()
             .clickOutside()
-            .verifyShowListSortButton('Exit');
+            .verifyShowListSortButton(false);
     })
 
+    it('B_073 When seller click outside  Filter button, turn off list Filter option', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickOutside()
+            .verifyShowListFilterButton(false);
+    })
+
+    it('B_074 When seller click “Filter” button, show list filter option', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .verifyShowListFilterButton();
+    })
+
+    it('B_075 When seller click “Order Received” in list filter, show order has status Order Received', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickFilterListButton(orderPage.orderReceived)
+            .verifyOrderInOrderTable(0, orderPage.orderReceived);
+
+    })
+
+    it('B_075 When seller select from and to Date, show Order matching with Filter condition', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .inputDateFilter('from', '30-11-2022')
+            .inputDateFilter('to', '02-12-2022')
+            .verifyShowOrderWithDateFilter('30-11-2022', '02-12-2022');
+
+    })
+
+    it('B_076 When seller click “Shipped” in list filter, show order has status Shipped', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickFilterListButton(orderPage.shipped)
+            .verifyOrderShippingInOrderTable();
+    })
+
+    it('B_076 When seller select from Date - blank to Date, show Order matching with Filter condition', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .inputDateFilter('from', '02-12-2022')
+            .clickOutside()
+            .clickButtonOrerPage(orderPage.sortBtn)
+            .clickSortOptionButton(orderPage.newestfirstBtn)
+            .verifyShowOrderWithDateFilter('02-12-2022', '');
+    })
+
+    it('B_077 When seller click “Cancelled” in list filter, show order has status Cancelled', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickFilterListButton(orderPage.cancelled)
+            .verifyOrderInOrderTable(2, orderPage.cancelled);
+    })
+
+    it('B_077 When seller click “Completed” in list filter, show order has status Completed', () => {
+        orderPage.clickButtonOrerPage(orderPage.filterBtn)
+            .clickFilterListButton(orderPage.completed)
+            .verifyOrderInOrderTable(1, orderPage.completed);
+    })
 })

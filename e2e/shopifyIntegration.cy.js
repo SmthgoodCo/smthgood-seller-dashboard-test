@@ -15,37 +15,37 @@ const shopifyIntegrationPopupPage = new ShopifyIntegrationPopupPage();
 
 describe('Shopify with Integration Functionality', () => {
     before(() => {
-        cy.request({
-            method: 'POST',
-            url: user.valid.urlAPI + '/api/services/app/tokenauth/login-seller',
-            headers: {
-                'X-XSRF-TOKEN': user.valid.accessToken
-            },
-            body: {
-                emailAddress: email,
-                password: password,
-            }
-        })
-            .should((response) => {
-                cy.request({
-                    method: 'GET',
-                    url: user.valid.urlAPI + '/api/services/seller/shopify/reset-integrate',
-                    failOnStatusCode: false,
-                    headers: {
-                        'X-XSRF-TOKEN': user.valid.accessToken,
-                        'Authorization': 'Bearer ' + response.body.result.accessToken
-                    },
-                })
-                    .should((response) => {
-                        expect(response.status).to.not.eq(401);
+        // cy.request({
+        //     method: 'POST',
+        //     url: user.valid.urlAPI + '/api/services/app/tokenauth/login-seller',
+        //     headers: {
+        //         'X-XSRF-TOKEN': user.valid.accessToken
+        //     },
+        //     body: {
+        //         emailAddress: email,
+        //         password: password,
+        //     }
+        // })
+        //     .should((response) => {
+        //         cy.request({
+        //             method: 'GET',
+        //             url: user.valid.urlAPI + '/api/services/seller/shopify/reset-integrate',
+        //             failOnStatusCode: false,
+        //             headers: {
+        //                 'X-XSRF-TOKEN': user.valid.accessToken,
+        //                 'Authorization': 'Bearer ' + response.body.result.accessToken
+        //             },
+        //         })
+        //             .should((response) => {
+        //                 expect(response.status).to.not.eq(401);
 
-                    });
+        //             });
 
-            });
+        //     });
 
         loginPage
             .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
+            .loginWithUser(email, password)
             .clickLoginButton()
             .verifyInHomePage();
         homePage.clickProductsOnMenu();
@@ -65,7 +65,7 @@ describe('Shopify with Integration Functionality', () => {
     it('C_005 Show image When seller click left arrow icon', () => {
         loginPage
             .goToLoginPage()
-            .loginWithUser(user.valid.email, user.valid.password)
+            .loginWithUser(email, password)
             .clickLoginButton()
         homePage.clickProductsOnMenu();
         productPage.clickIntegrateWithShopifyButton();
