@@ -6,9 +6,10 @@ export class ProductPage {
         this.uploadDynamicSpreadsheetTxt = 'Upload Dynamic Spreadsheet';
         this.inputProductsManually = 'Input Products Manually';
         this.productTagButton = '.MuiToggleButtonGroup-root>button';
-        this.proctTable = '.MuiTableBody-root>tr'
-        this.searchProductInPut = '[placeholder="Search products"]'
-        this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input'
+        this.productTable = '.MuiTableBody-root>tr';
+        this.productTableCell = '.MuiTableCell-body';
+        this.searchProductInPut = '[placeholder="Search products"]';
+        this.searchProductListBtn = '.MuiTableRow-root .MuiInputBase-root>input';
         this.proceedToIntegrateLink = 'Proceed to integrate';
         this.proceedToUploadLink = 'Proceed to upload';
         this.buttonList = '.MuiGrid-item';
@@ -71,7 +72,7 @@ export class ProductPage {
                 cy.get(this.searchProductInPut)
                     .invoke('attr', 'placeholder')
                     .should('eq', 'Search products');
-                cy.get(this.proctTable).its('length').should('be.greaterThan', 0);
+                cy.get(this.productTable).its('length').should('be.greaterThan', 0);
             }
             else {
                 cy.contains('You do not have any product at the moment.')
@@ -86,7 +87,7 @@ export class ProductPage {
     verifyProductAfterUploadCSVFileSuccess(productName) {
         cy.get(this.searchProductInPut).type(productName);
         cy.wait(5000)
-        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', 'Dynamic Spreadsheet Product 2');
             cy.get('td').eq(1).find('img').invoke('attr', 'src')
                 .should('include', '/product_variants/Template/pexels-neosiam-603022.jpg');
@@ -97,7 +98,7 @@ export class ProductPage {
     }
 
     clickAddProductButton() {
-        cy.wait(5000);
+        cy.wait(2000);
         cy.get("body",{ timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.buttonList).contains(this.addProductBtn).click();
@@ -110,7 +111,8 @@ export class ProductPage {
 
     verifyProductAddSuccess(productName, quantity, status, category) {
         cy.get(this.searchProductInPut).clear().type(productName);
-        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
+        cy.wait(2000);
+        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', productName);
             cy.get('td').eq(2).should('have.text', quantity + ' in stock');
             if (status == '') {
@@ -126,12 +128,11 @@ export class ProductPage {
 
     clickDeleteProduct(productName) {
         cy.get(this.searchProductInPut).clear().type(productName);
-        cy.get(this.proctTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
             cy.get('td').eq(6).find('button').last().click({ force: true });
         })
         cy.get(this.deletePopupConfirm).contains(this.deleteBtn).click({ force: true });
         cy.contains('Deleted completed!').should('be.visible');
-        cy.wait(2000);
         return this;
     }
 

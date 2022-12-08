@@ -13,14 +13,16 @@ const homePage = new HomePage();
 const productPage = new ProductPage();
 const addProductPage = new AddProductPage();
 const shopifyIntegrationPage = new ShopifyIntegrationPage();
+const productName = 'Add test product manully';
+
 
 describe('Product Functionality - First Login', () => {
-    beforeEach(()=> {
+    beforeEach(() => {
         loginPage
-        .goToLoginPage()
-        .loginWithUser(user.valid.email1, user.valid.password1)
-        .clickLoginButton()
-        .verifyInHomePage();
+            .goToLoginPage()
+            .loginWithUser(user.valid.email1, user.valid.password1)
+            .clickLoginButton()
+            .verifyInHomePage();
     })
 
     it('C_001 Show Products - empty When seller click PRODUCTS', () => {
@@ -189,8 +191,51 @@ describe('Product Functionality', () => {
             .clickOptionCheckbox(false);
     })
 
-    it('C_023 when seller enter required fields successfully, check product imported successfully', () => {
-        const productName = 'Add test product manully';
+    it('E_019 When click on Add icon in Size option, displays Add option value field', () => {
+        addProductPage
+            .clickOptionCheckbox(true)
+            .clickPlusIcon(addProductPage.sizeOptionsText);
+    })
+
+    it('E_020 When seller enter size option in Add option value field, Done button will be enable', () => {
+        addProductPage
+            .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
+            .inputAddOptionValue(addProductPage.sizeOptionsText, 1, 'M');
+    })
+
+    it('E_021 When seller click “Delete” icon in Size option, show popup Delete Size Option', () => {
+        addProductPage
+            .clickDeleteOption(addProductPage.sizeOptionsText)
+            .verifyShowDeletePopup(true);
+    })
+
+    it('E_022 When seller click “Remove” button, Size Option will be remove', () => {
+        addProductPage
+            .clickButton(addProductPage.removeBtn)
+            .verifyShowDeletePopup(false)
+            .verifyRemoveOptionSuccess(1)
+            .clickDeleteOption(addProductPage.sizeOptionsText)
+            .clickButton(addProductPage.removeBtn)
+            .verifyShowDeletePopup(false)
+            .verifyRemoveOptionSuccess(0);
+    })
+
+    it('E_023 When seller click “Cancel” button on popup Delete Size Option, popup disable', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+        .clickOptionCheckbox(true)
+        .clickPlusIcon(addProductPage.sizeOptionsText);
+
+        addProductPage
+            .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
+            .clickDeleteOption(addProductPage.sizeOptionsText)
+            .verifyShowDeletePopup(true)
+            .clickButton(addProductPage.cancelBtn)
+            .verifyShowDeletePopup(false)
+    })
+
+    it('E_024 When user input all required field, user can submit to create product without error', () => {
         const quantity = '123';
         const addFile = fileName.valid.image;
         const category = 'Clothing';
@@ -203,41 +248,82 @@ describe('Product Functionality', () => {
             .clickAddTagButton()
             .clickSaveButton()
             .verifyShowMessageBarCreatedProductSuccess()
-        productPage.verifyProductAddSuccess(productName, quantity, '', category)
+        productPage.verifyProductAddSuccess(productName, quantity, '', category);
+    })
+
+    it('E_025 User can delete product', () => {
+        productPage
             .clickDeleteProduct(productName)
             .verifyDeleteProductSuccess(productName);
     })
 
-    it.only('E_019 When click on Add icon in Size option, displays Add option value field', () => {
-        homePage.clickProductsOnMenu();
-
+    it('E_026 When seller leave “Shipping Weight” field blank, show warning message', () => {
         productPage.clickAddProductButton();
         addProductPage
-            .clickOptionCheckbox(true)
-            .clickPlusIcon(addProductPage.sizeOptionsText);
+            .inputInforProduct('test2', '', '', 100, 99, '', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required');
     })
 
-    it.only('E_020 When seller enter size option in Add option value field, Done button will be enable', () => {
+    it('E_027 When seller enter space in “Shipping Weight” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
         addProductPage
-            .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
-            .inputAddOptionValue(addProductPage.sizeOptionsText, 1, 'M');
+            .inputInforProduct('test2', '', '', 100, 99, '   ', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight should be a number');
     })
 
-    it.only('E_021 When seller click “Delete” icon in Size option, show popup Delete Size Option', () => {
+    it('E_028 When seller enter data character in “Shpping Weight” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
         addProductPage
-            .clickDeleteOption(addProductPage.sizeOptionsText)
-            .verifyShowDeletePopup(true);
+            .inputInforProduct('test2', '', '', 100, 99, 'abcdef', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight should be a number');
     })
 
-    it.only('E_022 When seller click “Remove” button, Size Option will be remove', () => {
+    it('E_029 When seller enter special character in “Shipping Weight” field, show warning message', () => {
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
         addProductPage
-            .clickButton(addProductPage.removeBtn)
-            .verifyShowDeletePopup(false)
-            .verifyRemoveOptionSuccess(1)
-            .clickDeleteOption(addProductPage.sizeOptionsText)
-            .clickButton(addProductPage.removeBtn)
-            .verifyShowDeletePopup(false)
-            .verifyRemoveOptionSuccess(0);
+            .inputInforProduct('test2', '', '', 100, 99, '!@#$%', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight should be a number');
+    })
+
+    it('E_030 When seller click arrow icon in Status field, show list status in dropdown', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .clickStatusListBox();
+    })
+    
+    it('E_032 When seller click “Archived”, status of product is Archived', () => {
+        homePage.clickOutsideDropdown();
+        addProductPage.clickBackIcon();
+        productPage.clickAddProductButton();
+        addProductPage
+        .selectStatusValue(addProductPage.archivedStatus);
+    })
+    
+    it('E_031 When seller click “Draft”, status of product is Draft', () => {
+        addProductPage
+            .selectStatusValue(addProductPage.draftStatus);
+    })
+
+    it('E_033 When seller click “Active”, status of product is Active', () => {
+        addProductPage
+            .selectStatusValue(addProductPage.activeStatus);
+    })
+
+    it('E_034 When seller click “click here” hyperlink, open Sustainability and Ethical Values page', () => {
+        addProductPage
+            .clickHereLink();
     })
 
 })

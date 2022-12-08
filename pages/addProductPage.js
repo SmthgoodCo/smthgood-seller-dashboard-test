@@ -27,8 +27,13 @@ export class AddProductPage {
         this.optionValue = 'Option Values';
         this.addOptionValueInput = 'input[placeholder="Add option value"]';
         this.removeBtn = 'Remove';
-        this.cancel = 'Cancel';
+        this.cancelBtn = 'Cancel';
         this.createdProductSuccessMsg = 'Created product successfully!';
+        this.statusListValue = '.MuiPopover-paper [role="listbox"]';
+        this.draftStatus = 'Draft';
+        this.activeStatus = 'Active';
+        this.archivedStatus = 'Archived';
+        this.clickHereText = 'click here.';
     }
 
     verifyShowAddProductPage() {
@@ -45,12 +50,6 @@ export class AddProductPage {
 
     clickSaveButton() {
         cy.get('button').contains(this.saveBtn).eq(0).click();
-        return this;
-    }
-
-    verifyShowMessageEmptyTitle() {
-        cy.get('input[name="title"]').parents()
-            .contains('Title is required').should('be.visible');
         return this;
     }
 
@@ -155,7 +154,7 @@ export class AddProductPage {
     inputAddOptionValue(option, eq, value) {
         cy.get(this.addOptionValueInput).eq(eq).clear().type(value);
         cy.get(this.addOptionValueInput).eq(eq).parents('span').prev().children('span').children('input')
-        .invoke('val').should('eq', value);
+            .invoke('val').should('eq', value);
         cy.contains(option).parent().next().children('button').eq(1).should('not.be.disabled');
         cy.contains(this.optionValue).parent().children('button').contains('Done').should('not.be.disabled');
         return this;
@@ -180,14 +179,57 @@ export class AddProductPage {
         return this;
     }
 
-    clickButton(button){
+    clickButton(button) {
         cy.get('button').contains(button).click();
         return this;
     }
 
-    verifyRemoveOptionSuccess(eq){
+    verifyRemoveOptionSuccess(eq) {
         cy.get(this.addOptionValueInput).eq(eq).parents('span').prev().children('span').children('input')
-        .invoke('val').should('be.empty');
+            .invoke('val').should('be.empty');
+        return this;
+    }
+
+    clickStatusListBox() {
+        cy.get(this.statusSelect).click();
+        cy.get(this.statusListValue).should('exist');
+        cy.get(this.statusListValue).should('contain','Draft');
+        cy.get(this.statusListValue).should('contain','Active');
+        cy.get(this.statusListValue).should('contain','Archived');
+        return this;
+    }
+
+    selectStatusValue(statusValue) {
+        cy.get(this.statusSelect).click();
+        switch (statusValue) {
+            case 'Draft':
+                cy.get(this.statusListValue).contains('Draft').click();
+                break;
+            case 'Active':
+                cy.get(this.statusListValue).contains('Active').click();
+                break;
+            case 'Archived':
+                cy.get(this.statusListValue).contains('Archived').click();
+                break;
+        }
+        cy.get(this.statusSelect).should('have.text', statusValue);
+        cy.get(this.statusSelect).contains(statusValue).should('be.visible');
+
+        return this;
+    }
+
+    clickHereLink() {
+        cy.window().then(win => {
+            cy.stub(win, 'open').callsFake((url) => {
+                win.location.href = url;
+            })
+        })
+
+        cy.contains(this.clickHereText).click();
+        cy.url().should("include", 'smthgoodco.com/value');
+        cy.get('button').contains('Accept Cookies').click();
+        cy.contains('Sustainability and Ethical Values', {timeout: 5000}).should('be.visible');
+        
         return this;
     }
 
