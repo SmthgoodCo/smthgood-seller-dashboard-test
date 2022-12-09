@@ -18,6 +18,7 @@ export class AddProductPage {
         this.generateTagsMsg = 'Please add Image to “Generate Tags”';
         this.additionalTagsInput = 'Additional Tags'; //parent()->input/button
         this.categorySelect = '[alt="icArrowDownNoactive"]';
+        this.categoryTitle = 'Category';
         this.occasionsListCheckbox = '.MuiFormGroup-root';
         this.msgBarNotification = 'Create failed, please check again!';
         this.optionCheckbox = 'This product has various sizes and/or colours'; //prev
@@ -193,9 +194,9 @@ export class AddProductPage {
     clickStatusListBox() {
         cy.get(this.statusSelect).click();
         cy.get(this.statusListValue).should('exist');
-        cy.get(this.statusListValue).should('contain','Draft');
-        cy.get(this.statusListValue).should('contain','Active');
-        cy.get(this.statusListValue).should('contain','Archived');
+        cy.get(this.statusListValue).should('contain', 'Draft');
+        cy.get(this.statusListValue).should('contain', 'Active');
+        cy.get(this.statusListValue).should('contain', 'Archived');
         return this;
     }
 
@@ -228,8 +229,65 @@ export class AddProductPage {
         cy.contains(this.clickHereText).click();
         cy.url().should("include", 'smthgoodco.com/value');
         cy.get('button').contains('Accept Cookies').click();
-        cy.contains('Sustainability and Ethical Values', {timeout: 5000}).should('be.visible');
-        
+        cy.contains('Sustainability and Ethical Values', { timeout: 5000 }).should('be.visible');
+
+        return this;
+    }
+
+    clickCategory() {
+        cy.get(this.categorySelect).click();
+        return this;
+    }
+
+    verifyShowListCategory() {
+        cy.contains(this.categoryTitle).parent().children('div').eq(1).within(($list) => {
+            cy.get($list).scrollIntoView();
+            cy.get($list).contains('Accessories').should('be.visible');
+            cy.get($list).contains('Bags').should('be.visible');
+            cy.get($list).contains('Clothing').should('be.visible');
+            cy.get($list).contains('Footwear').should('be.visible');
+            cy.get($list).contains('Jewellery').should('be.visible');
+            cy.get($list).contains('Intimate Wear').should('be.visible');
+        })
+        return this;
+    }
+
+    clickSubCategory(category = 'Accessories') {
+        cy.contains(this.categoryTitle).parent().children('div').eq(1).within(($list) => {
+            cy.get($list).scrollIntoView();
+            cy.get($list).contains(category).click();
+            cy.get($list).contains(category).parent().nextUntil()
+                .should('contain', 'Bag Straps')
+                .should('contain', 'Belts')
+                .should('contain', 'Gloves')
+                .should('contain', 'Hats and Caps')
+                .should('contain', 'Scarves')
+                .should('contain', 'Suspenders');
+        })
+        return this;
+    }
+
+    clickOccasionsCheckbox(occasions, isCheck) {
+        switch (isCheck) {
+            case true:
+                cy.get(this.occasionsListCheckbox).find('label').within(() => {
+                    cy.contains(occasions).children().eq(0).should('not.have.class', 'Mui-checked');
+                    cy.contains(occasions).find('[type="checkbox"]').check();
+                    cy.contains(occasions).children().eq(0).should('have.class', 'Mui-checked');
+                })
+                
+                break;
+            case false:
+                cy.get(this.occasionsListCheckbox).find('label').within(() => {
+                    cy.contains(occasions).children().eq(0).should('not.have.class', 'Mui-checked');
+                    cy.contains(occasions).find('[type="checkbox"]').check();
+                    cy.contains(occasions).children().eq(0).should('have.class', 'Mui-checked');
+                    cy.contains(occasions).find('[type="checkbox"]').uncheck();
+                    cy.contains(occasions).children().eq(0).should('not.have.class', 'Mui-checked');
+
+                })
+                break;
+        }
         return this;
     }
 

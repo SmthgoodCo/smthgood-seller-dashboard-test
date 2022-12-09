@@ -48,18 +48,18 @@ describe('Product Functionality', () => {
             .verifyInHomePage();
     })
 
-    it('C_003 When seller click “Add Product” button in product list page, show add product page', () => {
+    it('E_001 When seller click “Add Product” button in product list page, show add product page', () => {
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton();
         addProductPage.verifyShowAddProductPage();
     })
 
-    it('C_004 When seller click “back” icon left side Add Product, show product list page', () => {
+    it('E_002 When seller click “back” icon left side Add Product, show product list page', () => {
         addProductPage.clickBackIcon();
         productPage.verifyShowProductPage();
     })
 
-    it('C_005 When seller leave “TITLE” field blank, show warning message', () => {
+    it('E_003 When seller leave “TITLE” field blank, show warning message', () => {
         productPage.clickAddProductButton();
         addProductPage
             .inputInforProduct('', 'test2', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
@@ -68,7 +68,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Title', 'Title is required');
     })
 
-    it('C_006 When seller enter space in “TITLE” field, show Message Bar Notification', () => {
+    it('E_004 When seller enter space in “TITLE” field, show Message Bar Notification', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -79,7 +79,7 @@ describe('Product Functionality', () => {
     })
 
 
-    it('C_007 When seller leave “DESCRIPTION” field, show warning message', () => {
+    it('E_005 When seller leave “DESCRIPTION” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -89,7 +89,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Description', 'Description is required');
     })
 
-    it('C_008 When seller enter space in “DESCRIPTION” field, show Message Bar Notification', () => {
+    it('E_006 When seller enter space in “DESCRIPTION” field, show Message Bar Notification', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -99,7 +99,7 @@ describe('Product Functionality', () => {
             .verifyShowMessageBarNotification();
     })
 
-    it('C_009 When seller leave “PRICE” field blank, show warning message', () => {
+    it('E_007 When seller leave “PRICE” field blank, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -109,7 +109,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price is required');
     })
 
-    it('C_010 When seller enter space in “PRICE” field, show warning message', () => {
+    it('E_008 When seller enter space in “PRICE” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -119,7 +119,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
 
-    it('C_011 When seller enter special character in “PRICE” field, show warning message', () => {
+    it('E_009 When seller enter special character in “PRICE” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -129,7 +129,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
 
-    it('C_012 When seller enter character data in “PRICE” field, show warning message', () => {
+    it('E_010 When seller enter character data in “PRICE” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -139,7 +139,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price should be a number');
     })
 
-    it('C_017 When seller leave “QUANTITY” field blank, show warning message', () => {
+    it('E_013 When seller leave “QUANTITY” field blank, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -149,7 +149,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Quantity', 'Quantity is required');
     })
 
-    it('C_018 When seller enter space in “QUANTITY” field, show warning message', () => {
+    it('E_014 When seller enter space in “QUANTITY” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -159,7 +159,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
 
-    it('C_019 When seller enter special character in “QUANTITY” field, show warning message', () => {
+    it('E_015 When seller enter special character in “QUANTITY” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -169,7 +169,7 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
 
-    it('C_020 When seller enter character data in “QUANTITY” field, show warning message', () => {
+    it('E_016 When seller enter character data in “QUANTITY” field, show warning message', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
@@ -179,14 +179,14 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Quantity', 'Quantity should be a number');
     })
 
-    it('C_021 When seller click on check-box “Option”, show Size Options and Colour / Material Options', () => {
+    it('E_017 When seller click on check-box “Option”, show Size Options and Colour / Material Options', () => {
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
         addProductPage
             .clickOptionCheckbox(true);
     })
 
-    it('C_022 When click on check-box to uncheck Options, Size Options and Colour Options will hide', () => {
+    it('E_018 When click on check-box to uncheck Options, Size Options and Colour Options will hide', () => {
         addProductPage
             .clickOptionCheckbox(false);
     })
@@ -224,8 +224,8 @@ describe('Product Functionality', () => {
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton();
         addProductPage
-        .clickOptionCheckbox(true)
-        .clickPlusIcon(addProductPage.sizeOptionsText);
+            .clickOptionCheckbox(true)
+            .clickPlusIcon(addProductPage.sizeOptionsText);
 
         addProductPage
             .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
@@ -299,18 +299,16 @@ describe('Product Functionality', () => {
     it('E_030 When seller click arrow icon in Status field, show list status in dropdown', () => {
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton();
-        addProductPage
-            .clickStatusListBox();
+        addProductPage.clickStatusListBox();
     })
-    
+
     it('E_032 When seller click “Archived”, status of product is Archived', () => {
         homePage.clickOutsideDropdown();
         addProductPage.clickBackIcon();
         productPage.clickAddProductButton();
-        addProductPage
-        .selectStatusValue(addProductPage.archivedStatus);
+        addProductPage.selectStatusValue(addProductPage.archivedStatus);
     })
-    
+
     it('E_031 When seller click “Draft”, status of product is Draft', () => {
         addProductPage
             .selectStatusValue(addProductPage.draftStatus);
@@ -324,6 +322,38 @@ describe('Product Functionality', () => {
     it('E_034 When seller click “click here” hyperlink, open Sustainability and Ethical Values page', () => {
         addProductPage
             .clickHereLink();
+    })
+
+    it('E_036 When seller click “arrow” icon in Category field, show list Category dropdown', () => {
+        loginPage
+            .goToLoginPage()
+            .loginWithUser(email, password)
+            .clickLoginButton()
+        homePage.clickProductsOnMenu()
+        productPage.clickAddProductButton()
+        addProductPage.clickCategory()
+            .verifyShowListCategory();
+
+    })
+
+    it('E_037 When seller click “arrow” icon in some category, show list Sub-Category', () => {
+        addProductPage.clickSubCategory();
+    })
+
+    it('E_038 When seller select Occasions and check-box, Occasions should checked', () => {
+        addProductPage.clickOccasionsCheckbox('Active', true);
+    })
+
+    it('E_039 When seller click to uncheck, Occasions checked should be uncheck', () => {
+        addProductPage.clickOccasionsCheckbox('Vacation', false);
+    })
+
+    it('E_040 Verify that seller can choose multiple occasions at the same time', () => {
+        addProductPage
+            .clickOccasionsCheckbox('Special', true)
+            .clickOccasionsCheckbox('Swimwear', true)
+            .clickOccasionsCheckbox('Day out', true)
+            .clickOccasionsCheckbox('Party', true);
     })
 
 })
