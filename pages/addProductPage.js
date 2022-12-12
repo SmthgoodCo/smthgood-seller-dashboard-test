@@ -50,12 +50,13 @@ export class AddProductPage {
     }
 
     clickSaveButton() {
-        cy.get('button').contains(this.saveBtn).eq(0).click();
+        cy.get('button[type="submit"]').eq(1).click();
+        // cy.get('button').contains(this.saveBtn).eq(1).click();
         return this;
     }
 
     verifyShowWarningMessage(contain, msgErr) {
-        cy.contains(contain).parent().should('contain', msgErr)
+        cy.contains(contain).scrollIntoView().parent().should('contain', msgErr)
         return this;
     }
 
@@ -246,7 +247,7 @@ export class AddProductPage {
             cy.get($list).contains('Bags').should('be.visible');
             cy.get($list).contains('Clothing').should('be.visible');
             cy.get($list).contains('Footwear').should('be.visible');
-            cy.get($list).contains('Jewellery').should('be.visible');
+            cy.get($list).contains('Jewellery').scrollIntoView().should('be.visible');
             cy.get($list).contains('Intimate Wear').should('be.visible');
         })
         return this;

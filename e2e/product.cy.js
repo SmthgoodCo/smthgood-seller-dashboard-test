@@ -356,4 +356,121 @@ describe('Product Functionality', () => {
             .clickOccasionsCheckbox('Party', true);
     })
 
+    it('E_ When seller blank all field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage.clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+            .verifyShowWarningMessage('Description', 'Description is required')
+            .verifyShowWarningMessage('Price', 'Price is required')
+            .verifyShowWarningMessage('Category', 'Category is required')
+            .verifyShowWarningMessage('Quantity', 'Quantity is required')
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required')
+            .verifyShowWarningMessage('Occasions', 'Occasions is required')
+            .verifyShowWarningMessage('Auto-Tagging', 'Please add Image to “Generate Tags”')
+        cy.contains('Media is required').should('be.visible');
+    })
+
+    it('E_ When seller enter all field - blank “TITLE” and “DESCRIPTION” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('', '', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+            .verifyShowWarningMessage('Description', 'Description is required')
+    })
+
+    it('E_ When seller enter all field - blank “TITLE” and “Media” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('', '', '', 100, 99, 1, '', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+        cy.contains('Media is required').should('be.visible');
+    })
+
+    it('E_ When seller enter all field - blank “TITLE” and “PRICE” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('', 'Description', '', '', 99, 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+            .verifyShowWarningMessage('Price', 'Price is required')
+    })
+
+    it('E_ When seller enter all field - blank “TITLE” and “QUANTITY” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('', 'Description', '', '59.95', '', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton().clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+            .verifyShowWarningMessage('Quantity', 'Quantity is required')
+    })
+
+    it('E_ When seller enter all field - blank “TITLE” and “Shipping Weight” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('', 'Description', '', '59.95', '999', '', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton().clickSaveButton()
+            .verifyShowWarningMessage('Title', 'Title is required')
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required')
+    })
+
+    it('E_ When seller enter all field - blank “DESCRIPTION” and “Media” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', '', '', 100, 99, 1, '', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Description', 'Description is required')
+        cy.contains('Media is required').should('be.visible');
+    })
+
+    it('E_ When seller enter all field - blank “DESCRIPTION” and “PRICE” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', '', '', '', '999', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton().clickSaveButton()
+            .verifyShowWarningMessage('Description', 'Description is required')
+            .verifyShowWarningMessage('Price', 'Price is required')
+    })
+
+    it('E_ When seller enter all field - blank “DESCRIPTION” and “QUANTITY” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', '', '', '59.95', '', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton().clickSaveButton()
+            .verifyShowWarningMessage('Description', 'Description is required')
+            .verifyShowWarningMessage('Quantity', 'Quantity is required')
+    })
+
+    it('E_ When seller enter all field - blank “DESCRIPTION” and “Shipping Weight” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', '', '', '59.95', '999', '', fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowWarningMessage('Description', 'Description is required')
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required')
+    })
+
+    it('E_ When seller enter all field - blank “Media” and “PRICE” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Descripton product', '', '', '999', '', '', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Price', 'Price is required')
+        cy.contains('Media is required').should('be.visible');
+    })
 })
