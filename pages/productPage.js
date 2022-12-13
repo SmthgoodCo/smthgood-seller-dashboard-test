@@ -19,6 +19,8 @@ export class ProductPage {
         this.productEmptyText = 'You do not have any product at the moment.';
         this.deletePopupConfirm = '[role="dialog"]  button';
         this.deleteBtn = 'Delete';
+        this.tableHead = '.MuiTableHead-root';
+        this.moreActionsBtn = 'More Actions';
     }
 
     verifyEmptyProductMessages() {
@@ -98,7 +100,7 @@ export class ProductPage {
     }
 
     clickAddProductButton() {
-        cy.wait(2000);
+        cy.wait(5000);
         cy.get("body",{ timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.buttonList).contains(this.addProductBtn).click();
@@ -153,4 +155,26 @@ export class ProductPage {
         })
         return this;
     }
+
+    clickCheckboxProduct(){
+        cy.get(this.tableHead).contains('More Actions').should('not.exist');
+        // cy.get(this.searchProductInPut).clear().type(productName);
+        // cy.wait(2000);
+        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
+            cy.get('td').eq(0).find('input').check();
+        })
+        cy.get(this.tableHead).contains('More Actions').should('be.visible');
+        return this;
+    }
+
+    clickMoreActionsButton(){
+        cy.get(this.tableHead).contains('More Actions').click();
+        return this;
+    }
+
+    clickShowMoreActionsList(){
+        cy.get(this.tableHead).contains('Set as active').should('be.visible');
+        return this;
+    }
+
 }

@@ -51,7 +51,6 @@ export class AddProductPage {
 
     clickSaveButton() {
         cy.get('button[type="submit"]').eq(1).click();
-        // cy.get('button').contains(this.saveBtn).eq(1).click();
         return this;
     }
 
@@ -116,8 +115,21 @@ export class AddProductPage {
         return this;
     }
 
-    verifyShowMessageBarNotification() {
-        cy.contains(this.msgBarNotification).should('be.visible')
+    inputTag(tag, isSave = false){
+        cy.get('button').contains('Generate Tags').click()
+        cy.contains('Additional Tags').next('div').children().children('input').type(tag)
+        if(isSave == true){
+            cy.get('button').contains("Add", {timeout: 5000}).click();
+        }
+        return this;
+    }
+
+    verifyShowMessageBarNotification(isShow = true) {
+        if (isShow == true) {
+            cy.contains(this.msgBarNotification).should('be.visible')
+        } else {
+            cy.contains(this.msgBarNotification).should('not.exist');
+        }
 
         return this;
     }

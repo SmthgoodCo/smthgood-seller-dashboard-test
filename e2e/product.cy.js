@@ -473,4 +473,110 @@ describe('Product Functionality', () => {
             .verifyShowWarningMessage('Price', 'Price is required')
         cy.contains('Media is required').should('be.visible');
     })
+
+    it('E_ When seller enter all field - blank “Media” and “QUANTITY” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Descripton product', '', '59.95', '', 1, '', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity is required');
+        cy.contains('Media is required').should('be.visible');
+    })
+
+    it('E_ When seller enter all field - blank “Media” and “Shipping Weight” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Descripton product', '', '59.95', '999', '', '', 'Clothing', 3)
+            .clickSaveButton()
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required');
+        cy.contains('Media is required').should('be.visible');
+    })
+
+    it('E_ When seller enter all field - blank “PRICE” and “QUANTITY” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Description', '', '', '', 1, fileName.valid.image, 'Clothing', 3)
+            .clickSaveButton()
+            .clickAddTagButton()
+            .verifyShowWarningMessage('Price', 'Price is required')
+            .verifyShowWarningMessage('Quantity', 'Quantity is required');
+    })
+
+    it('E_ When seller enter all field - blank “PRICE” and “Shipping Weight” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Description', '', '', '999', '', fileName.valid.image, 'Clothing', 3)
+            .clickSaveButton()
+            .clickAddTagButton()
+            .verifyShowWarningMessage('Price', 'Price is required')
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required');
+    })
+
+    it('E_ When seller enter all field - blank “QUANTITY” and “Shipping Weight” field, show warning message', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct('Title Product', 'Description', '', '59.95', '', '', fileName.valid.image, 'Clothing', 3)
+            .clickSaveButton()
+            .clickAddTagButton()
+            .verifyShowWarningMessage('Quantity', 'Quantity is required')
+            .verifyShowWarningMessage('Shipping Weight', 'Shipping Weight is required');
+    })
+
+    it('E_ Verify that create product success when seller enter valid data all field', () => {
+        const quantity = '999';
+        const addFile = fileName.valid.image;
+        const category = 'Clothing';
+        const product = 'ProductCreat Success';
+
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton()
+
+        addProductPage
+            .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, addFile, category, 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+            .verifyShowMessageBarCreatedProductSuccess()
+        productPage.verifyProductAddSuccess(product, quantity, '', category)
+            .clickDeleteProduct(product)
+            .verifyDeleteProductSuccess(product);
+    })
+
+    it('E_ Verify that show Error Message Bar Notification when seller saving before generating tags', () => {
+        const product = 'Product Generating tag';
+
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton()
+
+        addProductPage
+            .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
+            .inputTag('ABC')
+            .clickSaveButton()
+            .verifyShowMessageBarNotification(false)
+        productPage.verifyProductAddSuccess(product, '999', '', 'Clothing')
+            .clickDeleteProduct(product)
+            .verifyDeleteProductSuccess(product);
+    })
+
+    it.only('E_ When seller click check-box before product name, display “More Actions” dropdown button', () => {
+        const product = 'Product Checkbox More Actions';
+
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton()
+
+        addProductPage
+            .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton()
+        productPage.verifyProductAddSuccess(product, '999', '', 'Clothing')
+            .clickCheckboxProduct()
+            .clickMoreActionsButton()
+            .clickDeleteProduct(product)
+            .verifyDeleteProductSuccess(product);
+    })
+
 })
