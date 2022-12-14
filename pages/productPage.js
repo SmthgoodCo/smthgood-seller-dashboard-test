@@ -17,10 +17,16 @@ export class ProductPage {
         this.dynamicSpreadsheetBtn = 'Dynamic Spreadsheet';
         this.addProductBtn = 'Add Product';
         this.productEmptyText = 'You do not have any product at the moment.';
-        this.deletePopupConfirm = '[role="dialog"]  button';
+        this.popupConfirmBtn = '[role="dialog"]  button';
         this.deleteBtn = 'Delete';
         this.tableHead = '.MuiTableHead-root';
         this.moreActionsBtn = 'More Actions';
+        this.moreActionsList = '[name="actions"]'; //pre('div')
+        this.applyBtn = 'Apply';
+        this.cancelBtn = 'Cancel';
+        this.msgChangeStatusComplate = 'Change Status completed!';
+        this.msgDuplicateComplate = 'Duplicate completed!';
+        this.msgDeletedComplate = 'Deleted completed!';
     }
 
     verifyEmptyProductMessages() {
@@ -89,7 +95,7 @@ export class ProductPage {
     verifyProductAfterUploadCSVFileSuccess(productName) {
         cy.get(this.searchProductInPut).type(productName);
         cy.wait(5000)
-        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', 'Dynamic Spreadsheet Product 2');
             cy.get('td').eq(1).find('img').invoke('attr', 'src')
                 .should('include', '/product_variants/Template/pexels-neosiam-603022.jpg');
@@ -101,7 +107,7 @@ export class ProductPage {
 
     clickAddProductButton() {
         cy.wait(5000);
-        cy.get("body",{ timeout: 10000 }).then($body => {
+        cy.get("body", { timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.buttonList).contains(this.addProductBtn).click();
             } else {
@@ -114,7 +120,7 @@ export class ProductPage {
     verifyProductAddSuccess(productName, quantity, status, category) {
         cy.get(this.searchProductInPut).clear().type(productName);
         cy.wait(2000);
-        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
             cy.get('td').eq(1).should('have.text', productName);
             cy.get('td').eq(2).should('have.text', quantity + ' in stock');
             if (status == '') {
@@ -130,17 +136,17 @@ export class ProductPage {
 
     clickDeleteProduct(productName) {
         cy.get(this.searchProductInPut).clear().type(productName);
-        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
             cy.get('td').eq(6).find('button').last().click({ force: true });
         })
-        cy.get(this.deletePopupConfirm).contains(this.deleteBtn).click({ force: true });
-        cy.contains('Deleted completed!').should('be.visible');
+        this.clickPopupButton(this.deleteBtn);
+        cy.contains(this.msgDeletedComplate).should('be.visible');
         return this;
     }
 
     verifyDeleteProductSuccess(productName) {
         cy.wait(5000)
-        cy.get("body",{ timeout: 10000 }).then($body => {
+        cy.get("body", { timeout: 10000 }).then($body => {
             if ($body.find(this.searchProductListBtn).length > 0) {
                 cy.get(this.searchProductInPut).clear().type(productName);
                 cy.contains(this.productEmptyText).should('be.visible');
@@ -156,24 +162,80 @@ export class ProductPage {
         return this;
     }
 
-    clickCheckboxProduct(){
+    searchProduct(productName){
+        if (productName != '') {
+            cy.get(this.searchProductInPut).clear();
+            cy.get(this.searchProductInPut).type(productName);
+        }
+        cy.wait(2000);
+        return this;
+    }
+
+    clickCheckboxProduct() {
         cy.get(this.tableHead).contains('More Actions').should('not.exist');
-        // cy.get(this.searchProductInPut).clear().type(productName);
-        // cy.wait(2000);
-        cy.get(this.productTable,{ timeout: 10000 }).within(() => {
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
             cy.get('td').eq(0).find('input').check();
         })
         cy.get(this.tableHead).contains('More Actions').should('be.visible');
         return this;
     }
 
-    clickMoreActionsButton(){
+    clickMoreActionsButton() {
         cy.get(this.tableHead).contains('More Actions').click();
         return this;
     }
 
-    clickShowMoreActionsList(){
-        cy.get(this.tableHead).contains('Set as active').should('be.visible');
+    verifyShowMoreActionsList() {
+        cy.get('[name="actions"]').prev('div').within(() => {
+            cy.contains('Set as active').should('be.visible');
+            cy.contains('Set as draft').should('be.visible');
+            cy.contains('Archive products').should('be.visible');
+            cy.contains('Duplicate products').should('be.visible');
+            cy.contains('Delete products').should('be.visible');
+            cy.contains('Add to collection(s)').should('be.visible');
+            cy.contains('Remove from collection(s)').should('be.visible');
+            cy.contains('Export CSV').should('be.visible');
+        })
+        return this;
+    }
+
+    selectActions(action, confirm) {
+        cy.get('[name="actions"]').prev('div').within(() => {
+            cy.contains(action).click();
+        })
+
+        switch (confirm) {
+            case true:
+                cy.contains('Apply changes to the items?').should('be.visible');
+                cy.get('button').contains(this.applyBtn).click();
+                break;
+            case false:
+                cy.contains('Apply changes to the items?').should('be.visible');
+                cy.get('button').contains(this.applyBtn).click();
+                break;
+        }
+        return this;
+    }
+
+    verifyShowMessageBarNotification(msg) {
+        cy.contains(msg).should('be.visible');
+        return this;
+    }
+
+    verifyShowDeletePopupConfirm(isShow){
+        if(isShow == true){
+            cy.contains('Delete selected products?').should('be.visible');
+            cy.contains('Do you want to delete the selected products?').should('be.visible');
+        } else {
+            cy.contains('Delete selected products?').should('not.exist');
+            cy.contains('Do you want to delete the selected products?').should('not.exist');
+        }
+
+        return this;
+    }
+
+    clickPopupButton(button){
+        cy.get(this.popupConfirmBtn).contains(button).click({ force: true });
         return this;
     }
 

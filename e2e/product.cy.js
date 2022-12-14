@@ -226,7 +226,6 @@ describe('Product Functionality', () => {
         addProductPage
             .clickOptionCheckbox(true)
             .clickPlusIcon(addProductPage.sizeOptionsText);
-
         addProductPage
             .inputAddOptionValue(addProductPage.sizeOptionsText, 0, 'S')
             .clickDeleteOption(addProductPage.sizeOptionsText)
@@ -239,10 +238,8 @@ describe('Product Functionality', () => {
         const quantity = '123';
         const addFile = fileName.valid.image;
         const category = 'Clothing';
-
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton()
-
         addProductPage
             .inputInforProduct(productName, 'Description test', '', '99.95', quantity, 1, addFile, category, 3)
             .clickAddTagButton()
@@ -532,10 +529,8 @@ describe('Product Functionality', () => {
         const addFile = fileName.valid.image;
         const category = 'Clothing';
         const product = 'ProductCreat Success';
-
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton()
-
         addProductPage
             .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, addFile, category, 3)
             .clickAddTagButton()
@@ -548,35 +543,95 @@ describe('Product Functionality', () => {
 
     it('E_ Verify that show Error Message Bar Notification when seller saving before generating tags', () => {
         const product = 'Product Generating tag';
-
         homePage.clickProductsOnMenu();
-        productPage.clickAddProductButton()
-
+        productPage.clickAddProductButton();
         addProductPage
             .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
             .inputTag('ABC')
             .clickSaveButton()
-            .verifyShowMessageBarNotification(false)
+            .verifyShowMessageBarNotification(false);
         productPage.verifyProductAddSuccess(product, '999', '', 'Clothing')
             .clickDeleteProduct(product)
             .verifyDeleteProductSuccess(product);
     })
 
-    it.only('E_ When seller click check-box before product name, display “More Actions” dropdown button', () => {
-        const product = 'Product Checkbox More Actions';
-
+    it('E_ When seller click check-box before product name, display “More Actions” dropdown button', () => {
         homePage.clickProductsOnMenu();
-        productPage.clickAddProductButton()
-
+        productPage.clickAddProductButton();
         addProductPage
-            .inputInforProduct(product, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
+            .inputInforProduct(productName, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
             .clickAddTagButton()
-            .clickSaveButton()
-        productPage.verifyProductAddSuccess(product, '999', '', 'Clothing')
+            .clickSaveButton();
+        productPage.verifyProductAddSuccess(productName, '999', '', 'Clothing')
+            .clickCheckboxProduct();
+    })
+
+    it('E_ When seller click “More Actions” dropdown button, show list actions', () => {
+        productPage
+            .clickMoreActionsButton()
+            .verifyShowMoreActionsList();
+    })
+
+    it('E_ When seller select “Set as active” in list actions, product should be change status to Active', () => {
+        productPage
+            .selectActions('Set as active', true)
+            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyProductAddSuccess(productName, '999', 'Active', 'Clothing');
+    })
+
+    it('E_ When seller select “Set as draft” in list actions, product should be change to Draft', () => {
+        productPage
             .clickCheckboxProduct()
             .clickMoreActionsButton()
+            .selectActions('Set as draft', true)
+            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyProductAddSuccess(productName, '999', 'Draft', 'Clothing');
+    })
+
+    it('E_ When seller select “Archive products” in list actions, product should be change to Archive', () => {
+        productPage
+            .clickCheckboxProduct()
+            .clickMoreActionsButton()
+            .selectActions('Archive products', true)
+            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyProductAddSuccess(productName, '999', 'Archived', 'Clothing');
+    })
+
+    it('E_ When seller select “Duplicate products” in list actions, product should be Duplicated', () => {
+        const product = productName + ' (Duplicated)';
+        productPage
+            .clickCheckboxProduct()
+            .clickMoreActionsButton()
+            .selectActions('Duplicate products')
+            .verifyShowMessageBarNotification(productPage.msgDuplicateComplate)
+            .verifyProductAddSuccess(product, '999', 'Draft', 'Clothing')
             .clickDeleteProduct(product)
             .verifyDeleteProductSuccess(product);
     })
 
+    it('E_ When seller select “Delete products” in list actions, show “Delete selected products?” popup', () => {
+        productPage
+            .searchProduct(productName)
+            .clickCheckboxProduct()
+            .clickMoreActionsButton()
+            .selectActions('Delete products')
+            .verifyShowDeletePopupConfirm(true);
+    })
+
+    it('E_ When seller click “Cancel” button, “Delete selected products?” popup should be hide', () => {
+        productPage
+            .clickPopupButton(productPage.cancelBtn)
+            .verifyShowDeletePopupConfirm(false);
+    })
+
+    it('E_ When seller click “Delete” button, product should be deleted and show Message Bar Notification', () => {
+        productPage
+            .searchProduct(productName)
+            .clickCheckboxProduct()
+            .clickMoreActionsButton()
+            .selectActions('Delete products')
+            .clickPopupButton(productPage.deleteBtn)
+            .verifyShowMessageBarNotification(productPage.msgDeletedComplate)
+            .verifyDeleteProductSuccess(productName);
+    })
 })
