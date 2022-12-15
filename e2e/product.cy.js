@@ -75,7 +75,7 @@ describe('Product Functionality', () => {
             .inputInforProduct('   ', 'test2', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
             .clickAddTagButton()
             .clickSaveButton()
-            .verifyShowMessageBarNotification();
+            .verifyShowMessageBarNotification(true);
     })
 
 
@@ -96,7 +96,7 @@ describe('Product Functionality', () => {
             .inputInforProduct('test2', '   ', '', 100, 99, 1, fileName.valid.image, 'Clothing', 3)
             .clickAddTagButton()
             .clickSaveButton()
-            .verifyShowMessageBarNotification();
+            .verifyShowMessageBarNotification(true);
     })
 
     it('E_007 When seller leave “PRICE” field blank, show warning message', () => {
@@ -563,7 +563,7 @@ describe('Product Functionality', () => {
             .clickAddTagButton()
             .clickSaveButton();
         productPage.verifyProductAddSuccess(productName, '999', '', 'Clothing')
-            .clickCheckboxProduct();
+            .clickCheckboxProduct(true);
     })
 
     it('E_ When seller click “More Actions” dropdown button, show list actions', () => {
@@ -575,25 +575,25 @@ describe('Product Functionality', () => {
     it('E_ When seller select “Set as active” in list actions, product should be change status to Active', () => {
         productPage
             .selectActions('Set as active', true)
-            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyShowMessage(productPage.msgChangeStatusComplate)
             .verifyProductAddSuccess(productName, '999', 'Active', 'Clothing');
     })
 
     it('E_ When seller select “Set as draft” in list actions, product should be change to Draft', () => {
         productPage
-            .clickCheckboxProduct()
+            .clickCheckboxProduct(true)
             .clickMoreActionsButton()
             .selectActions('Set as draft', true)
-            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyShowMessage(productPage.msgChangeStatusComplate)
             .verifyProductAddSuccess(productName, '999', 'Draft', 'Clothing');
     })
 
     it('E_ When seller select “Archive products” in list actions, product should be change to Archive', () => {
         productPage
-            .clickCheckboxProduct()
+            .clickCheckboxProduct(true)
             .clickMoreActionsButton()
             .selectActions('Archive products', true)
-            .verifyShowMessageBarNotification(productPage.msgChangeStatusComplate)
+            .verifyShowMessage(productPage.msgChangeStatusComplate)
             .verifyProductAddSuccess(productName, '999', 'Archived', 'Clothing');
     })
 
@@ -603,7 +603,7 @@ describe('Product Functionality', () => {
             .clickCheckboxProduct()
             .clickMoreActionsButton()
             .selectActions('Duplicate products')
-            .verifyShowMessageBarNotification(productPage.msgDuplicateComplate)
+            .verifyShowMessage(productPage.msgDuplicateComplate)
             .verifyProductAddSuccess(product, '999', 'Draft', 'Clothing')
             .clickDeleteProduct(product)
             .verifyDeleteProductSuccess(product);
@@ -612,7 +612,7 @@ describe('Product Functionality', () => {
     it('E_ When seller select “Delete products” in list actions, show “Delete selected products?” popup', () => {
         productPage
             .searchProduct(productName)
-            .clickCheckboxProduct()
+            .clickCheckboxProduct(true)
             .clickMoreActionsButton()
             .selectActions('Delete products')
             .verifyShowDeletePopupConfirm(true);
@@ -627,11 +627,67 @@ describe('Product Functionality', () => {
     it('E_ When seller click “Delete” button, product should be deleted and show Message Bar Notification', () => {
         productPage
             .searchProduct(productName)
-            .clickCheckboxProduct()
+            .clickCheckboxProduct(true)
             .clickMoreActionsButton()
             .selectActions('Delete products')
             .clickPopupButton(productPage.deleteBtn)
-            .verifyShowMessageBarNotification(productPage.msgDeletedComplate)
+            .verifyShowMessage(productPage.msgDeletedComplate)
             .verifyDeleteProductSuccess(productName);
+    })
+
+    it.only('E_ When seller select “Add to collection(s)” in list actions, show “Add products to collections” popup', () => {
+        homePage.clickProductsOnMenu();
+        productPage.clickAddProductButton();
+        addProductPage
+            .inputInforProduct(productName, 'Description test', '', '79.95', '999', 1, fileName.valid.image, 'Clothing', 3)
+            .clickAddTagButton()
+            .clickSaveButton();
+        productPage
+            .searchProduct(productName)
+            .clickCheckboxProduct(true)
+            .clickMoreActionsButton()
+            .selectActions('Add to collection(s)')
+            .clickCheckboxCollectionPopup('add')
+            .clickPopupButton(productPage.applyBtn)
+            .verifyShowMessage(productPage.msgAddCollectionComplate)
+            .searchProduct(productName)
+            .verifyProductAddRemoveCollectionSuccess('Collection 1', 'add');
+    })
+
+    it.only('E_ When seller select “Remove from collection(s)” in list actions, show “Remove products to collections” popup', () => {
+        productPage
+            .clickCheckboxProduct(true)
+            .clickMoreActionsButton()
+            .selectActions('Remove from collection(s)')
+            .clickCheckboxCollectionPopup('remove')
+    })
+
+    it.only('E_ Verify that product will remove from collection when seller click “Remove” button', () => {
+        productPage
+            .clickPopupButton(productPage.removeBtn)
+            .verifyShowMessage(productPage.msgRemoveCollectionComplate)
+            .searchProduct(productName)
+            .verifyProductAddRemoveCollectionSuccess('Collection 1', 'remove');
+    })
+
+    it.only('E_ Verify that product do not remove collection when seller not apply collection', () => {
+        homePage.clickOdersOnMenu()
+            .clickProductsOnMenu();
+        productPage
+            .searchProduct(productName)
+            .clickCheckboxProduct(true)
+            .clickMoreActionsButton()
+            .selectActions('Add to collection(s)')
+            .clickCheckboxCollectionPopup('add')
+            .clickPopupButton(productPage.applyBtn)
+            .clickCheckboxProduct(true)
+            .clickMoreActionsButton()
+            .selectActions('Remove from collection(s)')
+            .clickPopupButton(productPage.removeBtn)
+            .verifyShowMessage('Product has no collections')
+            .clickPopupButton(productPage.cancelBtn)
+            .selectActions('Delete products')
+            .clickPopupButton(productPage.deleteBtn);
+
     })
 })

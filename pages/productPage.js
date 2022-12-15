@@ -24,9 +24,13 @@ export class ProductPage {
         this.moreActionsList = '[name="actions"]'; //pre('div')
         this.applyBtn = 'Apply';
         this.cancelBtn = 'Cancel';
+        this.removeBtn = 'Remove';
         this.msgChangeStatusComplate = 'Change Status completed!';
         this.msgDuplicateComplate = 'Duplicate completed!';
         this.msgDeletedComplate = 'Deleted completed!';
+        this.msgAddCollectionComplate = 'Add Collection completed!';
+        this.msgRemoveCollectionComplate = 'Remove Collection completed!';
+        this.popupChecbox = '.MuiDialog-paperScrollPaper input';
     }
 
     verifyEmptyProductMessages() {
@@ -162,7 +166,7 @@ export class ProductPage {
         return this;
     }
 
-    searchProduct(productName){
+    searchProduct(productName) {
         if (productName != '') {
             cy.get(this.searchProductInPut).clear();
             cy.get(this.searchProductInPut).type(productName);
@@ -171,12 +175,20 @@ export class ProductPage {
         return this;
     }
 
-    clickCheckboxProduct() {
-        cy.get(this.tableHead).contains('More Actions').should('not.exist');
-        cy.get(this.productTable, { timeout: 10000 }).within(() => {
-            cy.get('td').eq(0).find('input').check();
-        })
-        cy.get(this.tableHead).contains('More Actions').should('be.visible');
+    clickCheckboxProduct(isCheck) {
+        if (isCheck == true) {
+            cy.get(this.tableHead).contains('More Actions').should('not.exist');
+            cy.get(this.productTable, { timeout: 10000 }).within(() => {
+                cy.get('td').eq(0).find('input').check();
+            })
+            cy.get(this.tableHead).contains('More Actions').should('be.visible');
+        } else {
+            cy.get(this.tableHead).contains('More Actions').should('be.visible');
+            cy.get(this.productTable, { timeout: 10000 }).within(() => {
+                cy.get('td').eq(0).find('input').uncheck();
+            })
+            cy.get(this.tableHead).contains('More Actions').should('not.exist');
+        }
         return this;
     }
 
@@ -217,26 +229,59 @@ export class ProductPage {
         return this;
     }
 
-    verifyShowMessageBarNotification(msg) {
-        cy.contains(msg).should('be.visible');
+    verifyShowMessage(msg) {
+        cy.contains(msg, { timeout: 5000 }).should('be.visible');
         return this;
     }
 
-    verifyShowDeletePopupConfirm(isShow){
-        if(isShow == true){
+    verifyShowDeletePopupConfirm(isShow) {
+        if (isShow == true) {
             cy.contains('Delete selected products?').should('be.visible');
             cy.contains('Do you want to delete the selected products?').should('be.visible');
         } else {
             cy.contains('Delete selected products?').should('not.exist');
             cy.contains('Do you want to delete the selected products?').should('not.exist');
         }
-
         return this;
     }
 
-    clickPopupButton(button){
-        cy.get(this.popupConfirmBtn).contains(button).click({ force: true });
+    clickPopupButton(button) {
+        cy.wait(1000);
+        cy.get(this.popupConfirmBtn).contains(button).click({force: true});
         return this;
     }
 
+    addProductCollection() {
+        cy.contains('Add 1 products to collections').should('be.visible');
+        cy.get(this.popupChecbox).check();
+        return this;
+    }
+
+    clickCheckboxCollectionPopup(statusCollectionSelect) {
+        switch (statusCollectionSelect) {
+            case 'add':
+                cy.contains('Add 1 products to collections').should('be.visible');
+                cy.get(this.popupChecbox).check();
+                break;
+            case 'remove':
+                cy.contains('Remove 1 products to collections').should('be.visible');
+                cy.get(this.popupChecbox).check();
+                break;
+        }
+        return this;
+    }
+
+    verifyProductAddRemoveCollectionSuccess(collectionName, statusCollectionSelect) {
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
+            switch (statusCollectionSelect) {
+                case 'add':
+                    cy.get('td').eq(5).should('have.text', collectionName);
+                    break;
+                case 'remove':
+                    cy.get('td').eq(5).should('not.have.text', collectionName);
+                    break;
+            }
+        })
+        return this;
+    }
 }
