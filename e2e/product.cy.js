@@ -635,7 +635,7 @@ describe('Product Functionality', () => {
             .verifyDeleteProductSuccess(productName);
     })
 
-    it.only('E_ When seller select “Add to collection(s)” in list actions, show “Add products to collections” popup', () => {
+    it('E_ When seller select “Add to collection(s)” in list actions, show “Add products to collections” popup', () => {
         homePage.clickProductsOnMenu();
         productPage.clickAddProductButton();
         addProductPage
@@ -654,7 +654,7 @@ describe('Product Functionality', () => {
             .verifyProductAddRemoveCollectionSuccess('Collection 1', 'add');
     })
 
-    it.only('E_ When seller select “Remove from collection(s)” in list actions, show “Remove products to collections” popup', () => {
+    it('E_ When seller select “Remove from collection(s)” in list actions, show “Remove products to collections” popup', () => {
         productPage
             .clickCheckboxProduct(true)
             .clickMoreActionsButton()
@@ -662,7 +662,7 @@ describe('Product Functionality', () => {
             .clickCheckboxCollectionPopup('remove')
     })
 
-    it.only('E_ Verify that product will remove from collection when seller click “Remove” button', () => {
+    it('E_ Verify that product will remove from collection when seller click “Remove” button', () => {
         productPage
             .clickPopupButton(productPage.removeBtn)
             .verifyShowMessage(productPage.msgRemoveCollectionComplate)
@@ -670,7 +670,7 @@ describe('Product Functionality', () => {
             .verifyProductAddRemoveCollectionSuccess('Collection 1', 'remove');
     })
 
-    it.only('E_ Verify that product do not remove collection when seller not apply collection', () => {
+    it('E_ Verify that product do not remove collection when seller not apply collection', () => {
         homePage.clickOdersOnMenu()
             .clickProductsOnMenu();
         productPage
@@ -684,10 +684,7 @@ describe('Product Functionality', () => {
             .clickMoreActionsButton()
             .selectActions('Remove from collection(s)')
             .clickPopupButton(productPage.removeBtn)
-            .verifyShowMessage('Product has no collections')
-            .clickPopupButton(productPage.cancelBtn)
-            .selectActions('Delete products')
-            .clickPopupButton(productPage.deleteBtn);
+            .verifyShowMessage('Product has no collections');
 
     })
 })
