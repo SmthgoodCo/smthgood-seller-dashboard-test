@@ -28,9 +28,17 @@ export class ProductPage {
         this.msgChangeStatusComplate = 'Change Status completed!';
         this.msgDuplicateComplate = 'Duplicate completed!';
         this.msgDeletedComplate = 'Deleted completed!';
+        this.deleteSeleteProductPopupText = 'Delete selected products?';
+        this.deleteThisProductPopupText = 'Delete this product?';
         this.msgAddCollectionComplate = 'Add Collection completed!';
         this.msgRemoveCollectionComplate = 'Remove Collection completed!';
         this.popupChecbox = '.MuiDialog-paperScrollPaper input';
+        this.statusSelect = '[aria-haspopup="listbox"]';
+        this.statusListValue = '.MuiPopover-paper [role="listbox"]';
+        this.draftStatus = 'Draft';
+        this.activeStatus = 'Active';
+        this.archivedStatus = 'Archived';
+        this.clickHereText = 'click here.';
     }
 
     verifyEmptyProductMessages() {
@@ -138,13 +146,64 @@ export class ProductPage {
         return this;
     }
 
-    clickDeleteProduct(productName) {
+    openDetailProductPage(productName) {
+        cy.get(this.searchProductInPut).clear().type(productName);
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
+            cy.get('td').eq(1).click({ force: true });
+        })
+        cy.url().should('include', 'products/edit')
+        cy.get('[name="title"]').should('have.value', productName);
+        return this;
+    }
+
+    clickDeleteProduct(productName, confirmDelete) {
         cy.get(this.searchProductInPut).clear().type(productName);
         cy.get(this.productTable, { timeout: 10000 }).within(() => {
             cy.get('td').eq(6).find('button').last().click({ force: true });
         })
-        this.clickPopupButton(this.deleteBtn);
-        cy.contains(this.msgDeletedComplate).should('be.visible');
+        if (confirmDelete == true) {
+            this.clickPopupButton(this.deleteBtn);
+            cy.contains(this.msgDeletedComplate).should('be.visible');
+        }
+        return this;
+    }
+
+    clickDuplicateProduct(productName) {
+        cy.get(this.searchProductInPut).clear().type(productName);
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
+            cy.get('td').eq(6).find('button').first().click({ force: true });
+        })
+        return this;
+    }
+
+    clickStatusListBoxProduct(productName) {
+        cy.get(this.searchProductInPut).clear().type(productName);
+        cy.get(this.productTable, { timeout: 10000 }).within(() => {
+            cy.get('td').eq(3).find('div[role="button"]').click();
+        })
+        cy.get(this.statusListValue).should('exist');
+        cy.get(this.statusListValue).should('contain', 'Draft');
+        cy.get(this.statusListValue).should('contain', 'Active');
+        cy.get(this.statusListValue).should('contain', 'Archived');
+        return this;
+    }
+
+    selectStatusValueProduct(statusValue) {
+        // cy.get(this.statusSelect).click();
+        switch (statusValue) {
+            case 'Draft':
+                cy.get(this.statusListValue).contains('Draft').click();
+                break;
+            case 'Active':
+                cy.get(this.statusListValue).contains('Active').click();
+                break;
+            case 'Archived':
+                cy.get(this.statusListValue).contains('Archived').click();
+                break;
+        }
+        cy.get(this.statusSelect).should('have.text', statusValue);
+        cy.get(this.statusSelect).contains(statusValue).should('be.visible');
+
         return this;
     }
 
@@ -234,13 +293,11 @@ export class ProductPage {
         return this;
     }
 
-    verifyShowDeletePopupConfirm(isShow) {
+    verifyShowDeletePopupConfirm(isShow, msgTitle) {
         if (isShow == true) {
-            cy.contains('Delete selected products?').should('be.visible');
-            cy.contains('Do you want to delete the selected products?').should('be.visible');
+            cy.contains(msgTitle).should('be.visible');
         } else {
-            cy.contains('Delete selected products?').should('not.exist');
-            cy.contains('Do you want to delete the selected products?').should('not.exist');
+            cy.contains(msgTitle).should('not.exist');
         }
         return this;
     }

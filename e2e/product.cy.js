@@ -6,6 +6,7 @@ const { AddProductPage } = require("../pages/addProductPage");
 const { ShopifyIntegrationPage } = require("../pages/shopifyIntegrationPage");
 import user from "../fixtures/userData.json";
 import fileName from "../fixtures/fileNames.json";
+import { getRandomText } from "../support/functionCommon";
 let email = user.valid.email;
 let password = user.valid.password;
 const loginPage = new LoginPage();
@@ -13,7 +14,7 @@ const homePage = new HomePage();
 const productPage = new ProductPage();
 const addProductPage = new AddProductPage();
 const shopifyIntegrationPage = new ShopifyIntegrationPage();
-const productName = 'Add test product manully';
+var productName = 'Add test product manully';
 
 
 describe('Product Functionality - First Login', () => {
@@ -250,7 +251,7 @@ describe('Product Functionality', () => {
 
     it('E_025 User can delete product', () => {
         productPage
-            .clickDeleteProduct(productName)
+            .clickDeleteProduct(productName, true)
             .verifyDeleteProductSuccess(productName);
     })
 
@@ -537,7 +538,7 @@ describe('Product Functionality', () => {
             .clickSaveButton()
             .verifyShowMessageBarCreatedProductSuccess()
         productPage.verifyProductAddSuccess(product, quantity, '', category)
-            .clickDeleteProduct(product)
+            .clickDeleteProduct(product, true)
             .verifyDeleteProductSuccess(product);
     })
 
@@ -551,7 +552,7 @@ describe('Product Functionality', () => {
             .clickSaveButton()
             .verifyShowMessageBarNotification(false);
         productPage.verifyProductAddSuccess(product, '999', '', 'Clothing')
-            .clickDeleteProduct(product)
+            .clickDeleteProduct(product, true)
             .verifyDeleteProductSuccess(product);
     })
 
@@ -605,7 +606,7 @@ describe('Product Functionality', () => {
             .selectActions('Duplicate products')
             .verifyShowMessage(productPage.msgDuplicateComplate)
             .verifyProductAddSuccess(product, '999', 'Draft', 'Clothing')
-            .clickDeleteProduct(product)
+            .clickDeleteProduct(product, true)
             .verifyDeleteProductSuccess(product);
     })
 
@@ -615,13 +616,13 @@ describe('Product Functionality', () => {
             .clickCheckboxProduct(true)
             .clickMoreActionsButton()
             .selectActions('Delete products')
-            .verifyShowDeletePopupConfirm(true);
+            .verifyShowDeletePopupConfirm(true, productPage.deleteSeleteProductPopupText);
     })
 
     it('E_ When seller click “Cancel” button, “Delete selected products?” popup should be hide', () => {
         productPage
             .clickPopupButton(productPage.cancelBtn)
-            .verifyShowDeletePopupConfirm(false);
+            .verifyShowDeletePopupConfirm(false, productPage.deleteSeleteProductPopupText);
     })
 
     it('E_ When seller click “Delete” button, product should be deleted and show Message Bar Notification', () => {
@@ -684,7 +685,52 @@ describe('Product Functionality', () => {
             .clickMoreActionsButton()
             .selectActions('Remove from collection(s)')
             .clickPopupButton(productPage.removeBtn)
-            .verifyShowMessage('Product has no collections');
-
+            .verifyShowMessage('Product has no collections')
+            .clickPopupButton(productPage.cancelBtn)
     })
+
+    it('E_ When seller click “Duplicate” icon, product should be duplicated', () => {
+        productPage
+            .clickDuplicateProduct(productName)
+            .verifyProductAddSuccess(productName + ' (Duplicated)', '999', 'Draft', 'Clothing')
+    })
+
+    it('E_ When seller click “Delete” icon, show “Delete product?” popup', () => {
+        const product = productName + ' (Duplicated)';
+        productPage
+            .clickDeleteProduct(product)
+            .verifyShowDeletePopupConfirm(true, productPage.deleteThisProductPopupText)
+            .clickPopupButton(productPage.cancelBtn);
+    })
+
+    it('E_ When seller click “arrow icon” of status, show list status', () => {
+        const product = productName + ' (Duplicated)';
+        productPage
+            .clickStatusListBoxProduct(product);
+    })
+
+    it('E_ Verify that status change to Active when seller click “Active”', () => {
+        const product = productName + ' (Duplicated)';
+        productPage
+            .selectStatusValueProduct(productPage.activeStatus)
+            .verifyProductAddSuccess(product, '999', 'Active', 'Clothing');
+    })
+
+    it('E_ Verify that status change to Archived when seller clcik “Archived”', () => {
+        const product = productName + ' (Duplicated)';
+        productPage
+            .clickStatusListBoxProduct(product)
+            .selectStatusValueProduct(productPage.archivedStatus)
+            .verifyProductAddSuccess(product, '999', 'Archived', 'Clothing')
+            .clickDeleteProduct(product, true);
+    })
+
+    it('E_ When seller click anywhere of product, open Product details tab', () => {
+        homePage.clickOdersOnMenu()
+            .clickProductsOnMenu();
+        productPage.openDetailProductPage(productName)
+        addProductPage.clickBackIcon()
+        productPage.clickDeleteProduct(productName, true);
+    })
+
 })
